@@ -1,0 +1,8 @@
+body {
+  overflow-x: hidden;
+}
+
+:root {
+  --main-color: rgb(233, 190, 175);
+  --gray-color: rgb(75 85 99);
+}
