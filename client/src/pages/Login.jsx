@@ -11,9 +11,10 @@ const Login = () => {
   const from = location.state?.from?.pathname || "/";
 
   const handleGoogleOAuth = () => {
-    // if (isNavigating) return;
+    if (isNavigating) return;
     const googleUrl = getGoogleUrl(from);
     if (googleUrl) {
+      console.log("url", googleUrl);
       setIsNavigating(true);
       window.location.href = googleUrl;
     }
