@@ -45,6 +45,14 @@ exports.resetPassword = async (req, res) => {
     if (!user) {
       return res.status(401).json("Enter your email address!");
     }
+    const alreadySent = user.passwordResetToken;
+    if (alreadySent) {
+      return res
+        .status(400)
+        .json(
+          "You can not ask us to send new email within just 10 minutes of sending an email."
+        );
+    }
     const token = await user.createPasswordResetToken();
     await user.save();
     const resetUrl = `If you requested to reset your password, reset it now within 10 minutes, otherwise the token will expire. <a href="http://localhost:5713/reset-password-from-email/${token}">Reset Password</a>`;
