@@ -69,21 +69,21 @@ const Register = () => {
 
     try {
       const { data } = await axios.post(
-        `${import.meta.env.VITE_APP_API_ENDPOINT}/user/name`,
+        `${import.meta.env.VITE_APP_API_ENDPOINT}/user/register`,
         {
           name,
           email,
           password,
         }
       );
-      if (data.provider) {
-        navigate("/reset-password", { state: data.message });
-      }
 
       if (data.id) {
-        return navigate("/");
+        setIsNavigating(true);
+        toast.success("You created your account successfully!", toastOptions);
+        setTimeout(() => {
+          navigate("/");
+        }, 3000);
       }
-      setIsNavigating(false);
     } catch (error) {
       toast.error(
         typeof error?.response?.data === "string"

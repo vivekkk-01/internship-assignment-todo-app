@@ -3,6 +3,44 @@ const User = require("../models/User");
 const bcrypt = require("bcryptjs");
 const sgMail = require("@sendgrid/mail");
 const crypto = require("crypto");
+const { validationResult } = require("express-validator");
+
+exports.register = async (req, res) => {
+  try {
+    let error = validationResult(req);
+    if (!error.isEmpty()) {
+      return res.status(423).json(error.array()[0].msg);
+    }
+    const { name, email, password } = req.body;
+    const isUser = await User.findOne({ email });
+    if (isUser)
+      return res.status(401).json("User with that email already exists!");
+
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    const user = await User.create({
+      name,
+      email,
+      password: hashedPassword,
+    });
+
+    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET);
+
+    return res.json({
+      id: user._id,
+      email: user.email,
+      name: user.name,
+      picture: user.picture,
+      token,
+    });
+  } catch (error) {
+    return res
+      .status(error.statusCode || error.status_code || 500)
+      .json(
+        error.message || error.msg || "Something went wrong, please try again!"
+      );
+  }
+};
 
 exports.login = async (req, res) => {
   try {
