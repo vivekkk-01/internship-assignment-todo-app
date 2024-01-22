@@ -7,12 +7,13 @@ const userSchema = new Schema(
     name: { required: true, type: String },
     email: { required: true, unique: true, type: String },
     password: {
-      required: true,
       minLength: 8,
       maxLength: 32,
       type: String,
       select: false,
     },
+    provider: String,
+    picture: String,
     tasks: [
       {
         type: Schema.Types.ObjectId,

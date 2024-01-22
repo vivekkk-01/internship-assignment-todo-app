@@ -1,7 +1,7 @@
-import axios from "axios";
-import qs from "qs";
+const axios = require("axios");
+const qs = require("qs");
 
-export const getGoogleOauthToken = async ({ code }) => {
+exports.getGoogleOauthToken = async ({ code }) => {
   const rootURl = "https://oauth2.googleapis.com/token";
 
   const options = {
@@ -25,10 +25,10 @@ export const getGoogleOauthToken = async ({ code }) => {
   }
 };
 
-export async function getGoogleUser({ id_token, access_token }) {
+exports.getGoogleUser = async ({ id_token, accessToken }) => {
   try {
     const { data } = await axios.get(
-      `https://www.googleapis.com/oauth2/v1/userinfo?alt=json&access_token=${access_token}`,
+      `https://www.googleapis.com/oauth2/v1/userinfo?alt=json&access_token=${accessToken}`,
       {
         headers: {
           Authorization: `Bearer ${id_token}`,
@@ -41,4 +41,4 @@ export async function getGoogleUser({ id_token, access_token }) {
     console.log(err);
     throw Error(err);
   }
-}
+};
