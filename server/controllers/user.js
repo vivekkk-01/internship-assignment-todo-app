@@ -2,6 +2,7 @@ const jwt = require("jsonwebtoken");
 const User = require("../models/User");
 const bcrypt = require("bcryptjs");
 const sgMail = require("@sendgrid/mail");
+const crypto = require("crypto");
 
 exports.login = async (req, res) => {
   try {
@@ -64,6 +65,32 @@ exports.resetPassword = async (req, res) => {
 
     await sgMail.send(msg);
     return res.json("Check your mail box!");
+  } catch (error) {
+    res
+      .status(error.statusCode || error.status_code || 500)
+      .json(
+        error.message || error.msg || "Something went wrong, please try again!"
+      );
+  }
+};
+
+exports.resetPasswordFromEmail = async (req, res) => {
+  try {
+    const { token, password } = req.body;
+    const hashedToken = crypto.createHash("sha256").update(token).digest("hex");
+    const user = await User.findOne({ passwordResetToken: hashedToken });
+    if (!user) {
+      return res.status(401).json("Enter a correct token");
+    }
+    if (!user.passwordResetTokenExpire > new Date()) {
+      return res.status(401).json("Token is expired, try again later.");
+    }
+
+    user.password = await bcrypt.hash(password, 10);
+    user.passwordResetToken = undefined;
+    user.passwordResetTokenExpire = undefined;
+    await user.save();
+    return res.json("Password changed successfully!");
   } catch (error) {
     res
       .status(error.statusCode || error.status_code || 500)

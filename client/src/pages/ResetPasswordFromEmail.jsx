@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import classes from "./resetPasswordFromEmail.module.css";
 import { ToastContainer, toast } from "react-toastify";
+import axios from "axios";
 
 const toastOptions = {
   position: "bottom-right",
@@ -25,7 +26,7 @@ const ResetPasswordFromEmail = () => {
 
     const isPasswordValid = password.trim().length >= 8;
     if (!isPasswordValid) {
-      console.log("not valid");
+      setIsNavigating(false);
       setPasswordError("Password should contain at least 8 characters!");
       return;
     }
@@ -41,14 +42,17 @@ const ResetPasswordFromEmail = () => {
         }
       );
       toast.success("Password changed successfully!", toastOptions);
-      navigate("/login");
+      setTimeout(() => {
+        navigate("/login");
+      }, 3000);
     } catch (error) {
       toast.error(
-        typeof error.response.data === "string"
-          ? error.response.data
+        typeof error?.response?.data === "string"
+          ? error?.response?.data
           : "Something went wrong, please try again!",
         toastOptions
       );
+      setIsNavigating(false);
     }
   };
   return (
@@ -78,7 +82,10 @@ const ResetPasswordFromEmail = () => {
             type="password"
             required
             value={password}
-            onChange={(event) => setPassword(event.target.value)}
+            onChange={(event) => {
+              setPasswordError("");
+              setPassword(event.target.value);
+            }}
           />
           <button
             style={{ cursor: `${isNavigating ? "default" : "pointer"}` }}
@@ -88,6 +95,7 @@ const ResetPasswordFromEmail = () => {
           </button>
         </form>
       </div>
+      <ToastContainer />
     </>
   );
 };

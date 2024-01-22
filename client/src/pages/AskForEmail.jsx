@@ -39,7 +39,6 @@ const AskForEmail = () => {
       toast.success(data, toastOptions);
       setIsNavigating(false);
     } catch (error) {
-      console.log(error, "let's see");
       toast.error(
         typeof error.response.data === "string"
           ? error.response.data
