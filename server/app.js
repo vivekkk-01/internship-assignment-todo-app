@@ -10,10 +10,11 @@ app.use(express.json());
 
 const authRoutes = require("./routes/auth");
 const userRoutes = require("./routes/user");
-
-app.use("/api/user", userRoutes);
+const taskRoutes = require("./routes/task");
 
 app.use("/api/sessions", authRoutes);
+app.use("/api/user", userRoutes);
+app.use("/api/task", taskRoutes);
 
 app.listen(PORT, () => {
   console.log(`Server is listening at port ${PORT}`);
