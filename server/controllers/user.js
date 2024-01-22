@@ -11,7 +11,7 @@ exports.login = async (req, res) => {
     if (!isUser)
       return res.status(401).json("Invalid email or password. Try again!");
 
-    if (isUser.provider === "Google") {
+    if (isUser.provider === "Google" && isUser?.password?.length <= 0) {
       return res.json({
         provider: true,
         message: `Looks like ${email} was used to create an account with google. Sign in with google or reset your password.`,
@@ -21,13 +21,14 @@ exports.login = async (req, res) => {
     if (!isPassword)
       return res.status(401).json("Invalid email or password. Try again!");
 
-    jwt.sign({ id: isUser._id }, process.env.JWT_SECRET);
+    const token = jwt.sign({ id: isUser._id }, process.env.JWT_SECRET);
 
     return res.json({
       id: isUser._id,
       email: isUser.email,
       name: isUser.name,
       picture: isUser.picture,
+      token,
     });
   } catch (error) {
     return res
