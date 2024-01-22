@@ -1,6 +1,7 @@
 const jwt = require("jsonwebtoken");
 const User = require("../models/User");
 const bcrypt = require("bcryptjs");
+const sgMail = require("@sendgrid/mail");
 
 exports.login = async (req, res) => {
   try {
@@ -29,6 +30,35 @@ exports.login = async (req, res) => {
     });
   } catch (error) {
     return res
+      .status(error.statusCode || error.status_code || 500)
+      .json(
+        error.message || error.msg || "Something went wrong, please try again!"
+      );
+  }
+};
+
+exports.resetPassword = async (req, res) => {
+  try {
+    sgMail.setApiKey(process.env.SEND_GRID_API_KEY);
+    const { email } = req.body;
+    const user = await User.findOne({ email });
+    if (!user) {
+      return res.status(401).json("Enter your email address!");
+    }
+    const token = await user.createPasswordResetToken();
+    await user.save();
+    const resetUrl = `If you requested to reset your password, reset it now within 10 minutes, otherwise the token will expire. <a href="http://localhost:5713/reset-password-from-email/${token}">Reset Password</a>`;
+    const msg = {
+      from: process.env.EMAIL_ID,
+      to: user.email,
+      subject: "Password Reset!",
+      html: resetUrl,
+    };
+
+    await sgMail.send(msg);
+    return res.json("Check your mail box!");
+  } catch (error) {
+    res
       .status(error.statusCode || error.status_code || 500)
       .json(
         error.message || error.msg || "Something went wrong, please try again!"

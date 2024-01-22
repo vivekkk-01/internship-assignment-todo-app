@@ -17,7 +17,9 @@ const AskForEmail = () => {
   const [emailError, setEmailError] = useState("");
   const [isNavigating, setIsNavigating] = useState(false);
 
-  const handleSubmit = () => {
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    setIsNavigating(true);
     const isEmailValid =
       /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/.test(email) &&
       email.trim() !== "";
@@ -28,20 +30,23 @@ const AskForEmail = () => {
     }
 
     try {
-      const { data } = axios.post(
+      const { data } = await axios.post(
         `${import.meta.env.VITE_APP_API_ENDPOINT}/user/reset-password`,
         {
           email,
         }
       );
       toast.success(data, toastOptions);
+      setIsNavigating(false);
     } catch (error) {
+      console.log(error, "let's see");
       toast.error(
         typeof error.response.data === "string"
           ? error.response.data
           : "Something went wrong, please try again!",
         toastOptions
       );
+      setIsNavigating(false);
     }
   };
 
