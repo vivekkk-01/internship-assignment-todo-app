@@ -12,7 +12,10 @@ const userSchema = new Schema(
       type: String,
     },
     provider: String,
-    picture: String,
+    picture: {
+      type: String,
+      default: "https://vectorified.com/images/no-profile-picture-icon-14.png",
+    },
     tasks: [
       {
         type: Schema.Types.ObjectId,
