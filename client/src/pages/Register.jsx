@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import classes from "./login.module.css";
+import classes from "./register.module.css";
 import { getGoogleUrl } from "../utils/getGoogleUrl";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
@@ -13,10 +13,12 @@ const toastOptions = {
   theme: "dark",
 };
 
-const Login = () => {
+const Register = () => {
   const [email, setEmail] = useState("");
+  const [name, setName] = useState("");
   const [password, setPassword] = useState("");
   const [emailError, setEmailError] = useState("");
+  const [nameError, setNameError] = useState("");
   const [passwordError, setPasswordError] = useState("");
   const [isNavigating, setIsNavigating] = useState(false);
   const navigate = useNavigate();
@@ -39,27 +41,37 @@ const Login = () => {
   const handleSubmit = async (event) => {
     setEmailError("");
     setPasswordError("");
+    setNameError("");
     event.preventDefault();
     setIsNavigating(true);
     if (isNavigating) return;
 
-    const isPasswordValid = password.trim() !== "";
+    const isNameValid = name.trim() !== "";
+    const isPasswordValid = password.trim().length >= 8;
     const isEmailValid =
       /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/.test(email) &&
       email.trim() !== "";
+    if (!isNameValid) {
+      setIsNavigating(false);
+      setNameError("Enter Your Name!");
+      return;
+    }
     if (!isEmailValid) {
+      setIsNavigating(false);
       setEmailError("Enter a valid Email Address.");
       return;
     }
     if (!isPasswordValid) {
+      setIsNavigating(false);
       setPasswordError("Enter Password!");
       return;
     }
 
     try {
       const { data } = await axios.post(
-        `${import.meta.env.VITE_APP_API_ENDPOINT}/user/login`,
+        `${import.meta.env.VITE_APP_API_ENDPOINT}/user/name`,
         {
+          name,
           email,
           password,
         }
@@ -101,8 +113,24 @@ const Login = () => {
             onSubmit={handleSubmit}
             className="flex flex-col items-center justify-center gap-6"
           >
-            <h1 className="text-3xl font-bold text-gray-600">Login</h1>
+            <h1 className="text-3xl font-bold text-gray-600">Sign Up</h1>
             <div className="flex flex-col items-center justify-center gap-4">
+              <div className="flex flex-col items-center justify-center gap-1">
+                {nameError && (
+                  <p className="text-red-600 font-bold">{nameError}</p>
+                )}
+                <input
+                  className="outline-none bg-gray-300 py-3 p-4 placeholder:text-gray-600 text-lg placeholder:font-bold rounded-lg"
+                  type="text"
+                  onChange={(event) => {
+                    setNameError("");
+                    setName(event.target.value);
+                  }}
+                  value={name}
+                  placeholder="Name"
+                  required
+                />
+              </div>
               <div className="flex flex-col items-center justify-center gap-1">
                 {emailError && (
                   <p className="text-red-600 font-bold">{emailError}</p>
@@ -110,7 +138,10 @@ const Login = () => {
                 <input
                   className="outline-none bg-gray-300 py-3 p-4 placeholder:text-gray-600 text-lg placeholder:font-bold rounded-lg"
                   type="email"
-                  onChange={(event) => setEmail(event.target.value)}
+                  onChange={(event) => {
+                    setEmailError("");
+                    setEmail(event.target.value);
+                  }}
                   value={email}
                   placeholder="Email"
                   required
@@ -120,7 +151,10 @@ const Login = () => {
                 <input
                   className="outline-none bg-gray-300 py-3 p-4 placeholder:text-gray-600 text-lg placeholder:font-bold rounded-lg"
                   type="password"
-                  onChange={(event) => setPassword(event.target.value)}
+                  onChange={(event) => {
+                    setPasswordError("");
+                    setPassword(event.target.value);
+                  }}
                   value={password}
                   placeholder="Password"
                   required
@@ -132,20 +166,16 @@ const Login = () => {
             </div>
             <button
               style={{ cursor: `${isNavigating ? "default" : "pointer"}` }}
-              className={classes.login_btn}
+              className={classes.register_btn}
             >
-              Login
+              Sign up
             </button>
           </form>
-          <Link
-            to="/ask-for-email"
-            className="mr-auto font-semibold text-blue-700"
-          >
-            Forgot Password?
-          </Link>
           <p className="text-gray-600 font-semibold">
-            Don't have an account?{" "}
-            <Link to="/register" className="text-blue-600 font-bold">Sign up</Link>
+            Already have an account?{" "}
+            <Link to="/login" className="text-blue-600 font-bold">
+              Sign in
+            </Link>
           </p>
           <p className="text-gray-600 font-bold text-2xl">Or</p>
           <div
@@ -164,4 +194,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default Register;

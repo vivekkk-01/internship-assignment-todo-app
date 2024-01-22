@@ -1,0 +1,9 @@
+.register_btn {
+  background-color: var(--main-color) !important;
+  color: rgb(72, 72, 72);
+  font-weight: bold;
+  font-size: large;
+  padding: 0.75rem 1rem;
+  outline: none;
+  width: 100%;
+}
