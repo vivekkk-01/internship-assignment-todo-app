@@ -45,8 +45,7 @@ exports.resetPassword = async (req, res) => {
     if (!user) {
       return res.status(401).json("Enter your email address!");
     }
-    const alreadySent = user.passwordResetToken;
-    if (alreadySent) {
+    if (user.passwordResetTokenExpire > new Date()) {
       return res
         .status(400)
         .json(
