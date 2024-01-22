@@ -1,10 +1,9 @@
-const { googleOauthHandler } = require("../controllers/auth");
-const verifyToken = require("../middlewares/verifyToken");
+const { googleOauthHandler, getUser } = require("../controllers/auth");
 
 const router = require("express").Router();
 
 router.get("/oauth/google", googleOauthHandler);
 
-router.get("/auth", verifyToken)
+router.get("/auth", getUser)
 
 module.exports = router;

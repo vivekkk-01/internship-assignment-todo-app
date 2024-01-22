@@ -10,10 +10,9 @@ exports.googleOauthHandler = async (req, res) => {
       return res.status(401).json("Authorization code not provided");
     }
 
-    const {
-      id_token,
-      access_token: accessToken,
-    } = await getGoogleOauthToken({ code });
+    const { id_token, access_token: accessToken } = await getGoogleOauthToken({
+      code,
+    });
 
     const { name, verified_email, email, picture } = await getGoogleUser({
       id_token,
@@ -41,5 +40,22 @@ exports.googleOauthHandler = async (req, res) => {
       .redirect("http://localhost:5173/login")
       .status(err.status_code || 400)
       .json(err.message || "Failed to authorize Google User!");
+  }
+};
+
+exports.getUser = async (req, res) => {
+  try {
+    let token = req.headers.authorization;
+    if (!token) return res.status(401).json("Authentication Failed!");
+    token = token.split(" ")[1];
+    if (!token) return res.status(401).json("Authentication Failed!");
+    jwt.verify(token, process.env.JWT_SECRET, async (err, tokenData) => {
+      if (err) return res.status(401).json("Authentication Failed!");
+      return res.json({ ...tokenData });
+    });
+  } catch (error) {
+    return res
+      .status(error.code || 500)
+      .json(error.message || "Something went wrong, please try again!");
   }
 };

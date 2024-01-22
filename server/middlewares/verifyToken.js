@@ -7,7 +7,8 @@ const verifyToken = async (req, res, next) => {
     if (!token) return res.status(401).json("Authentication Failed!");
     jwt.verify(token, process.env.JWT_SECRET, async (err, tokenData) => {
       if (err) return res.status(401).json("Authentication Failed!");
-      return res.json({ ...tokenData });
+      req.user = { ...tokenData };
+      next();
     });
   } catch (error) {
     return res
