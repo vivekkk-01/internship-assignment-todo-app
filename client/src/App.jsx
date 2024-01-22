@@ -3,12 +3,17 @@ import Login from "./pages/Login";
 import Home from "./pages/Home";
 import ResetPassword from "./pages/ResetPassword";
 import AskForEmail from "./pages/AskForEmail";
+import ResetPasswordFromEmail from "./pages/ResetPasswordFromEmail";
 
 const router = createBrowserRouter([
   { path: "/", element: <Home /> },
   { path: "/login", element: <Login /> },
   { path: "/reset-password", element: <ResetPassword /> },
   { path: "/ask-for-email", element: <AskForEmail /> },
+  {
+    path: "/reset-password-from-email/:token",
+    element: <ResetPasswordFromEmail />,
+  },
 ]);
 
 function App() {
