@@ -58,7 +58,7 @@ const Login = () => {
         }
       );
       if (data.provider) {
-        navigate("/reset-password");
+        navigate("/reset-password", { state: data.message });
       }
 
       if (data.id) {
