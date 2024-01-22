@@ -4,6 +4,7 @@ import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
 import Cookies from "js-cookie";
 import { useDispatch, useSelector } from "react-redux";
 import { setUserInfoAction } from "../redux/actions/user";
+import Header from "../components/Header";
 
 const Home = () => {
   const [searchParams] = useSearchParams();
@@ -33,7 +34,11 @@ const Home = () => {
       })();
     }
   }, [searchParams.get("token")]);
-  return <div>Home</div>;
+  return (
+    <div className="max-h-full max-w-full p-6">
+      <Header user={userInfo} />
+    </div>
+  );
 };
 
 export default Home;
