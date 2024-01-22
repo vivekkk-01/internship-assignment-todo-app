@@ -1,12 +1,17 @@
 import React, { useEffect, useState } from "react";
 import classes from "./login.module.css";
 import { getGoogleUrl } from "../utils/getGoogleUrl";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
+import axios from "axios";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [emailError, setEmailError] = useState("");
+  const [passwordError, setPasswordError] = useState("");
+  const [error, setError] = useState("");
   const [isNavigating, setIsNavigating] = useState(false);
+  const navigate = useNavigate();
   const location = useLocation();
   const from = location.state?.from?.pathname || "/";
 
@@ -14,7 +19,6 @@ const Login = () => {
     if (isNavigating) return;
     const googleUrl = getGoogleUrl(from);
     if (googleUrl) {
-      console.log("url", googleUrl);
       setIsNavigating(true);
       window.location.href = googleUrl;
     }
@@ -23,6 +27,51 @@ const Login = () => {
   useEffect(() => {
     setIsNavigating(false);
   }, []);
+
+  const handleSubmit = async (event) => {
+    setEmailError("");
+    setPasswordError("");
+    setError("");
+    event.preventDefault();
+    setIsNavigating(true);
+    if (isNavigating) return;
+
+    const isPasswordValid = password.trim() !== "";
+    const isEmailValid =
+      /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/.test(email) &&
+      email.trim() !== "";
+    if (!isEmailValid) {
+      setEmailError("Enter a valid Email Address.");
+      return;
+    }
+    if (!isPasswordValid) {
+      setPasswordError("Enter Password!");
+      return;
+    }
+
+    try {
+      const { data } = await axios.post(
+        `${import.meta.env.VITE_APP_API_ENDPOINT}/user/login`,
+        {
+          email,
+          password,
+        }
+      );
+      if (data.provider) {
+        navigate("/reset-password");
+      }
+
+      if (data.id) {
+        return navigate("/");
+      }
+      setIsNavigating(false);
+    } catch (error) {
+      setError(
+        error.response.data || "Something went wrong, please try again!"
+      );
+      setIsNavigating(false);
+    }
+  };
 
   return (
     <div
@@ -37,23 +86,39 @@ const Login = () => {
             The Best Platform To Organize Your Tasks.
           </p>
         </div>
-        <form className="flex flex-col items-center justify-center gap-6">
+        <form
+          onSubmit={handleSubmit}
+          className="flex flex-col items-center justify-center gap-6"
+        >
           <h1 className="text-3xl font-bold text-gray-600">Login</h1>
           <div className="flex flex-col items-center justify-center gap-4">
-            <input
-              className="outline-none bg-gray-300 py-3 p-4 placeholder:text-gray-600 text-lg placeholder:font-bold rounded-lg"
-              type="email"
-              onChange={(event) => setEmail(event.target.value)}
-              value={email}
-              placeholder="Email"
-            />
-            <input
-              className="outline-none bg-gray-300 py-3 p-4 placeholder:text-gray-600 text-lg placeholder:font-bold rounded-lg"
-              type="password"
-              onChange={(event) => setPassword(event.target.value)}
-              value={password}
-              placeholder="Password"
-            />
+            {error && <h1>{error}</h1>}
+            <div className="flex flex-col items-center justify-center gap-1">
+              {emailError && (
+                <p className="text-red-600 font-bold">{emailError}</p>
+              )}
+              <input
+                className="outline-none bg-gray-300 py-3 p-4 placeholder:text-gray-600 text-lg placeholder:font-bold rounded-lg"
+                type="email"
+                onChange={(event) => setEmail(event.target.value)}
+                value={email}
+                placeholder="Email"
+                required
+              />
+            </div>
+            <div className="flex flex-col items-center justify-center gap-1">
+              <input
+                className="outline-none bg-gray-300 py-3 p-4 placeholder:text-gray-600 text-lg placeholder:font-bold rounded-lg"
+                type="password"
+                onChange={(event) => setPassword(event.target.value)}
+                value={password}
+                placeholder="Password"
+                required
+              />
+              {passwordError && (
+                <p className="text-red-500 font-bold">{passwordError}</p>
+              )}
+            </div>
           </div>
           <button
             style={{ cursor: `${isNavigating ? "default" : "pointer"}` }}

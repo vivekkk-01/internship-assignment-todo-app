@@ -12,9 +12,9 @@ exports.login = async (req, res) => {
         .json({ message: "Invalid email or password. Try again!" });
 
     if (isUser.provider === "Google") {
-      return res.json({
+      return res.status(401).json({
         provider: true,
-        message: `Looks like ${email} was used to create an account a different way. Try a different sign in method or reset your password.`,
+        message: `Looks like ${email} was used to create an account with google. Sign in with google or reset your password.`,
       });
     }
     const isPassword = await bcrypt.compare(password, isUser.password);
