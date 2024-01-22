@@ -1,12 +1,34 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import classes from "./login.module.css";
+import { getGoogleUrl } from "../utils/getGoogleUrl";
+import { useLocation } from "react-router-dom";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [isNavigating, setIsNavigating] = useState(false);
+  const location = useLocation();
+  const from = location.state?.from?.pathname || "/";
+
+  const handleGoogleOAuth = () => {
+    // if (isNavigating) return;
+    const googleUrl = getGoogleUrl(from);
+    if (googleUrl) {
+      setIsNavigating(true);
+      window.location.href = googleUrl;
+    }
+  };
+
+  useEffect(() => {
+    setIsNavigating(false);
+  }, []);
 
   return (
-    <div className="h-screen w-screen flex flex-col items-center justify-center">
+    <div
+      className={`h-screen w-screen flex flex-col items-center justify-center ${
+        isNavigating ? "opacity-65" : ""
+      }`}
+    >
       <div className="p-8 shadow-lg flex flex-col items-center justify-center gap-2">
         <div>
           <h1 className="font-bold text-lg">Welcome To MyTodos!</h1>
@@ -32,7 +54,10 @@ const Login = () => {
               placeholder="Password"
             />
           </div>
-          <button type="submit" className={classes.login_btn}>
+          <button
+            style={{ cursor: `${isNavigating ? "default" : "pointer"}` }}
+            className={classes.login_btn}
+          >
             Login
           </button>
         </form>
@@ -41,7 +66,12 @@ const Login = () => {
           <span className="text-blue-600 font-bold">Sign up</span>
         </p>
         <p className="text-gray-600 font-bold text-2xl">Or</p>
-        <div className="cursor-pointer w-full shadow-lg py-4 flex items-center justify-center gap-3">
+        <div
+          onClick={handleGoogleOAuth}
+          className={`${
+            !isNavigating ? "cursor-pointer" : ""
+          } w-full shadow-lg py-4 flex items-center justify-center gap-3`}
+        >
           <img className="w-8 h-8" src={"src/assets/google.png"} alt="" />
           <p className="text-gray-500 font-semibold">Continue with Google</p>
         </div>
