@@ -62,7 +62,9 @@ exports.addTask = async (req, res) => {
 
 exports.getAllTasks = async (req, res) => {
   try {
-    const tasks = await Task.find({ user: req.user.id });
+    const tasks = await Task.find({ user: req.user.id }).sort({
+      createdAt: -1,
+    });
     if (!tasks)
       return res.json("You haven't created any Task. Create your first Task!");
 
