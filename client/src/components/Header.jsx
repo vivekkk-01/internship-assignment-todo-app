@@ -27,7 +27,7 @@ const Header = ({ user }) => {
           >
             <img
               onClick={() => setIsProfileClicked(!isProfileClicked)}
-              src={user.picture}
+              src={user?.picture}
               alt=""
               className="h-10 w-10 object-cover rounded-full cursor-pointer"
             />
