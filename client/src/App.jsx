@@ -8,7 +8,11 @@ import Register from "./pages/Register";
 import AllTasks from "./pages/AllTasks";
 
 const router = createBrowserRouter([
-  { path: "/", element: <Home /> },
+  {
+    path: "/",
+    element: <Home />,
+    children: [{ path: "/all", element: <AllTasks /> }],
+  },
   { path: "/login", element: <Login /> },
   { path: "/register", element: <Register /> },
   { path: "/reset-password", element: <ResetPassword /> },
@@ -17,7 +21,6 @@ const router = createBrowserRouter([
     path: "/reset-password-from-email/:token",
     element: <ResetPasswordFromEmail />,
   },
-  { path: "/all", element: <AllTasks /> },
 ]);
 
 function App() {

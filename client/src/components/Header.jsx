@@ -6,13 +6,15 @@ import { CgProfile } from "react-icons/cg";
 import { FiLayout } from "react-icons/fi";
 import { TbLayoutBoardSplit } from "react-icons/tb";
 import useClickOutside from "../hooks/useClickOutside";
-import { Link, NavLink } from "react-router-dom";
+import { NavLink, useLocation } from "react-router-dom";
+import classes from "./header.module.css";
 import CreateTaskModal from "../modals/CreateTaskModal";
 
 const Header = ({ user }) => {
   const [isProfileClicked, setIsProfileClicked] = useState(false);
   const [addTask, setAddTask] = useState(false);
   const profileRef = useRef();
+  const location = useLocation();
   useClickOutside(profileRef, () => setIsProfileClicked(false));
   return (
     <>
@@ -58,16 +60,24 @@ const Header = ({ user }) => {
             Add Task
           </button>
         </div>
-        <div className="flex items-center gap-5">
+        <div className="flex items-center gap-5 w-full">
           <NavLink
             to="/all"
-            className={`flex items-center justify-center gap-1 text-gray-600 font-semibold`}
+            className={({ isActive }) =>
+              `flex items-center justify-center gap-1 text-gray-600 font-semibold ${
+                isActive ? classes.active : ""
+              } ${location.pathname === "/" ? classes.active : ""}`
+            }
           >
             <TbLayoutBoardSplit /> All Tasks
           </NavLink>
           <NavLink
             to="/boards"
-            className={`flex items-center justify-center gap-1 text-gray-600 font-semibold`}
+            className={({ isActive }) =>
+              `flex items-center justify-center gap-1 text-gray-600 font-semibold ${
+                isActive ? classes.active : ""
+              }`
+            }
           >
             <FiLayout />
             Boards

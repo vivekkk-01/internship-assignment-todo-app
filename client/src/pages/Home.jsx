@@ -1,10 +1,16 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
+import {
+  Outlet,
+  useLocation,
+  useNavigate,
+  useSearchParams,
+} from "react-router-dom";
 import Cookies from "js-cookie";
 import { useDispatch, useSelector } from "react-redux";
 import { setUserInfoAction } from "../redux/actions/user";
 import Header from "../components/Header";
+import AllTasks from "./AllTasks";
 
 const Home = () => {
   const [searchParams] = useSearchParams();
@@ -37,6 +43,7 @@ const Home = () => {
   return (
     <div className="max-h-full max-w-full p-6">
       <Header user={userInfo} />
+      {location.pathname === "/" ? <AllTasks /> : <Outlet />}
     </div>
   );
 };
