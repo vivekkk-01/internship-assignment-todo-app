@@ -41,9 +41,13 @@ const Home = () => {
     }
   }, [searchParams.get("token")]);
   return (
-    <div className="max-h-full max-w-full p-6">
-      <Header user={userInfo} />
-      {location.pathname === "/" ? <AllTasks /> : <Outlet />}
+    <div className="h-screen max-w-screen p-6">
+      <header className="h-1/6">
+        <Header user={userInfo} />
+      </header>
+      <main className="h-5/6">
+        {location.pathname === "/" ? <AllTasks /> : <Outlet />}
+      </main>
     </div>
   );
 };
