@@ -92,9 +92,7 @@ const CreateTaskModal = ({ onClose }) => {
       values.append("description", description);
       values.append("startDate", startDate);
       values.append("endDate", endDate);
-      dispatch(
-        addTaskAction({ values, onClose, onSuccess, onSuccess, onError })
-      );
+      dispatch(addTaskAction({ values, onClose, onSuccess, onError }));
     } else {
       const values = { title, description, category, startDate, endDate };
       dispatch(addTaskAction({ values, onClose, onSuccess, onError }));
