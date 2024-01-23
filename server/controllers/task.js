@@ -70,7 +70,8 @@ exports.getAllTasks = async (req, res) => {
 
     const allTasks = tasks.map((task) => {
       return {
-        ...task._doc,
+        id: task._id,
+        image: task.taskImage?.secure_url,
         status:
           new Date() < new Date(task.startDate)
             ? "In Complete"
@@ -80,6 +81,13 @@ exports.getAllTasks = async (req, res) => {
             : new Date() < new Date(task.endDate)
             ? "Completed"
             : null,
+        title: task.title,
+        description: task.description,
+        category: task.taskCategory,
+        startDate: task.startDate,
+        endDate: task.endDate,
+        createdAt: task.createdAt,
+        updatedAt: task.updatedAt,
       };
     });
     return res.json([...allTasks]);
