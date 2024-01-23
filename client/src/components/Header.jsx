@@ -16,9 +16,7 @@ const Header = ({ user }) => {
   useClickOutside(profileRef, () => setIsProfileClicked(false));
   return (
     <>
-      {addTask && (
-        <CreateTaskModal onClose={() => setAddTask(false)} />
-      )}
+      {addTask && <CreateTaskModal onClose={() => setAddTask(false)} />}
       <div className="flex flex-col gap-8">
         <div className="w-full flex items-center justify-between">
           <div
@@ -54,7 +52,7 @@ const Header = ({ user }) => {
           </div>
           <button
             onClick={() => setAddTask(true)}
-            className="text-1xl font-semibold flex items-center justify-center gap-1 text-red-600 py-2 px-4 border border-2 border-red-600 rounded-3xl"
+            className="outline-none text-1xl font-semibold flex items-center justify-center gap-1 text-red-600 py-2 px-4 border border-2 border-red-600 rounded-3xl"
           >
             <IoIosAdd size={20} />
             Add Task
