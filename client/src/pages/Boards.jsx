@@ -1,7 +1,7 @@
 import React from "react";
 
-const AllTasks = () => {
+const Boards = () => {
   return <div></div>;
 };
 
-export default AllTasks;
+export default Boards;

@@ -6,12 +6,16 @@ import AskForEmail from "./pages/AskForEmail";
 import ResetPasswordFromEmail from "./pages/ResetPasswordFromEmail";
 import Register from "./pages/Register";
 import AllTasks from "./pages/AllTasks";
+import Boards from "./pages/Boards";
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <Home />,
-    children: [{ path: "/all", element: <AllTasks /> }],
+    children: [
+      { path: "/all", element: <AllTasks /> },
+      { path: "/boards", element: <Boards /> },
+    ],
   },
   { path: "/login", element: <Login /> },
   { path: "/register", element: <Register /> },
