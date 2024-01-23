@@ -1,26 +1,96 @@
 import React, { useRef, useState } from "react";
 import ModalOverlay from "./Modal";
 import classes from "./createTaskModal.module.css";
+import { useDispatch, useSelector } from "react-redux";
+import { addTaskAction } from "../redux/actions/task";
 
 const CreateTaskModal = ({ onClose }) => {
   const [title, setTitle] = useState("");
   const [image, setImage] = useState("");
+  const [category, setCategory] = useState("");
+  const [description, setDescription] = useState("");
+  const [startDate, setStartDate] = useState("");
+  const [endDate, setEndDate] = useState("");
+  const [titleError, setTitleError] = useState(false);
+  const [descriptionError, setDescriptionError] = useState(false);
+  const [categoryError, setCategoryError] = useState(false);
+  const [startDateError, setStartDateError] = useState("");
+  const [endDateError, setEndDateError] = useState("");
+  const dispatch = useDispatch();
+  const { addTaskError, addTaskLoading } = useSelector((state) => state.task);
+
   const fileRef = useRef();
+
   const handleSubmit = (event) => {
     event.preventDefault();
+    const isTitleValid = title.trim() !== "";
+    const isDescriptionValid = description.trim() !== "";
+    const isCategoryValid = category.trim() !== "";
+    const isStartDateValid = startDate.trim() !== "";
+    const isEndDateValid = startDate.trim() !== "";
+
+    if (!isTitleValid) {
+      setTitleError("Title is required!");
+      return;
+    }
+
+    if (!isDescriptionValid) {
+      setDescriptionError("Description is required!");
+      return;
+    }
+
+    if (!isCategoryValid) {
+      setCategoryError("Category is required!");
+      return;
+    }
+
+    if (!isStartDateValid) {
+      setStartDateError("Start Date is required!");
+      return;
+    }
+
+    if (!isEndDateValid) {
+      setEndDateError("End Date is required!");
+      return;
+    }
+
+    if (new Date(startDate) >= new Date(endDate)) {
+      setStartDateError("Start Date should be less than End Date!");
+    }
+
+    if (image) {
+      const values = new FormData();
+      values.append("image", image);
+      values.append("title", title);
+      values.append("category", category);
+      values.append("description", description);
+      values.append("startDate", startDate);
+      values.append("endDate", endDate);
+      dispatch(addTaskAction({ values, onClose }));
+    } else {
+      const values = { title, description, category, startDate, endDate };
+      dispatch(addTaskAction({ values, onClose }));
+    }
   };
+
   const addPhotoHandler = () => {
     fileRef.current?.click();
   };
+
   return (
     <ModalOverlay onClose={onClose}>
-      <h1 className="text-center font-bold text-3xl">Add Task</h1>
+      <h1 className="font-bold text-3xl">Add Task</h1>
       <form
         onSubmit={handleSubmit}
         className="flex flex-col gap-2 justify-center items-center my-2"
       >
         <div className="flex items-center justify-evenly w-full">
           <div className="flex flex-col items-start gap-1">
+            {titleError && (
+              <p className="text-1xl font-semibold text-red-700 self-center">
+                {titleError}
+              </p>
+            )}
             <label htmlFor="title" className="text-gray-600 font-bold">
               Title:
             </label>
@@ -29,12 +99,20 @@ const CreateTaskModal = ({ onClose }) => {
               className="outline-none bg-gray-300 py-3 p-4 placeholder:text-gray-600 text-lg placeholder:font-bold rounded-lg"
               type="text"
               value={title}
-              onChange={(event) => setTitle(event.target.value)}
+              onChange={(event) => {
+                setTitle(event.target.value);
+                setTitleError("");
+              }}
               placeholder="Complete Presentation"
               required
             />
           </div>
           <div className="flex flex-col items-start gap-1">
+            {categoryError && (
+              <p className="text-1xl font-semibold text-red-700 self-center">
+                {categoryError}
+              </p>
+            )}
             <label htmlFor="category" className="text-gray-600 font-bold">
               Category:
             </label>
@@ -42,8 +120,11 @@ const CreateTaskModal = ({ onClose }) => {
               id="category"
               className="outline-none bg-gray-300 py-3 p-4 placeholder:text-gray-600 text-lg placeholder:font-bold rounded-lg"
               type="text"
-              value={title}
-              onChange={(event) => setTitle(event.target.value)}
+              value={category}
+              onChange={(event) => {
+                setCategory(event.target.value);
+                setCategoryError("");
+              }}
               placeholder="College Assignment"
               required
             />
@@ -51,6 +132,11 @@ const CreateTaskModal = ({ onClose }) => {
         </div>
         <div className="flex items-start justify-between w-full">
           <div className="flex flex-col items-start gap-1">
+            {descriptionError && (
+              <p className="text-1xl font-semibold text-red-700 self-center">
+                {descriptionError}
+              </p>
+            )}
             <label htmlFor="description" className="text-gray-600 font-bold">
               Description:
             </label>
@@ -60,6 +146,11 @@ const CreateTaskModal = ({ onClose }) => {
               rows="05"
               className="resize-none outline-none bg-gray-300 py-3 p-4 placeholder:text-gray-600 text-lg placeholder:font-bold rounded-lg"
               placeholder="Description of task..."
+              value={description}
+              onChange={(event) => {
+                setDescription(event.target.value);
+                setDescriptionError("");
+              }}
             ></textarea>
           </div>
           <div className="flex flex-col items-start gap-1">
@@ -92,20 +183,48 @@ const CreateTaskModal = ({ onClose }) => {
         </div>
         <div className="flex items-center justify-evenly w-full">
           <div className="flex flex-col items-start self-start">
+            {startDateError && (
+              <p className="text-1xl font-semibold text-red-700 self-center">
+                {startDateError}
+              </p>
+            )}
             <label htmlFor="date" className="text-gray-600 font-bold">
               Start Date:
             </label>
-            <input type="date" id="date" />
+            <input
+              value={startDate}
+              onChange={(event) => {
+                setStartDate(event.target.value);
+                setStartDateError("");
+              }}
+              type="date"
+              id="date"
+            />
           </div>
           <div className="flex flex-col items-start self-start">
+            {endDateError && (
+              <p className="text-1xl font-semibold text-red-700 self-center">
+                {endDateError}
+              </p>
+            )}
             <label htmlFor="date" className="text-gray-600 font-bold">
               End Date:
             </label>
-            <input type="date" id="date" />
+            <input
+              value={endDate}
+              onChange={(event) => {
+                setEndDate(event.target.value);
+                setEndDateError("");
+                setStartDateError("");
+              }}
+              type="date"
+              id="date"
+            />
           </div>
         </div>
         <div className="flex items-center self-end gap-2">
           <button
+            onClick={() => onClose()}
             type="button"
             className="bg-red-700 text-white py-2 px-4 rounded-lg cursor-pointer"
           >
