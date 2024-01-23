@@ -9,21 +9,20 @@ const imageFileFilter = (req, file, cb) => {
 
 const uploadImage = multer({ storage, fileFilter: imageFileFilter });
 
-const validateTaskImage = (req, res) => {
-  if (!req.file.mimetype.startsWith("image"))
-    return res.status(403).json("Please provide an image.");
-
-  if (req.file.size > 5000000)
+const validateTaskImage = (req, res, next) => {
+  if (!req?.file) {
+    return next();
+  }
+  if (req?.file && req.file.size > 5000000)
     return res.status(403).json("Image size is too large.");
 
-  req.file.filename = `profile-${Date.now()}-${req.file.originalname}`;
-
+  req.file.filename = `task-${Date.now()}-${req.file.originalname}`;
   fs.writeFile(
-    path.join(`public/uploads/images/task/${req.file.filename}`),
+    path.join(`uploads/images/task/${req.file.filename}`),
     req.file.buffer,
     (err) => {
       if (err) {
-        next(err);
+        return next(err);
       }
     }
   );

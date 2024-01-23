@@ -11,9 +11,7 @@ export const addTaskAction =
     try {
       const { data } = await axios.post(
         `${import.meta.env.VITE_APP_API_ENDPOINT}/task/add-task`,
-        {
-          values,
-        },
+        values,
         {
           headers: {
             Authorization: `Bearer ${token}`,

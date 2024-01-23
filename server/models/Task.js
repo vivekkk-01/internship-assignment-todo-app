@@ -8,7 +8,7 @@ const taskSchema = new Schema(
     startDate: { type: Date, required: true },
     endDate: { type: Date, required: true },
     taskCategory: { type: String, required: true },
-    taskImage: Object,
+    taskImage: { secure_url: String, public_id: String },
     user: { type: Schema.Types.ObjectId, ref: "User" },
   },
   { timestamps: true }

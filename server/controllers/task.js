@@ -1,6 +1,7 @@
 const path = require("path");
 const cloudinary = require("cloudinary");
 const Task = require("../models/Task");
+const { unlink } = require("fs");
 cloudinary.v2.config({
   cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
   api_key: process.env.CLOUDINARY_API_KEY,
@@ -22,13 +23,18 @@ exports.addTask = async (req, res) => {
     });
 
     if (req.file) {
-      const filePath = path.join(`public/uploads/images/task/${file.filename}`);
+      const filePath = path.join(`uploads/images/task/${req.file.filename}`);
       const { secure_url, public_id } = await cloudinary.v2.uploader.upload(
         filePath
       );
+      unlink(filePath, (err) => {
+        if (err) {
+          throw err;
+        }
+      });
       task.taskImage = { secure_url, public_id };
-      await task.save();
     }
+    await task.save();
     const status =
       new Date() < new Date(startDate)
         ? "In Complete"
@@ -38,6 +44,7 @@ exports.addTask = async (req, res) => {
         ? "Completed"
         : null;
     res.json({
+      id: task._id,
       title,
       category,
       description,
