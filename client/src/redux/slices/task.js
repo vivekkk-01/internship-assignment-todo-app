@@ -10,6 +10,7 @@ const initialState = {
   updateTaskError: null,
   deleteTaskLoading: false,
   deleteTaskError: null,
+  tasks: [],
 };
 
 const taskSlice = createSlice({
@@ -23,6 +24,7 @@ const taskSlice = createSlice({
     setAddTask: (state, { payload }) => {
       state.addTaskLoading = false;
       state.allTasks.push(payload);
+      state.tasks.push(payload);
       state.addTaskError = null;
     },
     setAddTaskError: (state, { payload }) => {
@@ -33,10 +35,30 @@ const taskSlice = createSlice({
       state.addTaskLoading = false;
       state.addTaskError = null;
     },
+    setAllTasksLoading: (state) => {
+      state.allTasksLoading = true;
+    },
+    setAllTasks: (state, { payload }) => {
+      state.allTasksLoading = false;
+      state.allTasks = payload;
+      state.allTasksError = null;
+      state.tasks = payload;
+    },
+    setAllTasksError: (state, { payload }) => {
+      state.allTasksLoading = false;
+      state.allTasksError = payload;
+    },
   },
 });
 
-export const { setAddTask, setAddTaskError, setAddTaskLoading, resetAddTask } =
-  taskSlice.actions;
+export const {
+  setAddTask,
+  setAddTaskError,
+  setAddTaskLoading,
+  resetAddTask,
+  setAllTasks,
+  setAllTasksError,
+  setAllTasksLoading,
+} = taskSlice.actions;
 
 export default taskSlice.reducer;
