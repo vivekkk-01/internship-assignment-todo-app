@@ -1,4 +1,4 @@
-const { addTask } = require("../controllers/task");
+const { addTask, getAllTasks } = require("../controllers/task");
 const {
   uploadImage,
   validateTaskImage,
@@ -14,5 +14,7 @@ router.post(
   validateTaskImage,
   addTask
 );
+
+router.get("/get-all-tasks", verifyToken, getAllTasks);
 
 module.exports = router;

@@ -59,3 +59,33 @@ exports.addTask = async (req, res) => {
       );
   }
 };
+
+exports.getAllTasks = async (req, res) => {
+  try {
+    const tasks = await Task.find({ user: req.user.id });
+    if (!tasks)
+      return res.json("You haven't created any Task. Create your first Task!");
+
+    const allTasks = tasks.map((task) => {
+      return {
+        ...task._doc,
+        status:
+          new Date() < new Date(task.startDate)
+            ? "In Complete"
+            : new Date() >= new Date(task.startDate) &&
+              new Date() <= new Date(task.endDate)
+            ? "On Going"
+            : new Date() < new Date(task.endDate)
+            ? "Completed"
+            : null,
+      };
+    });
+    return res.json([...allTasks]);
+  } catch (error) {
+    return res
+      .status(error.statusCode || error.status_code || 500)
+      .json(
+        error.message || error.msg || "Something went wrong, please try again!"
+      );
+  }
+};
