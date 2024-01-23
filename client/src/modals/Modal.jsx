@@ -1,6 +1,7 @@
 import React, { Fragment } from "react";
 import ReactDOM from "react-dom";
 import classes from "./modal.module.css";
+import { useSelector } from "react-redux";
 
 const Modal = ({ children }) => {
   return (
@@ -15,6 +16,7 @@ const Overlay = ({ onClose }) => {
 };
 
 const ModalOverlay = ({ children, onClose }) => {
+  const { addTaskLoading } = useSelector((state) => state.task);
   return (
     <Fragment>
       {ReactDOM.createPortal(
@@ -22,7 +24,7 @@ const ModalOverlay = ({ children, onClose }) => {
         document.getElementById("modal")
       )}
       {ReactDOM.createPortal(
-        <Overlay onClose={onClose} />,
+        <Overlay onClose={addTaskLoading ? null : onClose} />,
         document.getElementById("backdrop")
       )}
     </Fragment>

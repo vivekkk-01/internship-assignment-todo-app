@@ -17,6 +17,7 @@ const taskSlice = createSlice({
   initialState,
   reducers: {
     setAddTaskLoading: (state) => {
+      state.addTaskError = null;
       state.addTaskLoading = true;
     },
     setAddTask: (state, { payload }) => {
@@ -28,10 +29,14 @@ const taskSlice = createSlice({
       state.addTaskLoading = false;
       state.addTaskError = payload;
     },
+    resetAddTask: (state) => {
+      state.addTaskLoading = false;
+      state.addTaskError = null;
+    },
   },
 });
 
-export const { setAddTask, setAddTaskError, setAddTaskLoading } =
+export const { setAddTask, setAddTaskError, setAddTaskLoading, resetAddTask } =
   taskSlice.actions;
 
 export default taskSlice.reducer;

@@ -10,25 +10,6 @@ const router = require("express").Router();
 router.post(
   "/add-task",
   verifyToken,
-  [
-    body("title").trim().isString().withMessage("Provide a Title of the Task!"),
-    body("category")
-      .trim()
-      .isString()
-      .withMessage("Provide a Category of the Task!"),
-    body("description")
-      .trim()
-      .isString()
-      .withMessage("Provide a Description of the Task!"),
-    body("startDate")
-      .trim()
-      .isString()
-      .withMessage("Provide Start Date of the Task!"),
-    body("endDate")
-      .trim()
-      .isString()
-      .withMessage("Provide Start Date of the Task!"),
-  ],
   uploadImage.single("image"),
   validateTaskImage,
   addTask
