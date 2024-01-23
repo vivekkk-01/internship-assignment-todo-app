@@ -8,7 +8,8 @@ const taskSchema = new Schema(
     startDate: { type: Date, required: true },
     endDate: { type: Date, required: true },
     taskCategory: { type: String, required: true },
-    taskImage: String,
+    taskImage: Object,
+    user: { type: Schema.Types.ObjectId, ref: "User" },
   },
   { timestamps }
 );

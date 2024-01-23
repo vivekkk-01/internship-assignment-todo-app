@@ -23,17 +23,19 @@ exports.googleOauthHandler = async (req, res) => {
       return res.status(403).json("Google account is not verified!");
     }
 
-    const isUser = await User.findOne({ email });
-    if (!isUser) {
-      await User.create({
+    let isUser = await User.findOne({ email });
+    if (!isUser)
+      isUser = await User.create({
         name,
         email,
         provider: "Google",
         picture,
       });
-    }
 
-    const token = jwt.sign({ name, email, picture }, process.env.JWT_SECRET);
+    const token = jwt.sign(
+      { id: isUser._id, name, email, picture },
+      process.env.JWT_SECRET
+    );
     return res.redirect(`http://localhost:5173/?token=${token}`);
   } catch (err) {
     return res
@@ -51,7 +53,7 @@ exports.getUser = async (req, res) => {
     if (!token) return res.status(401).json("Authentication Failed!");
     jwt.verify(token, process.env.JWT_SECRET, async (err, tokenData) => {
       if (err) return res.status(401).json("Authentication Failed!");
-      return res.json({ ...tokenData });
+      return res.json({ ...tokenData, token });
     });
   } catch (error) {
     return res
