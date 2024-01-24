@@ -2,6 +2,7 @@ const path = require("path");
 const cloudinary = require("cloudinary");
 const Task = require("../models/Task");
 const { unlink } = require("fs");
+const User = require("../models/User");
 cloudinary.v2.config({
   cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
   api_key: process.env.CLOUDINARY_API_KEY,
@@ -152,6 +153,31 @@ exports.editTask = async (req, res) => {
       createdAt: task.createdAt,
       updatedAt: task.updatedAt,
     });
+  } catch (error) {
+    return res
+      .status(error.statusCode || error.status_code || 500)
+      .json(
+        error.message || error.msg || "Something went wrong, please try again!"
+      );
+  }
+};
+
+exports.deleteTask = async (req, res) => {
+  try {
+    const { taskId } = req.params;
+    const task = await Task.findById(taskId);
+    if (!task)
+      return res.status(401).json("You can't delete this task. Try again!");
+
+    if (task.user !== req.user.id)
+      return res.status(401).json("You can't delete this task. Try again!");
+
+    const user = await User.findById(req.user.id);
+    user.tasks.filter((task) => task.toString() === taskId.toString());
+    await user.save();
+    await Task.deleteOne({ _id: taskId });
+
+    return res.json("You successfully deleted the Task!");
   } catch (error) {
     return res
       .status(error.statusCode || error.status_code || 500)

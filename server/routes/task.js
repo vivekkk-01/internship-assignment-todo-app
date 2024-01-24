@@ -22,6 +22,8 @@ router.patch(
   editTask
 );
 
+router.delete("/delete-task/:taskId", verifyToken)
+
 router.get("/get-all-tasks", verifyToken, getAllTasks);
 
 module.exports = router;
