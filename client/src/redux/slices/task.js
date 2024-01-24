@@ -63,7 +63,7 @@ const taskSlice = createSlice({
       const index = state.tasks.findIndex(
         (task) => task.id.toString() === payload.id.toString()
       );
-      if (index) {
+      if (index >= 0) {
         state.tasks[index] = payload;
       }
     },

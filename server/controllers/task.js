@@ -119,7 +119,7 @@ exports.editTask = async (req, res) => {
 
     task.title = title;
     task.description = description;
-    task.category = category;
+    task.taskCategory = category;
     task.startDate = startDate;
     task.endDate = endDate;
 
