@@ -2,6 +2,7 @@ import React, { Fragment } from "react";
 import ReactDOM from "react-dom";
 import classes from "./modal.module.css";
 import { useSelector } from "react-redux";
+import { ToastContainer } from "react-toastify";
 
 const Modal = ({ children }) => {
   return (
@@ -12,7 +13,11 @@ const Modal = ({ children }) => {
 };
 
 const Overlay = ({ onClose }) => {
-  return <div className={classes.backdrop} onClick={onClose}></div>;
+  return (
+    <div className={classes.backdrop} onClick={onClose}>
+      <ToastContainer />
+    </div>
+  );
 };
 
 const ModalOverlay = ({ children, onClose }) => {
