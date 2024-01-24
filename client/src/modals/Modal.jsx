@@ -21,7 +21,9 @@ const Overlay = ({ onClose }) => {
 };
 
 const ModalOverlay = ({ children, onClose }) => {
-  const { addTaskLoading } = useSelector((state) => state.task);
+  const { addTaskLoading, updateTaskLoading } = useSelector(
+    (state) => state.task
+  );
   return (
     <Fragment>
       {ReactDOM.createPortal(
@@ -29,7 +31,9 @@ const ModalOverlay = ({ children, onClose }) => {
         document.getElementById("modal")
       )}
       {ReactDOM.createPortal(
-        <Overlay onClose={addTaskLoading ? null : onClose} />,
+        <Overlay
+          onClose={addTaskLoading || updateTaskLoading ? null : onClose}
+        />,
         document.getElementById("backdrop")
       )}
     </Fragment>

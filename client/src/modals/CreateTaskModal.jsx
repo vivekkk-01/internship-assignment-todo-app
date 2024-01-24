@@ -43,7 +43,7 @@ const CreateTaskModal = ({
   const [startDateError, setStartDateError] = useState("");
   const [endDateError, setEndDateError] = useState("");
   const dispatch = useDispatch();
-  const { addTaskError, addTaskLoading, editTaskLoading, editTaskError } =
+  const { addTaskError, addTaskLoading, updateTaskLoading, updateTaskError } =
     useSelector((state) => state.task);
 
   const fileRef = useRef();
@@ -62,7 +62,7 @@ const CreateTaskModal = ({
 
   const onEditError = () => {
     toast.error(
-      editTaskError || "Something went wrong,, please try again!",
+      updateTaskError || "Something went wrong,, please try again!",
       toastOptions
     );
   };
@@ -75,7 +75,7 @@ const CreateTaskModal = ({
   };
 
   const handleSubmit = (event) => {
-    if (addTaskLoading || editTaskLoading) return;
+    if (addTaskLoading || updateTaskLoading) return;
     event.preventDefault();
     const isTitleValid = title.trim() !== "";
     const isDescriptionValid = description.trim() !== "";
@@ -160,7 +160,7 @@ const CreateTaskModal = ({
     <ModalOverlay onClose={onClose}>
       <h1
         className={`font-bold text-3xl ${
-          addTaskLoading || editTaskLoading ? "opacity-60" : ""
+          addTaskLoading || updateTaskLoading ? "opacity-60" : ""
         }`}
       >
         {`${!isEditTask ? "Add" : "Edit"} Task`}
@@ -168,7 +168,7 @@ const CreateTaskModal = ({
       <form
         onSubmit={handleSubmit}
         className={`flex flex-col gap-2 justify-center items-center my-2 ${
-          addTaskLoading || editTaskLoading ? "opacity-60" : ""
+          addTaskLoading || updateTaskLoading ? "opacity-60" : ""
         }`}
       >
         <div className="flex items-center justify-evenly w-full">
@@ -255,8 +255,15 @@ const CreateTaskModal = ({
             />
             {image ? (
               <img
-                onClick={addPhotoHandler}
-                className="object-cover rounded-lg overflow-hidden w-72 h-40 cursor-pointer"
+                onClick={() => {
+                  if (addTaskLoading || updateTaskLoading) return;
+                  addPhotoHandler();
+                }}
+                className={`object-cover rounded-lg overflow-hidden w-72 h-40 ${
+                  addTaskLoading || updateTaskLoading
+                    ? "default"
+                    : "cursor-pointer"
+                }`}
                 src={
                   typeof image === "string" && image?.includes("cloudinary")
                     ? image
@@ -265,16 +272,30 @@ const CreateTaskModal = ({
               />
             ) : (
               <div
-                onClick={addPhotoHandler}
-                className="rounded-lg w-72 h-40 border-dotted border-2 border-black  flex items-center justify-center cursor-pointer"
+                onClick={() => {
+                  if (addTaskLoading || updateTaskLoading) return;
+                  addPhotoHandler();
+                }}
+                className={`rounded-lg w-72 h-40 border-dotted border-2 border-black  flex items-center justify-center ${
+                  addTaskLoading || updateTaskLoading
+                    ? "default"
+                    : "cursor-pointer"
+                } `}
               >
                 Add Photo
               </div>
             )}
             {image && (
               <ImCancelCircle
-                onClick={() => setImage("")}
-                className="absolute h-5 w-5 rounded-full bg-white top-10 right-3 cursor-pointer"
+                onClick={() => {
+                  if (addTaskLoading || updateTaskLoading) return;
+                  setImage("");
+                }}
+                className={`absolute h-5 w-5 rounded-full bg-white top-10 right-3 ${
+                  addTaskLoading || updateTaskLoading
+                    ? "default"
+                    : "cursor-pointer"
+                } ${addTaskLoading || updateTaskLoading ? "opacity-60" : ""}`}
               />
             )}
           </div>
@@ -322,10 +343,13 @@ const CreateTaskModal = ({
         </div>
         <div className="flex items-center self-end gap-2">
           <button
-            onClick={() => onClose()}
+            onClick={() => {
+              if (addTaskLoading || updateTaskLoading) return;
+              onClose();
+            }}
             type="button"
-            className={`bg-red-700 text-white py-2 px-4 rounded-lg cursor-pointer ${
-              addTaskLoading || editTaskLoading
+            className={`bg-red-700 text-white py-2 px-4 rounded-lg ${
+              addTaskLoading || updateTaskLoading
                 ? "cursor-default"
                 : "cursor-pointer"
             }`}
@@ -334,7 +358,7 @@ const CreateTaskModal = ({
           </button>
           <button
             className={`${classes.addTask_btn} py-2 ${
-              addTaskLoading || editTaskLoading
+              addTaskLoading || updateTaskLoading
                 ? "cursor-default"
                 : "cursor-pointer"
             }`}
