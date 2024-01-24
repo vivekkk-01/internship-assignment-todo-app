@@ -9,9 +9,11 @@ const AllTasks = () => {
   const { allTasksLoading, tasks, allTasksError } = useSelector(
     (state) => state.task
   );
+
   useEffect(() => {
     dispatch(getAllTasksAction());
   }, []);
+
   return (
     <div className="w-full h-full p-6">
       {allTasksLoading ? (
@@ -23,19 +25,23 @@ const AllTasks = () => {
           <h1 className="text-red-700 font-bold text-3xl">{allTasksError}</h1>
         </div>
       ) : (
-        <div className="w-full h-full grid-cols-3 gap-4">
+        <div className="w-full h-full grid grid-cols-4 gap-10">
           {tasks.map((task) => {
-            <Task
-              key={task._id}
-              id={task._id}
-              status={task.status}
-              title={task.title}
-              description={task.description}
-              category={task.taskCategory}
-              image={task?.taskImage}
-              startDate={task.startDate}
-              endDate={task.endDate}
-            />;
+            return (
+              <div>
+                <Task
+                  key={task.id}
+                  id={task.id}
+                  status={task.status}
+                  title={task.title}
+                  description={task.description}
+                  category={task.category}
+                  image={task?.image}
+                  startDate={task.startDate}
+                  endDate={task.endDate}
+                />
+              </div>
+            );
           })}
         </div>
       )}

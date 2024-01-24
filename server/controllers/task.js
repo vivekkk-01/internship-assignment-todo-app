@@ -50,6 +50,10 @@ exports.addTask = async (req, res) => {
       description,
       status,
       image: task.taskImage.secure_url,
+      startDate,
+      endDate,
+      createdAt: task.createdAt,
+      updatedAt: task.updatedAt,
     });
   } catch (error) {
     return res

@@ -41,7 +41,7 @@ const Home = () => {
     }
   }, [searchParams.get("token")]);
   return (
-    <div className="h-screen max-w-screen p-6">
+    <div className="h-screen max-w-screen p-6 gap-12 flex flex-col">
       <header className="h-1/6">
         <Header user={userInfo} />
       </header>
