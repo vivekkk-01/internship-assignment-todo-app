@@ -1,4 +1,9 @@
-const { addTask, getAllTasks, editTask } = require("../controllers/task");
+const {
+  addTask,
+  getAllTasks,
+  editTask,
+  deleteTask,
+} = require("../controllers/task");
 const {
   uploadImage,
   validateTaskImage,
@@ -22,7 +27,7 @@ router.patch(
   editTask
 );
 
-router.delete("/delete-task/:taskId", verifyToken)
+router.delete("/delete-task/:taskId", verifyToken, deleteTask);
 
 router.get("/get-all-tasks", verifyToken, getAllTasks);
 

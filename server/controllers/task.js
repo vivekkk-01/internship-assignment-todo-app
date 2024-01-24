@@ -172,7 +172,7 @@ exports.deleteTask = async (req, res) => {
     if (!task)
       return res.status(401).json("You can't delete this task. Try again!");
 
-    if (task.user !== req.user.id)
+    if (task.user.toString() !== req.user.id)
       return res.status(401).json("You can't delete this task. Try again!");
 
     const user = await User.findById(req.user.id);
