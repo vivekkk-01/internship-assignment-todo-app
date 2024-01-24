@@ -8,7 +8,7 @@ import CreateTaskModal from "../modals/CreateTaskModal";
 import DeleteTaskModal from "../modals/DeleteTaskModal";
 import { useDispatch, useSelector } from "react-redux";
 import { deleteTaskAction } from "../redux/actions/task";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 
 const formatDateRange = (startDate, endDate) => {
   const longStartMonth = startDate.toLocaleString("en-US", { month: "long" });
