@@ -110,7 +110,7 @@ exports.getAllTasks = async (req, res) => {
 
 exports.editTask = async (req, res) => {
   try {
-    const { taskId } = req.param;
+    const { taskId } = req.params;
     const { title, category, description, startDate, endDate } = req.body;
 
     const task = await Task.findById(taskId);

@@ -47,10 +47,9 @@ const CreateTaskModal = ({
     useSelector((state) => state.task);
 
   const fileRef = useRef();
-
   useEffect(() => {
     dispatch(resetAddTaskAction());
-    dispatch(resetEditTask())
+    dispatch(resetEditTask());
   }, []);
 
   const onSuccess = () => {
