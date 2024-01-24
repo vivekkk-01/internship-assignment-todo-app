@@ -31,10 +31,13 @@ const CreateTaskModal = ({
   taskEndDate,
   isEditTask,
   taskId,
+  selectedCategory,
 }) => {
   const [title, setTitle] = useState(taskTitle || "");
   const [image, setImage] = useState(taskImage || "");
-  const [category, setCategory] = useState(taskCategory || "");
+  const [category, setCategory] = useState(
+    taskCategory || selectedCategory || ""
+  );
   const [description, setDescription] = useState(taskDescription || "");
   const [startDate, setStartDate] = useState(taskStartDate || "");
   const [endDate, setEndDate] = useState(taskEndDate || "");

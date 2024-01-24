@@ -51,6 +51,46 @@ const AllTasks = () => {
     }
   };
 
+  const showAll = () => {
+    setIsFilter(false);
+    setIsSort(false);
+    setSelectedFilter("");
+    setSelectedSort("");
+    dispatch(filterTaskAction({ filter: "", sort: "" }));
+  };
+
+  if (selectedFilter && tasks.length <= 0) {
+    return (
+      <>
+        {addTask && (
+          <CreateTaskModal
+            selectedCategory={selectedFilter}
+            onClose={() => setAddTask(false)}
+          />
+        )}
+        <div className="w-full h-full flex flex-col items-center justify-center gap-5">
+          <h2 className="font-bold text-2xl">{`Create your first Task in ${selectedFilter} Category!`}</h2>
+          <p className="font-semibold text-lg text-gray-500">{`You don't have any Task in ${selectedFilter} Category.`}</p>
+          <div className="flex items-center gap-2">
+            <button
+              onClick={() => setAddTask(true)}
+              className="outline-none text-1xl font-semibold flex items-center justify-center gap-1 text-red-600 py-2 px-4 border-2 border-red-600 rounded-3xl"
+            >
+              <IoIosAdd size={20} />
+              Add Task
+            </button>
+            <button
+              onClick={showAll}
+              className="outline-none text-1xl font-semibold flex items-center justify-center gap-1 text-red-600 py-2 px-4 border-2 border-red-600 rounded-3xl"
+            >
+              Show All Tasks
+            </button>
+          </div>
+        </div>
+      </>
+    );
+  }
+
   if (tasks.length <= 0) {
     return (
       <>
