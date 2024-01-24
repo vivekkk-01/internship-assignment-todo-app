@@ -49,6 +49,7 @@ const taskSlice = createSlice({
       state.allTasksError = payload;
     },
     setEditTaskLoading: (state) => {
+      state.updateTaskError = null;
       state.updateTaskLoading = true;
     },
     setEditTask: (state, { payload }) => {

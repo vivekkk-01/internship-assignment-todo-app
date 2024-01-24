@@ -2,10 +2,15 @@ import React, { useRef, useState } from "react";
 import ModalOverlay from "./Modal";
 import classes from "./createTaskModal.module.css";
 import { useDispatch, useSelector } from "react-redux";
-import { addTaskAction, resetAddTaskAction } from "../redux/actions/task";
+import {
+  addTaskAction,
+  resetAddTaskAction,
+  setEditTaskAction,
+} from "../redux/actions/task";
 import { toast } from "react-toastify";
 import { useEffect } from "react";
 import { ImCancelCircle } from "react-icons/im";
+import { resetEditTask } from "../redux/slices/task";
 
 const toastOptions = {
   position: "bottom-right",
@@ -24,6 +29,7 @@ const CreateTaskModal = ({
   taskStartDate,
   taskEndDate,
   isEditTask,
+  taskId,
 }) => {
   const [title, setTitle] = useState(taskTitle || "");
   const [image, setImage] = useState(taskImage || "");
@@ -37,16 +43,29 @@ const CreateTaskModal = ({
   const [startDateError, setStartDateError] = useState("");
   const [endDateError, setEndDateError] = useState("");
   const dispatch = useDispatch();
-  const { addTaskError, addTaskLoading } = useSelector((state) => state.task);
+  const { addTaskError, addTaskLoading, editTaskLoading, editTaskError } =
+    useSelector((state) => state.task);
 
   const fileRef = useRef();
 
   useEffect(() => {
     dispatch(resetAddTaskAction());
+    dispatch(resetEditTask())
   }, []);
 
   const onSuccess = () => {
     toast.success("You successfully created the Task!", toastOptions);
+  };
+
+  const onEditSuccess = () => {
+    toast.success("You successfully edited the Task!", toastOptions);
+  };
+
+  const onEditError = () => {
+    toast.error(
+      editTaskError || "Something went wrong,, please try again!",
+      toastOptions
+    );
   };
 
   const onError = () => {
@@ -57,7 +76,7 @@ const CreateTaskModal = ({
   };
 
   const handleSubmit = (event) => {
-    if (addTaskLoading) return;
+    if (addTaskLoading || editTaskLoading) return;
     event.preventDefault();
     const isTitleValid = title.trim() !== "";
     const isDescriptionValid = description.trim() !== "";
@@ -106,14 +125,30 @@ const CreateTaskModal = ({
       if (!isEditTask) {
         dispatch(addTaskAction({ values, onClose, onSuccess, onError }));
       } else {
-        // TODO
+        dispatch(
+          setEditTaskAction({
+            taskId,
+            values,
+            onClose,
+            onSuccess: onEditSuccess,
+            onError: onEditError,
+          })
+        );
       }
     } else {
       const values = { title, description, category, startDate, endDate };
       if (!isEditTask) {
         dispatch(addTaskAction({ values, onClose, onSuccess, onError }));
       } else {
-        // TODO
+        dispatch(
+          setEditTaskAction({
+            taskId,
+            values,
+            onClose,
+            onSuccess: onEditSuccess,
+            onError: onEditError,
+          })
+        );
       }
     }
   };
@@ -125,14 +160,16 @@ const CreateTaskModal = ({
   return (
     <ModalOverlay onClose={onClose}>
       <h1
-        className={`font-bold text-3xl ${addTaskLoading ? "opacity-60" : ""}`}
+        className={`font-bold text-3xl ${
+          addTaskLoading || editTaskLoading ? "opacity-60" : ""
+        }`}
       >
         {`${!isEditTask ? "Add" : "Edit"} Task`}
       </h1>
       <form
         onSubmit={handleSubmit}
         className={`flex flex-col gap-2 justify-center items-center my-2 ${
-          addTaskLoading ? "opacity-60" : ""
+          addTaskLoading || editTaskLoading ? "opacity-60" : ""
         }`}
       >
         <div className="flex items-center justify-evenly w-full">
@@ -289,14 +326,18 @@ const CreateTaskModal = ({
             onClick={() => onClose()}
             type="button"
             className={`bg-red-700 text-white py-2 px-4 rounded-lg cursor-pointer ${
-              addTaskLoading ? "cursor-default" : "cursor-pointer"
+              addTaskLoading || editTaskLoading
+                ? "cursor-default"
+                : "cursor-pointer"
             }`}
           >
             Cancel
           </button>
           <button
             className={`${classes.addTask_btn} py-2 ${
-              addTaskLoading ? "cursor-default" : "cursor-pointer"
+              addTaskLoading || editTaskLoading
+                ? "cursor-default"
+                : "cursor-pointer"
             }`}
             type="submit"
           >
