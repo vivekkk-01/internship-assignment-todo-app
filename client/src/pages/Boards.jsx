@@ -4,6 +4,7 @@ import { getAllBoardsAction } from "../redux/actions/task";
 import { ClipLoader } from "react-spinners";
 import Board from "../components/Board";
 import { IoIosAdd } from "react-icons/io";
+import CreateTaskModal from "../modals/CreateTaskModal";
 
 const Boards = () => {
   const [addTask, setAddTask] = useState(false);
