@@ -9,31 +9,99 @@ import useClickOutside from "../hooks/useClickOutside";
 import { NavLink, useLocation } from "react-router-dom";
 import classes from "./header.module.css";
 import CreateTaskModal from "../modals/CreateTaskModal";
+import { useDispatch, useSelector } from "react-redux";
+import { updateProfileAction } from "../redux/actions/user";
+import { ToastContainer, toast } from "react-toastify";
+
+const toastOptions = {
+  position: "bottom-right",
+  autoClose: 5000,
+  pauseOnHover: true,
+  draggable: true,
+  theme: "dark",
+};
 
 const Header = ({ user }) => {
   const [isProfileClicked, setIsProfileClicked] = useState(false);
   const [addTask, setAddTask] = useState(false);
+  const [profilePicture, setProfilePicture] = useState("");
   const profileRef = useRef();
+  const fileRef = useRef();
   const location = useLocation();
+  const dispatch = useDispatch();
+  const { updateProfileLoading, updateProfileError } = useSelector(
+    (state) => state.user
+  );
   useClickOutside(profileRef, () => setIsProfileClicked(false));
+
+  const changeProfileHandler = () => {
+    fileRef.current.click();
+  };
+
+  const onProfileChangeSuccess = () =>
+    toast.success(
+      "You successfully changed your Profile Picture!",
+      toastOptions
+    );
+
+  const onProfileChangeError = () =>
+    toast.error(
+      updateProfileError || "Something went wrong, please try again!",
+      toastOptions
+    );
+
+  const changeImageHandler = (event) => {
+    setProfilePicture(event.target.files[0]);
+    const values = new FormData();
+    values.append("image", event.target.files[0]);
+    dispatch(
+      updateProfileAction({
+        values,
+        onSuccess: onProfileChangeSuccess,
+        onError: onProfileChangeError,
+      })
+    );
+    setIsProfileClicked(false);
+  };
+
   return (
     <>
       {addTask && <CreateTaskModal onClose={() => setAddTask(false)} />}
       <div className="flex flex-col gap-8">
         <div className="w-full flex items-center justify-between">
           <div
-            className="flex flex-col items-center justify-center relative"
             ref={profileRef}
+            className="flex flex-col items-center justify-center relative"
           >
             <img
-              onClick={() => setIsProfileClicked(!isProfileClicked)}
-              src={user?.picture}
+              ref={profileRef}
+              onClick={() => {
+                if (updateProfileLoading) return;
+                setIsProfileClicked(!isProfileClicked);
+              }}
+              src={
+                profilePicture
+                  ? URL.createObjectURL(profilePicture)
+                  : user?.picture
+              }
               alt=""
-              className="h-10 w-10 object-cover rounded-full cursor-pointer"
+              className={`h-10 w-10 object-cover rounded-full ${
+                updateProfileLoading ? "cursor-default opacity-60" : "cursor-pointer"
+              }`}
             />
             {isProfileClicked && (
               <div className="bg-white w-44 shadow-lg px-2 py-2 z-20 absolute top-12 -left-3 flex flex-col items-start justify-start gap-1">
-                <p className="flex items-center gap-2 w-full hover:bg-gray-600 hover:text-gray-100 hover:rounded-lg cursor-pointer p-1 px-2">
+                <input
+                  accept=".jpg, .jpeg, .png"
+                  onChange={changeImageHandler}
+                  ref={fileRef}
+                  type="file"
+                  hidden
+                />
+                <p
+                  onClick={changeProfileHandler}
+                  className="flex items-center gap-2 w-full hover:bg-gray-600 hover:text-gray-100 hover:rounded-lg cursor-pointer p-1 px-2"
+                >
                   <CgProfile /> Change Profile
                 </p>
                 <p className="flex items-center gap-2 w-full hover:bg-gray-600 hover:text-gray-100 hover:rounded-lg cursor-pointer p-1 px-2">
@@ -84,6 +152,7 @@ const Header = ({ user }) => {
           </NavLink>
         </div>
       </div>
+      <ToastContainer />
     </>
   );
 };

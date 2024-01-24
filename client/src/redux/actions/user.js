@@ -5,6 +5,7 @@ import {
   setUserInfo,
   updateProfile,
 } from "../slices/user";
+import Cookies from "js-cookie";
 
 export const setUserInfoAction = (userInfo) => (dispatch) => {
   dispatch(setUserInfo(userInfo));
