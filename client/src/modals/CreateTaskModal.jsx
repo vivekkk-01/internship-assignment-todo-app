@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { addTaskAction, resetAddTaskAction } from "../redux/actions/task";
 import { toast, ToastContainer } from "react-toastify";
 import { useEffect } from "react";
+import { ImCancelCircle } from "react-icons/im";
 
 const toastOptions = {
   position: "bottom-right",
@@ -14,13 +15,22 @@ const toastOptions = {
   theme: "dark",
 };
 
-const CreateTaskModal = ({ onClose }) => {
-  const [title, setTitle] = useState("");
-  const [image, setImage] = useState("");
-  const [category, setCategory] = useState("");
-  const [description, setDescription] = useState("");
-  const [startDate, setStartDate] = useState("");
-  const [endDate, setEndDate] = useState("");
+const CreateTaskModal = ({
+  onClose,
+  taskTitle,
+  taskImage,
+  taskCategory,
+  taskDescription,
+  taskStartDate,
+  taskEndDate,
+  isEditTask,
+}) => {
+  const [title, setTitle] = useState(taskTitle || "");
+  const [image, setImage] = useState(taskImage || "");
+  const [category, setCategory] = useState(taskCategory || "");
+  const [description, setDescription] = useState(taskDescription || "");
+  const [startDate, setStartDate] = useState(taskStartDate || "");
+  const [endDate, setEndDate] = useState(taskEndDate || "");
   const [titleError, setTitleError] = useState(false);
   const [descriptionError, setDescriptionError] = useState(false);
   const [categoryError, setCategoryError] = useState(false);
@@ -92,10 +102,18 @@ const CreateTaskModal = ({ onClose }) => {
       values.append("description", description);
       values.append("startDate", startDate);
       values.append("endDate", endDate);
-      dispatch(addTaskAction({ values, onClose, onSuccess, onError }));
+      if (!isEditTask) {
+        dispatch(addTaskAction({ values, onClose, onSuccess, onError }));
+      } else {
+        // TODO
+      }
     } else {
       const values = { title, description, category, startDate, endDate };
-      dispatch(addTaskAction({ values, onClose, onSuccess, onError }));
+      if (!isEditTask) {
+        dispatch(addTaskAction({ values, onClose, onSuccess, onError }));
+      } else {
+        // TODO
+      }
     }
   };
 
@@ -109,7 +127,7 @@ const CreateTaskModal = ({ onClose }) => {
         <h1
           className={`font-bold text-3xl ${addTaskLoading ? "opacity-60" : ""}`}
         >
-          Add Task
+          {`${!isEditTask ? "Add" : "Edit"} Task`}
         </h1>
         <form
           onSubmit={handleSubmit}
@@ -186,7 +204,7 @@ const CreateTaskModal = ({ onClose }) => {
                 }}
               ></textarea>
             </div>
-            <div className="flex flex-col items-start gap-1">
+            <div className="flex flex-col items-start gap-1 relative">
               <label htmlFor="image" className="text-gray-600 font-bold">
                 Image:
               </label>
@@ -201,8 +219,13 @@ const CreateTaskModal = ({ onClose }) => {
               />
               {image ? (
                 <img
-                  className="object-cover rounded-lg overflow-hidden w-72 h-40"
-                  src={URL.createObjectURL(image)}
+                  onClick={addPhotoHandler}
+                  className="object-cover rounded-lg overflow-hidden w-72 h-40 cursor-pointer"
+                  src={
+                    typeof image === "string" && image?.includes("cloudinary")
+                      ? image
+                      : URL.createObjectURL(image)
+                  }
                 />
               ) : (
                 <div
@@ -211,6 +234,12 @@ const CreateTaskModal = ({ onClose }) => {
                 >
                   Add Photo
                 </div>
+              )}
+              {image && (
+                <ImCancelCircle
+                  onClick={() => setImage("")}
+                  className="absolute h-5 w-5 rounded-full bg-white top-10 right-3 cursor-pointer"
+                />
               )}
             </div>
           </div>
@@ -271,7 +300,7 @@ const CreateTaskModal = ({ onClose }) => {
               }`}
               type="submit"
             >
-              Add
+              {!isEditTask ? "Add" : "Edit"}
             </button>
           </div>
         </form>
