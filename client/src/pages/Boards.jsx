@@ -1,20 +1,15 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getAllBoardsAction } from "../redux/actions/task";
 import { ClipLoader } from "react-spinners";
-import { RiSoundModuleLine } from "react-icons/ri";
-import categories from "../utils/categories";
-import { BiSort } from "react-icons/bi";
 import Board from "../components/Board";
+import { IoIosAdd } from "react-icons/io";
 
 const Boards = () => {
+  const [addTask, setAddTask] = useState(false);
   const { boards, allBoardsLoading, allBoardsError } = useSelector(
     (state) => state.task
   );
-  const [isFilter, setIsFilter] = useState(false);
-  const [isSort, setIsSort] = useState(false);
-  const filterRef = useRef();
-  const sortRef = useRef();
 
   const dispatch = useDispatch();
 
@@ -22,9 +17,27 @@ const Boards = () => {
     dispatch(getAllBoardsAction());
   }, []);
 
-  const handleSort = () => {};
-
-  const handleFilter = () => {};
+  if (
+    boards.onGoing.length <= 0 &&
+    boards.inComplete <= 0 &&
+    boards.completed <= 0
+  ) {
+    return (
+      <>
+        {addTask && <CreateTaskModal onClose={() => setAddTask(false)} />}
+        <div className="w-full h-full flex flex-col items-center justify-center gap-5">
+          <h2 className="font-bold text-2xl">Create your first Task!</h2>
+          <button
+            onClick={() => setAddTask(true)}
+            className="outline-none text-1xl font-semibold flex items-center justify-center gap-1 text-red-600 py-2 px-4 border border-2 border-red-600 rounded-3xl"
+          >
+            <IoIosAdd size={20} />
+            Add Task
+          </button>
+        </div>
+      </>
+    );
+  }
 
   return (
     <div className="w-full h-full">

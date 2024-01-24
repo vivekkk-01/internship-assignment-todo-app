@@ -21,6 +21,9 @@ const Board = ({ status, tasks }) => {
           {tasks?.length}
         </div>
       </div>
+      {tasks?.length === 0 && (
+        <h1 className="my-2 text-2xl font-bold">{`0 ${status} Tasks!`}</h1>
+      )}
       {tasks?.map((task) => {
         return (
           <Task
