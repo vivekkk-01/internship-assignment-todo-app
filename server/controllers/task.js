@@ -104,7 +104,7 @@ exports.getAllTasks = async (req, res) => {
   }
 };
 
-exports.addTask = async (req, res) => {
+exports.editTask = async (req, res) => {
   try {
     const { taskId } = req.param;
     const { title, category, description, startDate, endDate } = req.body;

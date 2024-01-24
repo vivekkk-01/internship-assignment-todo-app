@@ -1,4 +1,4 @@
-const { addTask, getAllTasks } = require("../controllers/task");
+const { addTask, getAllTasks, editTask } = require("../controllers/task");
 const {
   uploadImage,
   validateTaskImage,
@@ -19,7 +19,7 @@ router.patch(
   verifyToken,
   uploadImage.single("image"),
   validateTaskImage,
-  addTask
+  editTask
 );
 
 router.get("/get-all-tasks", verifyToken, getAllTasks);
