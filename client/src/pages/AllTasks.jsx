@@ -25,22 +25,20 @@ const AllTasks = () => {
           <h1 className="text-red-700 font-bold text-3xl">{allTasksError}</h1>
         </div>
       ) : (
-        <div className="w-full h-full grid grid-cols-4 gap-10">
+        <div className="w-full h-full grid grid-cols-4 gap-4 bg-red-100  py-4 px-4">
           {tasks.map((task) => {
             return (
-              <div>
-                <Task
-                  key={task.id}
-                  id={task.id}
-                  status={task.status}
-                  title={task.title}
-                  description={task.description}
-                  category={task.category}
-                  image={task?.image}
-                  startDate={task.startDate}
-                  endDate={task.endDate}
-                />
-              </div>
+              <Task
+                key={task.id}
+                id={task.id}
+                status={task.status}
+                title={task.title}
+                description={task.description}
+                category={task.category}
+                image={task?.image}
+                startDate={task.startDate}
+                endDate={task.endDate}
+              />
             );
           })}
         </div>
