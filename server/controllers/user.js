@@ -4,6 +4,16 @@ const bcrypt = require("bcryptjs");
 const sgMail = require("@sendgrid/mail");
 const crypto = require("crypto");
 const { validationResult } = require("express-validator");
+const cloudinary = require("cloudinary");
+const path = require("path");
+const { unlink } = require("fs");
+
+cloudinary.v2.config({
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_SECRET_KEY,
+  secure: true,
+});
 
 exports.register = async (req, res) => {
   try {
@@ -130,6 +140,37 @@ exports.resetPasswordFromEmail = async (req, res) => {
     user.passwordResetTokenExpire = undefined;
     await user.save();
     return res.json("Password changed successfully!");
+  } catch (error) {
+    res
+      .status(error.statusCode || error.status_code || 500)
+      .json(
+        error.message || error.msg || "Something went wrong, please try again!"
+      );
+  }
+};
+
+exports.updateProfile = async (req, res) => {
+  try {
+    if (!req.file) {
+      return res.status(400).json("Please provide an image!");
+    }
+
+    const filePath = path.join(`uploads/images/profile/${req.file.filename}`);
+
+    const { secure_url } = await cloudinary.v2.uploader.upload(filePath);
+
+    unlink(filePath, (err) => {
+      if (err) {
+        throw err;
+      }
+    });
+
+    const user = await User.findById(req.user.id);
+
+    user.picture = secure_url;
+    await user.save();
+
+    return res.json(user.picture);
   } catch (error) {
     res
       .status(error.statusCode || error.status_code || 500)

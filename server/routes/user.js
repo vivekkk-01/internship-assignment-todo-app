@@ -3,8 +3,14 @@ const {
   resetPassword,
   resetPasswordFromEmail,
   register,
+  updateProfile,
 } = require("../controllers/user");
 const { body } = require("express-validator");
+const verifyToken = require("../middlewares/verifyToken");
+const {
+  uploadImage,
+  validateProfileImage,
+} = require("../middlewares/imageUpload");
 
 const router = require("express").Router();
 
@@ -31,5 +37,13 @@ router.post("/login", login);
 router.post("/reset-password", resetPassword);
 
 router.post("/reset-password-with-token", resetPasswordFromEmail);
+
+router.patch(
+  "/update-profile",
+  verifyToken,
+  uploadImage.single("image"),
+  validateProfileImage,
+  updateProfile
+);
 
 module.exports = router;
