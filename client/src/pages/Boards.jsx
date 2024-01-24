@@ -19,9 +19,9 @@ const Boards = () => {
   }, []);
 
   if (
-    boards.onGoing.length <= 0 &&
-    boards.inComplete <= 0 &&
-    boards.completed <= 0
+    boards?.onGoing?.length <= 0 &&
+    boards?.inComplete?.length <= 0 &&
+    boards?.completed?.length <= 0
   ) {
     return (
       <>
