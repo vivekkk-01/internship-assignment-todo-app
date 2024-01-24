@@ -86,7 +86,9 @@ const Header = ({ user }) => {
               }
               alt=""
               className={`h-10 w-10 object-cover rounded-full ${
-                updateProfileLoading ? "cursor-default opacity-60" : "cursor-pointer"
+                updateProfileLoading
+                  ? "cursor-default opacity-60"
+                  : "cursor-pointer"
               }`}
             />
             {isProfileClicked && (
