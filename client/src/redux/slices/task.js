@@ -81,8 +81,11 @@ const taskSlice = createSlice({
     },
     setDeleteTask: (state, { payload }) => {
       state.deleteTaskLoading = false;
-      state.allTasks.filter((task) => task.id === payload);
-      state.tasks.filter((task) => task.id === payload);
+      state.allTasks = state.allTasks.filter((task) => task.id !== payload);
+      const isTask = state.tasks.find((task) => task.id === payload);
+      if (isTask) {
+        state.tasks = state.tasks.filter((task) => task.id !== payload);
+      }
       state.deleteTaskError = null;
     },
     setDeleteTaskError: (state, { payload }) => {

@@ -94,7 +94,7 @@ const Task = ({
     dispatch(
       deleteTaskAction({
         taskId: id,
-        onClose: onTaskClose,
+        onClose: deleteTaskClose,
         onError: onDeleteTaskError,
         onSuccess: onDeleteTaskSuccess,
       })
