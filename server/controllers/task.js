@@ -70,7 +70,7 @@ exports.addTask = async (req, res) => {
 
 exports.getAllTasks = async (req, res) => {
   try {
-    const tasks = await Task.find({ user: req.user.id })
+    const tasks = await Task.find({ user: req.user.id });
     if (!tasks)
       return res.json("You haven't created any Task. Create your first Task!");
 
@@ -179,6 +179,63 @@ exports.deleteTask = async (req, res) => {
     await Task.deleteOne({ _id: taskId });
 
     return res.json("You successfully deleted the Task!");
+  } catch (error) {
+    return res
+      .status(error.statusCode || error.status_code || 500)
+      .json(
+        error.message || error.msg || "Something went wrong, please try again!"
+      );
+  }
+};
+
+exports.getBoards = async (req, res) => {
+  try {
+    const tasks = await Task.find({ user: req.user.id });
+    if (!tasks)
+      return res.json("You haven't created any Task. Create your first Task!");
+
+    const boards = {
+      onGoing: [],
+      inComplete: [],
+      completed: [],
+    };
+
+    const allTasks = tasks.map((task) => {
+      return {
+        id: task._id,
+        image: task.taskImage?.secure_url,
+        status:
+          new Date() < new Date(task.startDate)
+            ? "In Complete"
+            : new Date() >= new Date(task.startDate) &&
+              new Date() <= new Date(task.endDate)
+            ? "On Going"
+            : new Date() < new Date(task.endDate)
+            ? "Completed"
+            : null,
+        title: task.title,
+        description: task.description,
+        category: task.taskCategory,
+        startDate: task.startDate,
+        endDate: task.endDate,
+        createdAt: task.createdAt,
+        updatedAt: task.updatedAt,
+      };
+    });
+
+    allTasks.forEach((task) => {
+      if (task.status === "On Going") {
+        boards.onGoing.push(task);
+      }
+      if (task.status === "In Complete") {
+        boards.inComplete.push(task);
+      }
+      if (task.status === "Completed") {
+        boards.completed.push(task);
+      }
+    });
+
+    return res.json({ ...boards });
   } catch (error) {
     return res
       .status(error.statusCode || error.status_code || 500)

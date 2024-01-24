@@ -3,6 +3,7 @@ const {
   getAllTasks,
   editTask,
   deleteTask,
+  getBoards,
 } = require("../controllers/task");
 const {
   uploadImage,
@@ -30,5 +31,7 @@ router.patch(
 router.delete("/delete-task/:taskId", verifyToken, deleteTask);
 
 router.get("/get-all-tasks", verifyToken, getAllTasks);
+
+router.get("/get-boards", verifyToken, getBoards);
 
 module.exports = router;
