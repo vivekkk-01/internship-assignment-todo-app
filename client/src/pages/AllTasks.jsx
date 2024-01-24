@@ -32,7 +32,6 @@ const AllTasks = () => {
   }, []);
 
   const handleFilter = (category) => {
-    setIsFilter(false);
     if (category == selectedFilter) {
       setSelectedFilter("");
       dispatch(filterTaskAction({ filter: "", sort: selectedSort }));
@@ -43,13 +42,12 @@ const AllTasks = () => {
   };
 
   const handleSort = (sort) => {
-    setIsSort(false);
     if (sort === selectedSort) {
       setSelectedSort("");
-      dispatch(filterTaskAction({ filter: category, sort: "" }));
+      dispatch(filterTaskAction({ filter: selectedFilter, sort: "" }));
     } else {
       setSelectedSort(sort);
-      dispatch(filterTaskAction({ filter: category, sort }));
+      dispatch(filterTaskAction({ filter: selectedFilter, sort }));
     }
   };
 
@@ -85,7 +83,7 @@ const AllTasks = () => {
         <div className="w-full h-full bg-red-100 py-4 px-6 relative flex flex-col overflow-x-hidden overflow-y-hidden">
           <div className="m-4 flex items-center gap-3 top-2 right-4  self-end">
             <div
-              onClick={() => setIsFilter(true)}
+              onClick={() => setIsFilter((prev) => !prev)}
               className={`relative cursor-pointer flex items-center py-2 px-4 border-2 border-gray-400 rounded-xl gap-2`}
             >
               <RiSoundModuleLine className="font-semibold" />
@@ -114,7 +112,7 @@ const AllTasks = () => {
               )}
             </div>
             <div
-              onClick={() => setIsSort(true)}
+              onClick={() => setIsSort((prev) => !prev)}
               className="relative cursor-pointer flex items-center py-2 px-4 border-2 border-gray-400 rounded-xl gap-2"
             >
               <BiSort className="font-semibold" />
@@ -127,6 +125,7 @@ const AllTasks = () => {
                   {["Newest", "Oldest"].map((sort) => {
                     return (
                       <p
+                        key={sort}
                         onClick={handleSort.bind(null, sort)}
                         className={`flex items-center gap-2 w-full hover:bg-gray-600 hover:text-gray-100 hover:rounded-lg ${
                           selectedSort === sort

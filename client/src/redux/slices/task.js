@@ -97,25 +97,27 @@ const taskSlice = createSlice({
       state.deleteTaskError = null;
     },
     setFilter: (state, { payload }) => {
+      state.tasks = [...state.allTasks];
       if (payload.filter) {
         state.tasks = state.tasks.filter(
           (task) => task.category === payload.filter
         );
       }
       if (payload.sort) {
-        if (payload.sort === "oldest") {
+        if (payload.sort === "Oldest") {
+          console.log("oldest");
           state.tasks = state.tasks.sort(
             (a, b) => new Date(a.createdAt) - new Date(b.createdAt)
           );
         }
-        if (payload.sort === "newest") {
+        if (payload.sort === "Newest") {
           state.tasks = state.tasks.sort(
             (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
           );
         }
       }
       if (!payload.filter && !payload.sort) {
-        state.tasks = [...allTasks];
+        state.tasks = [...state.allTasks];
       }
     },
   },
