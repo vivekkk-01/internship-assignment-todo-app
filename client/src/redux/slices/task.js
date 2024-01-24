@@ -96,6 +96,28 @@ const taskSlice = createSlice({
       state.deleteTaskLoading = false;
       state.deleteTaskError = null;
     },
+    setFilter: (state, { payload }) => {
+      if (payload.filter) {
+        state.tasks = state.tasks.filter(
+          (task) => task.category === payload.filter
+        );
+      }
+      if (payload.sort) {
+        if (payload.sort === "oldest") {
+          state.tasks = state.tasks.sort(
+            (a, b) => new Date(a.createdAt) - new Date(b.createdAt)
+          );
+        }
+        if (payload.sort === "newest") {
+          state.tasks = state.tasks.sort(
+            (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
+          );
+        }
+      }
+      if (!payload.filter && !payload.sort) {
+        state.tasks = [...allTasks];
+      }
+    },
   },
 });
 
@@ -115,6 +137,7 @@ export const {
   setDeleteTaskError,
   setDeleteTaskLoading,
   resetDeleteTask,
+  setFilter,
 } = taskSlice.actions;
 
 export default taskSlice.reducer;

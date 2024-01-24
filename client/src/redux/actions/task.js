@@ -13,6 +13,7 @@ import {
   setEditTask,
   setEditTaskError,
   setEditTaskLoading,
+  setFilter,
 } from "../slices/task";
 import axios from "axios";
 
@@ -129,4 +130,10 @@ export const deleteTaskAction =
       dispatch(setDeleteTaskError(err));
       onError();
     }
+  };
+
+export const filterTaskAction =
+  ({ filter, sort }) =>
+  (dispatch) => {
+    dispatch(setFilter({ filter, sort }));
   };
