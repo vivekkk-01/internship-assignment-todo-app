@@ -55,12 +55,13 @@ const taskSlice = createSlice({
     setEditTask: (state, { payload }) => {
       state.updateTaskLoading = false;
       state.updateTaskError = null;
+
       const taskIndex = state.allTasks.findIndex(
-        (task) => task.id.toString() === payload.toString()
+        (task) => task.id.toString() === payload.id.toString()
       );
       state.allTasks[taskIndex] = payload;
       const index = state.tasks.findIndex(
-        (task) => task.id.toString() === payload.toString()
+        (task) => task.id.toString() === payload.id.toString()
       );
       if (index) {
         state.tasks[index] = payload;

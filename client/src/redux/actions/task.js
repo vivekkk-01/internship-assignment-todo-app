@@ -32,7 +32,7 @@ export const addTaskAction =
       setTimeout(() => {
         onClose();
         dispatch(setAddTask(data));
-      }, 3000);
+      }, 2000);
     } catch (error) {
       const err =
         typeof error?.response?.data === "string"
@@ -88,7 +88,7 @@ export const setEditTaskAction =
       setTimeout(() => {
         onClose();
         dispatch(setEditTask(data));
-      }, 3000);
+      }, 2000);
     } catch (error) {
       const err =
         typeof error?.response?.data === "string"
