@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getAllTasksAction } from "../redux/actions/task";
+import { filterTaskAction, getAllTasksAction } from "../redux/actions/task";
 import { ClipLoader } from "react-spinners";
 import Task from "../components/Task";
 import { IoIosAdd } from "react-icons/io";
@@ -32,22 +32,24 @@ const AllTasks = () => {
   }, []);
 
   const handleFilter = (category) => {
-    if (category == selectedSort) {
+    setIsFilter(false);
+    if (category == selectedFilter) {
       setSelectedFilter("");
-      //TODO
+      dispatch(filterTaskAction({ filter: "", sort: selectedSort }));
     } else {
       setSelectedFilter(category);
-      // TODO
+      dispatch(filterTaskAction({ filter: category, sort: selectedSort }));
     }
   };
 
   const handleSort = (sort) => {
+    setIsSort(false);
     if (sort === selectedSort) {
       setSelectedSort("");
-      // TODO
+      dispatch(filterTaskAction({ filter: category, sort: "" }));
     } else {
       setSelectedSort(sort);
-      // TODO
+      dispatch(filterTaskAction({ filter: category, sort }));
     }
   };
 
