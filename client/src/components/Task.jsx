@@ -92,14 +92,33 @@ const Task = ({
       .padStart(2, "0")}-${originalDate.getDate().toString().padStart(2, "0")}`;
 
   const deleteTask = () => {
-    dispatch(
-      deleteTaskAction({
-        taskId: id,
-        onClose: deleteTaskClose,
-        onError: onDeleteTaskError,
-        onSuccess: onDeleteTaskSuccess,
-      })
-    );
+    if (board) {
+      const statusForBoards =
+        status === "On Going"
+          ? "onGoing"
+          : status === "In Complete"
+          ? "inComplete"
+          : "completed";
+      dispatch(
+        deleteTaskAction({
+          taskId: id,
+          onClose: deleteTaskClose,
+          onError: onDeleteTaskError,
+          onSuccess: onDeleteTaskSuccess,
+          statusForBoards,
+        })
+      );
+    } else {
+      dispatch(
+        deleteTaskAction({
+          taskId: id,
+          onClose: deleteTaskClose,
+          onError: onDeleteTaskError,
+          onSuccess: onDeleteTaskSuccess,
+          statusForBoards,
+        })
+      );
+    }
   };
 
   return (

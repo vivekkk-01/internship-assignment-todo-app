@@ -26,9 +26,12 @@ const taskSlice = createSlice({
       state.addTaskLoading = true;
     },
     setAddTask: (state, { payload }) => {
+      const { statusForBoards } = payload;
       state.addTaskLoading = false;
       state.allTasks.push(payload);
       state.tasks.push(payload);
+      state.boards[statusForBoards].push(payload);
+      state.allBoards[statusForBoards].push(payload);
       state.addTaskError = null;
     },
     setAddTaskError: (state, { payload }) => {
@@ -59,7 +62,15 @@ const taskSlice = createSlice({
     setEditTask: (state, { payload }) => {
       state.updateTaskLoading = false;
       state.updateTaskError = null;
+      const { statusForBoards } = payload;
+      if (statusForBoards) {
+        const boardTaskIndex = state.boards[statusForBoards].findIndex(
+          (task) => task.id.toString() === payload.id.toString()
+        );
 
+        state.allBoards[statusForBoards][boardTaskIndex] = payload;
+        state.boards[statusForBoards][boardTaskIndex] = payload;
+      }
       const taskIndex = state.allTasks.findIndex(
         (task) => task.id.toString() === payload.id.toString()
       );
@@ -84,11 +95,20 @@ const taskSlice = createSlice({
       state.deleteTaskError = null;
     },
     setDeleteTask: (state, { payload }) => {
+      const { statusForBoards, taskId } = payload;
       state.deleteTaskLoading = false;
-      state.allTasks = state.allTasks.filter((task) => task.id !== payload);
-      const isTask = state.tasks.find((task) => task.id === payload);
+      state.allTasks = state.allTasks.filter((task) => task.id !== taskId);
+      const isTask = state.tasks.find((task) => task.id === taskId);
       if (isTask) {
-        state.tasks = state.tasks.filter((task) => task.id !== payload);
+        state.tasks = state.tasks.filter((task) => task.id !== taskId);
+      }
+      if (statusForBoards) {
+        state.boards[statusForBoards] = state.boards[statusForBoards].filter(
+          (task) => task.id !== taskId
+        );
+        state.allBoards[statusForBoards] = state.allBoards[
+          statusForBoards
+        ].filter((task) => task.id !== taskId);
       }
       state.deleteTaskError = null;
     },
@@ -109,7 +129,6 @@ const taskSlice = createSlice({
       }
       if (payload.sort) {
         if (payload.sort === "Oldest") {
-          console.log("oldest");
           state.tasks = state.tasks.sort(
             (a, b) => new Date(a.createdAt) - new Date(b.createdAt)
           );

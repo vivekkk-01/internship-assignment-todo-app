@@ -46,7 +46,7 @@ exports.addTask = async (req, res) => {
         ? "On Going"
         : new Date() < new Date(endDate)
         ? "Completed"
-        : null;
+        : "Completed";
     res.json({
       id: task._id,
       title,
@@ -86,7 +86,7 @@ exports.getAllTasks = async (req, res) => {
             ? "On Going"
             : new Date() < new Date(task.endDate)
             ? "Completed"
-            : null,
+            : "Completed",
         title: task.title,
         description: task.description,
         category: task.taskCategory,
@@ -141,7 +141,7 @@ exports.editTask = async (req, res) => {
         ? "On Going"
         : new Date() < new Date(endDate)
         ? "Completed"
-        : null;
+        : "Completed";
     res.json({
       id: task._id,
       title,
@@ -212,7 +212,7 @@ exports.getBoards = async (req, res) => {
             ? "On Going"
             : new Date() < new Date(task.endDate)
             ? "Completed"
-            : null,
+            : "Completed",
         title: task.title,
         description: task.description,
         category: task.taskCategory,

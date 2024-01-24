@@ -35,10 +35,16 @@ export const addTaskAction =
           },
         }
       );
+      const statusForBoards =
+        data.status === "On Going"
+          ? "onGoing"
+          : data.status === "In Complete"
+          ? "inComplete"
+          : "completed";
       onSuccess();
       setTimeout(() => {
         onClose();
-        dispatch(setAddTask(data));
+        dispatch(setAddTask({ ...data, statusForBoards }));
       }, 2000);
     } catch (error) {
       const err =
@@ -91,10 +97,16 @@ export const setEditTaskAction =
           },
         }
       );
+      const statusForBoards =
+        data.status === "On Going"
+          ? "onGoing"
+          : data.status === "In Complete"
+          ? "inComplete"
+          : "completed";
       onSuccess();
       setTimeout(() => {
         onClose();
-        dispatch(setEditTask(data));
+        dispatch(setEditTask({ ...data, statusForBoards }));
       }, 2000);
     } catch (error) {
       const err =
@@ -107,7 +119,7 @@ export const setEditTaskAction =
   };
 
 export const deleteTaskAction =
-  ({ taskId, onSuccess, onError, onClose }) =>
+  ({ taskId, onSuccess, onError, onClose, statusForBoards }) =>
   async (dispatch) => {
     dispatch(setDeleteTaskLoading());
     const { token } = JSON.parse(Cookies.get("todo-user"));
@@ -122,7 +134,7 @@ export const deleteTaskAction =
       );
       onSuccess();
       setTimeout(() => {
-        dispatch(setDeleteTask(taskId));
+        dispatch(setDeleteTask({ taskId, statusForBoards }));
         onClose();
       }, 2000);
     } catch (error) {
