@@ -1,8 +1,23 @@
 body {
   overflow-x: hidden;
+  scrollbar-width: thin;
+  scrollbar-color: #f0f0f0;
 }
 
 :root {
   --main-color: rgb(233, 190, 175);
   --gray-color: rgb(75 85 99);
+}
+
+/* For WebKit-based browsers (Chrome, Safari) */
+body::-webkit-scrollbar {
+  width: 8px;
+}
+
+body::-webkit-scrollbar-thumb {
+  background-color: #888;
+}
+
+body::-webkit-scrollbar-track {
+  background-color: #f0f0f0;
 }
