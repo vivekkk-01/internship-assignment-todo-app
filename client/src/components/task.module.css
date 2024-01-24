@@ -1,12 +1,5 @@
-.task {
-  background-color: var(--main-color);
-  width: 100%;
-  min-height: 15rem;
-  padding: 2rem 2rem;
-}
-
 .status_symbol {
-  height: .5rem;
-  width: .5rem;
+  height: 0.5rem;
+  width: 0.5rem;
   border-radius: 100%;
 }

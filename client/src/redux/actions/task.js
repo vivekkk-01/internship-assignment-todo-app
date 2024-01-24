@@ -146,7 +146,7 @@ export const getAllBoardsAction = () => async (dispatch) => {
     dispatch(setAllBoardsLoading());
     const { token } = JSON.parse(Cookies.get("todo-user"));
     const { data } = await axios.get(
-      `${import.meta.env.VITE_APP_API_ENDPOINT}/task/get-all-boards`,
+      `${import.meta.env.VITE_APP_API_ENDPOINT}/task/get-boards`,
       {
         headers: {
           Authorization: `Bearer ${token}`,

@@ -1,0 +1,44 @@
+import React from "react";
+import classes from "./board.module.css";
+import Task from "./Task";
+
+const Board = ({ status, tasks }) => {
+  return (
+    <div
+      className={`${classes.board} rounded-3xl flex flex-col items-center gap-4 relative`}
+    >
+      <div className="flex items-center justify-between w-full">
+        <p className="text-gray-600 font-semibold text-xl">{status}</p>
+        <div
+          className={`w-8 h-8 rounded-full ${
+            status === "In Complete"
+              ? "bg-blue-700"
+              : status === "On Going"
+              ? "bg-orange-700"
+              : "bg-green-600"
+          } flex items-center justify-center text-white`}
+        >
+          {tasks?.length}
+        </div>
+      </div>
+      {tasks?.map((task) => {
+        return (
+          <Task
+            key={task.id}
+            id={task.id}
+            status={task.status}
+            title={task.title}
+            description={task.description}
+            category={task.category}
+            image={task?.image}
+            startDate={task.startDate}
+            endDate={task.endDate}
+            board
+          />
+        );
+      })}
+    </div>
+  );
+};
+
+export default Board;

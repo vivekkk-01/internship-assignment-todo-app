@@ -9,6 +9,7 @@ import { RiSoundModuleLine } from "react-icons/ri";
 import { BiSort } from "react-icons/bi";
 import useClickOutside from "../hooks/useClickOutside";
 import categories from "../utils/categories";
+import classes from "./allTasks.module.css";
 
 const AllTasks = () => {
   const [addTask, setAddTask] = useState(false);
@@ -184,17 +185,21 @@ const AllTasks = () => {
           <div className="h-full w-full overflow-y-scroll grid grid-cols-4 gap-4">
             {tasks.map((task) => {
               return (
-                <Task
+                <div
                   key={task.id}
-                  id={task.id}
-                  status={task.status}
-                  title={task.title}
-                  description={task.description}
-                  category={task.category}
-                  image={task?.image}
-                  startDate={task.startDate}
-                  endDate={task.endDate}
-                />
+                  className={`${classes.task} rounded-3xl flex flex-col gap-4 relative`}
+                >
+                  <Task
+                    id={task.id}
+                    status={task.status}
+                    title={task.title}
+                    description={task.description}
+                    category={task.category}
+                    image={task?.image}
+                    startDate={task.startDate}
+                    endDate={task.endDate}
+                  />
+                </div>
               );
             })}
           </div>

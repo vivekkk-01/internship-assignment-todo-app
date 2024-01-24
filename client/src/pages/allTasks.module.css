@@ -1,0 +1,6 @@
+.task {
+  background-color: var(--main-color);
+  width: 100%;
+  min-height: 15rem;
+  padding: 2rem 2rem;
+}
