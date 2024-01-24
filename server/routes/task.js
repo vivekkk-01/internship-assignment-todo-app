@@ -14,7 +14,7 @@ router.post(
   addTask
 );
 
-router.post(
+router.patch(
   "/edit-task/:taskId",
   verifyToken,
   uploadImage.single("image"),
