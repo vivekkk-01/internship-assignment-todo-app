@@ -5,6 +5,7 @@ import { FaRegCalendarAlt } from "react-icons/fa";
 import { MdDelete, MdOutlineEdit } from "react-icons/md";
 import useClickOutside from "../hooks/useClickOutside";
 import CreateTaskModal from "../modals/CreateTaskModal";
+import DeleteTaskModal from "../modals/DeleteTaskModal";
 
 const formatDateRange = (startDate, endDate) => {
   const longStartMonth = startDate.toLocaleString("en-US", { month: "long" });
@@ -42,10 +43,13 @@ const Task = ({
   image,
 }) => {
   const [isVertClicked, setIsVertClicked] = useState(false);
-  const optionsRef = useRef();
   const [isEditTask, setIsEditTask] = useState(false);
+  const [isDeleteTask, setIsDeleteTask] = useState(false);
+  const optionsRef = useRef();
+  const deleteModalRef = useRef();
 
   useClickOutside(optionsRef, () => setIsVertClicked(false));
+  useClickOutside(deleteModalRef, () => setIsDeleteTask(false));
 
   const onTaskClose = () => setIsEditTask(false);
 
@@ -53,6 +57,10 @@ const Task = ({
     `${originalDate.getFullYear()}-${(originalDate.getMonth() + 1)
       .toString()
       .padStart(2, "0")}-${originalDate.getDate().toString().padStart(2, "0")}`;
+
+  const deleteTask = () => {
+    console.log("Deleting task...");
+  };
 
   return (
     <>
@@ -69,7 +77,25 @@ const Task = ({
           onClose={onTaskClose}
         />
       )}
-      <div className={`${classes.task} rounded-3xl flex flex-col gap-4`}>
+      <div
+        className={`${classes.task} rounded-3xl flex flex-col gap-4 relative`}
+      >
+        {isDeleteTask && (
+          <div
+            className="w-full h-full absolute top-0 left-0 z-50 rounded-3xl flex items-center justify-center"
+            style={{ backgroundColor: "rgba(0,0,0,.1)" }}
+          >
+            <div
+              ref={deleteModalRef}
+              className="w-full flex items-center justify-center"
+            >
+              <DeleteTaskModal
+                onCancel={() => setIsDeleteTask(false)}
+                onDelete={deleteTask}
+              />
+            </div>
+          </div>
+        )}
         <div className="flex items-center justify-start gap-3">
           <div
             className={`${classes.status_symbol} ${
@@ -111,7 +137,13 @@ const Task = ({
                   >
                     <MdOutlineEdit /> Edit Task
                   </p>
-                  <p className="flex items-center gap-2 w-full hover:bg-gray-600 hover:text-gray-100 hover:rounded-lg cursor-pointer p-1 px-2">
+                  <p
+                    onClick={() => {
+                      setIsVertClicked(false);
+                      setIsDeleteTask(true);
+                    }}
+                    className="flex items-center gap-2 w-full hover:bg-gray-600 hover:text-gray-100 hover:rounded-lg cursor-pointer p-1 px-2"
+                  >
                     <MdDelete /> Delete Task
                   </p>
                 </div>

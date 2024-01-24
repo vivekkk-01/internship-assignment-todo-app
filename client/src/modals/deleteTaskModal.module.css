@@ -1,0 +1,24 @@
+.delete_modal {
+  z-index: 10000;
+  position: absolute;
+  width: 90%;
+  justify-self: center;
+  align-self: center;
+  background-color: white;
+  padding: 0.5rem 1rem;
+  opacity: 100;
+  border-radius: 14px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+  animation: slide-down 300ms ease-out forwards;
+}
+
+@keyframes slide-down {
+  from {
+    opacity: 0;
+    transform: translateY(-3rem);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
