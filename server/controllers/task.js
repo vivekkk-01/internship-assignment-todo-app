@@ -103,3 +103,60 @@ exports.getAllTasks = async (req, res) => {
       );
   }
 };
+
+exports.addTask = async (req, res) => {
+  try {
+    const { taskId } = req.param;
+    const { title, category, description, startDate, endDate } = req.body;
+
+    const task = await Task.findById(taskId);
+    if (!task)
+      return res.status(401).json("You can't update the task. Try again!");
+
+    task.title = title;
+    task.description = description;
+    task.category = category;
+    task.startDate = startDate;
+    task.endDate = endDate;
+
+    if (req.file) {
+      const filePath = path.join(`uploads/images/task/${req.file.filename}`);
+      const { secure_url, public_id } = await cloudinary.v2.uploader.upload(
+        filePath
+      );
+      unlink(filePath, (err) => {
+        if (err) {
+          throw err;
+        }
+      });
+      task.taskImage = { secure_url, public_id };
+    }
+    await task.save();
+    const status =
+      new Date() < new Date(startDate)
+        ? "In Complete"
+        : new Date() >= new Date(startDate) && new Date() <= new Date(endDate)
+        ? "On Going"
+        : new Date() < new Date(endDate)
+        ? "Completed"
+        : null;
+    res.json({
+      id: task._id,
+      title,
+      category,
+      description,
+      status,
+      image: task.taskImage.secure_url,
+      startDate,
+      endDate,
+      createdAt: task.createdAt,
+      updatedAt: task.updatedAt,
+    });
+  } catch (error) {
+    return res
+      .status(error.statusCode || error.status_code || 500)
+      .json(
+        error.message || error.msg || "Something went wrong, please try again!"
+      );
+  }
+};
