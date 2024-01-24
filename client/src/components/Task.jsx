@@ -6,6 +6,9 @@ import { MdDelete, MdOutlineEdit } from "react-icons/md";
 import useClickOutside from "../hooks/useClickOutside";
 import CreateTaskModal from "../modals/CreateTaskModal";
 import DeleteTaskModal from "../modals/DeleteTaskModal";
+import { useDispatch, useSelector } from "react-redux";
+import { deleteTaskAction } from "../redux/actions/task";
+import { ToastContainer, toast } from "react-toastify";
 
 const formatDateRange = (startDate, endDate) => {
   const longStartMonth = startDate.toLocaleString("en-US", { month: "long" });
@@ -32,6 +35,14 @@ const formatDateRange = (startDate, endDate) => {
   }
 };
 
+const toastOptions = {
+  position: "bottom-right",
+  autoClose: 5000,
+  pauseOnHover: true,
+  draggable: true,
+  theme: "dark",
+};
+
 const Task = ({
   status,
   id,
@@ -47,11 +58,32 @@ const Task = ({
   const [isDeleteTask, setIsDeleteTask] = useState(false);
   const optionsRef = useRef();
   const deleteModalRef = useRef();
+  const dispatch = useDispatch();
+  const { deleteTaskLoading, deleteTaskError } = useSelector(
+    (state) => state.task
+  );
+
+  const deleteTaskClose = () => {
+    if (deleteTaskLoading) return;
+    setIsDeleteTask(false);
+  };
 
   useClickOutside(optionsRef, () => setIsVertClicked(false));
-  useClickOutside(deleteModalRef, () => setIsDeleteTask(false));
+
+  useClickOutside(deleteModalRef, deleteTaskClose);
 
   const onTaskClose = () => setIsEditTask(false);
+
+  const onDeleteTaskError = () => {
+    toast.error(
+      deleteTaskError || "Something went wrong, please try again!",
+      toastOptions
+    );
+  };
+
+  const onDeleteTaskSuccess = () => {
+    toast.success("You successfully deleted the Task!", toastOptions);
+  };
 
   const formattedDateString = (originalDate) =>
     `${originalDate.getFullYear()}-${(originalDate.getMonth() + 1)
@@ -59,7 +91,14 @@ const Task = ({
       .padStart(2, "0")}-${originalDate.getDate().toString().padStart(2, "0")}`;
 
   const deleteTask = () => {
-    console.log("Deleting task...");
+    dispatch(
+      deleteTaskAction({
+        taskId: id,
+        onClose: onTaskClose,
+        onError: onDeleteTaskError,
+        onSuccess: onDeleteTaskSuccess,
+      })
+    );
   };
 
   return (
@@ -90,7 +129,7 @@ const Task = ({
               className="w-full flex items-center justify-center"
             >
               <DeleteTaskModal
-                onCancel={() => setIsDeleteTask(false)}
+                onCancel={deleteTaskClose}
                 onDelete={deleteTask}
               />
             </div>
