@@ -4,6 +4,9 @@ import {
   setAddTask,
   setAddTaskError,
   setAddTaskLoading,
+  setAllBoards,
+  setAllBoardsError,
+  setAllBoardsLoading,
   setAllTasks,
   setAllTasksError,
   setAllTasksLoading,
@@ -137,3 +140,25 @@ export const filterTaskAction =
   (dispatch) => {
     dispatch(setFilter({ filter, sort }));
   };
+
+export const getAllBoardsAction = () => async (dispatch) => {
+  try {
+    dispatch(setAllBoardsLoading());
+    const { token } = JSON.parse(Cookies.get("todo-user"));
+    const { data } = await axios.get(
+      `${import.meta.env.VITE_APP_API_ENDPOINT}/task/get-all-boards`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    dispatch(setAllBoards(data));
+  } catch (error) {
+    const err =
+      typeof error?.response?.data === "string"
+        ? error?.response?.data
+        : "Something went wrong, please try again!";
+    dispatch(setAllBoardsError(err));
+  }
+};

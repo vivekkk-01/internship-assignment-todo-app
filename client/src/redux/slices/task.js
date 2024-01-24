@@ -11,6 +11,10 @@ const initialState = {
   deleteTaskLoading: false,
   deleteTaskError: null,
   tasks: [],
+  allBoards: {},
+  allBoardsLoading: false,
+  allBoardsError: null,
+  boards: {},
 };
 
 const taskSlice = createSlice({
@@ -120,6 +124,20 @@ const taskSlice = createSlice({
         state.tasks = [...state.allTasks];
       }
     },
+    setAllBoardsLoading: (state) => {
+      state.allBoardsLoading = true;
+      state.allBoardsError = null;
+    },
+    setAllBoards: (state, { payload }) => {
+      state.allBoardsLoading = false;
+      state.allBoards = payload;
+      state.boards = payload;
+      state.allBoardsError = null;
+    },
+    setAllBoardsError: (state, { payload }) => {
+      state.allBoardsLoading = false;
+      state.allBoardsError = payload;
+    },
   },
 });
 
@@ -140,6 +158,9 @@ export const {
   setDeleteTaskLoading,
   resetDeleteTask,
   setFilter,
+  setAllBoards,
+  setAllBoardsError,
+  setAllBoardsLoading,
 } = taskSlice.actions;
 
 export default taskSlice.reducer;
