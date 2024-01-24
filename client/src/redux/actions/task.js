@@ -7,6 +7,9 @@ import {
   setAllTasks,
   setAllTasksError,
   setAllTasksLoading,
+  setEditTask,
+  setEditTaskError,
+  setEditTaskLoading,
 } from "../slices/task";
 import axios from "axios";
 
@@ -65,3 +68,33 @@ export const getAllTasksAction = () => async (dispatch) => {
     dispatch(setAllTasksError(err));
   }
 };
+
+export const setEditTaskAction =
+  ({ taskId, values, onClose, onSuccess, onError }) =>
+  async (dispatch) => {
+    dispatch(setEditTaskLoading());
+    const { token } = JSON.parse(Cookies.get("todo-user"));
+    try {
+      const { data } = await axios.patch(
+        `${import.meta.env.VITE_APP_API_ENDPOINT}/task/edit-task/${taskId}`,
+        values,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      onSuccess();
+      setTimeout(() => {
+        onClose();
+        dispatch(setEditTask(data));
+      }, 3000);
+    } catch (error) {
+      const err =
+        typeof error?.response?.data === "string"
+          ? error?.response?.data
+          : "Something went wrong, please try again!";
+      dispatch(setEditTaskError(err));
+      onError();
+    }
+  };
