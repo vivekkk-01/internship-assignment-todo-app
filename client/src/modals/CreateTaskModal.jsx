@@ -11,6 +11,7 @@ import { toast } from "react-toastify";
 import { useEffect } from "react";
 import { ImCancelCircle } from "react-icons/im";
 import { resetEditTask } from "../redux/slices/task";
+import categories from "../utils/categories";
 
 const toastOptions = {
   position: "bottom-right",
@@ -79,7 +80,8 @@ const CreateTaskModal = ({
     event.preventDefault();
     const isTitleValid = title.trim() !== "";
     const isDescriptionValid = description.trim() !== "";
-    const isCategoryValid = category.trim() !== "";
+    const isCategoryValid =
+      category.trim() !== "" && category.trim() !== "Category";
     const isStartDateValid = startDate.trim() !== "";
     const isEndDateValid = endDate.trim() !== "";
 
@@ -203,18 +205,24 @@ const CreateTaskModal = ({
             <label htmlFor="category" className="text-gray-600 font-bold">
               Category:
             </label>
-            <input
-              id="category"
-              className="outline-none bg-gray-300 py-3 p-4 placeholder:text-gray-600 text-lg placeholder:font-bold rounded-lg"
-              type="text"
+            <select
               value={category}
               onChange={(event) => {
                 setCategory(event.target.value);
                 setCategoryError("");
               }}
-              placeholder="College Assignment"
-              required
-            />
+              className="border-2 border-black p-2"
+              id="category"
+            >
+              <option>Category</option>
+              {categories.map((category) => {
+                return (
+                  <option key={category} value={category}>
+                    {category}
+                  </option>
+                );
+              })}
+            </select>
           </div>
         </div>
         <div className="flex items-start justify-between w-full">
