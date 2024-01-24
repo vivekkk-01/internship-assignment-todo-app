@@ -45,7 +45,7 @@ const Home = () => {
       <header className="h-1/6">
         <Header user={userInfo} />
       </header>
-      <main className="h-5/6 overflow-y-scroll overflow-x-hidden">
+      <main className="h-5/6 overflow-x-hidden">
         {location.pathname === "/" ? <AllTasks /> : <Outlet />}
       </main>
     </div>

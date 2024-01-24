@@ -36,7 +36,7 @@ exports.addTask = async (req, res) => {
       task.taskImage = { secure_url, public_id };
     }
     await task.save();
-    const user = await User.findById(req.uer.id);
+    const user = await User.findById(req.user.id);
     user.tasks.push(task._id);
     await user.save();
     const status =
