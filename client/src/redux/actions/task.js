@@ -7,6 +7,9 @@ import {
   setAllTasks,
   setAllTasksError,
   setAllTasksLoading,
+  setDeleteTask,
+  setDeleteTaskError,
+  setDeleteTaskLoading,
   setEditTask,
   setEditTaskError,
   setEditTaskLoading,
@@ -95,6 +98,35 @@ export const setEditTaskAction =
           ? error?.response?.data
           : "Something went wrong, please try again!";
       dispatch(setEditTaskError(err));
+      onError();
+    }
+  };
+
+export const deleteTaskAction =
+  ({ taskId, onSuccess, onError, onClose }) =>
+  async (dispatch) => {
+    dispatch(setDeleteTaskLoading());
+    const { token } = JSON.parse(Cookies.get("todo-user"));
+    try {
+      await axios.delete(
+        `${import.meta.env.VITE_APP_API_ENDPOINT}/task/delete-task/${taskId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      onSuccess();
+      setTimeout(() => {
+        dispatch(setDeleteTask(taskId));
+        onClose();
+      }, 2000);
+    } catch (error) {
+      const err =
+        typeof error?.response?.data === "string"
+          ? error?.response?.data
+          : "Something went wrong, please try again!";
+      dispatch(setDeleteTaskError(err));
       onError();
     }
   };

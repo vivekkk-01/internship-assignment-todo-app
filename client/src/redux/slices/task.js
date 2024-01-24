@@ -75,6 +75,24 @@ const taskSlice = createSlice({
       state.updateTaskError = null;
       state.updateTaskLoading = false;
     },
+    setDeleteTaskLoading: (state) => {
+      state.deleteTaskLoading = true;
+      state.deleteTaskError = null;
+    },
+    setDeleteTask: (state, { payload }) => {
+      state.deleteTaskLoading = false;
+      state.allTasks.filter((task) => task.id === payload);
+      state.tasks.filter((task) => task.id === payload);
+      state.deleteTaskError = null;
+    },
+    setDeleteTaskError: (state, { payload }) => {
+      state.deleteTaskLoading = false;
+      state.deleteTaskError = payload;
+    },
+    resetDeleteTask: (state) => {
+      state.deleteTaskLoading = false;
+      state.deleteTaskError = null;
+    },
   },
 });
 
@@ -90,6 +108,10 @@ export const {
   setEditTaskError,
   setEditTaskLoading,
   resetEditTask,
+  setDeleteTask,
+  setDeleteTaskError,
+  setDeleteTaskLoading,
+  resetDeleteTask,
 } = taskSlice.actions;
 
 export default taskSlice.reducer;
