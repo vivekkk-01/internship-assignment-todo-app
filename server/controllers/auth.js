@@ -36,10 +36,10 @@ exports.googleOauthHandler = async (req, res) => {
       { id: isUser._id, name, email, picture: isUser.picture },
       process.env.JWT_SECRET
     );
-    return res.redirect(`http://localhost:5173/?token=${token}`);
+    return res.redirect(`https://my-todos-g0de.onrender.com/?token=${token}`);
   } catch (err) {
     return res
-      .redirect("http://localhost:5173/login")
+      .redirect("https://my-todos-g0de.onrender.com/login")
       .status(err.status_code || 400)
       .json(err.message || "Failed to authorize Google User!");
   }
