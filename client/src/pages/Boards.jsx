@@ -27,7 +27,9 @@ const Boards = () => {
   ) {
     return (
       <>
-        {addTask && <CreateTaskModal onClose={() => setAddTask(false)} />}
+        {addTask && (
+          <CreateTaskModal board={true} onClose={() => setAddTask(false)} />
+        )}
         <div className="w-full h-full flex flex-col items-center justify-center gap-5">
           <h2 className="font-bold text-2xl">Create your first Task!</h2>
           <button

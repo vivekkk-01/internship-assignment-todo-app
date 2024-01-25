@@ -32,6 +32,7 @@ const CreateTaskModal = ({
   isEditTask,
   taskId,
   selectedCategory,
+  board,
 }) => {
   const [title, setTitle] = useState(taskTitle || "");
   const [image, setImage] = useState(taskImage || "");
@@ -127,7 +128,7 @@ const CreateTaskModal = ({
       values.append("startDate", startDate);
       values.append("endDate", endDate);
       if (!isEditTask) {
-        dispatch(addTaskAction({ values, onClose, onSuccess, onError }));
+        dispatch(addTaskAction({ values, onClose, onSuccess, onError, board }));
       } else {
         dispatch(
           setEditTaskAction({
@@ -136,13 +137,14 @@ const CreateTaskModal = ({
             onClose,
             onSuccess: onEditSuccess,
             onError: onEditError,
+            board,
           })
         );
       }
     } else {
       const values = { title, description, category, startDate, endDate };
       if (!isEditTask) {
-        dispatch(addTaskAction({ values, onClose, onSuccess, onError }));
+        dispatch(addTaskAction({ values, onClose, onSuccess, onError, board }));
       } else {
         dispatch(
           setEditTaskAction({
@@ -151,6 +153,7 @@ const CreateTaskModal = ({
             onClose,
             onSuccess: onEditSuccess,
             onError: onEditError,
+            board,
           })
         );
       }

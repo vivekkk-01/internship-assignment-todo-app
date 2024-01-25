@@ -68,7 +68,12 @@ const Header = ({ user }) => {
 
   return (
     <>
-      {addTask && <CreateTaskModal onClose={() => setAddTask(false)} />}
+      {addTask && (
+        <CreateTaskModal
+          board={location.pathname === "boards"}
+          onClose={() => setAddTask(false)}
+        />
+      )}
       <div className="flex flex-col gap-8">
         <div className="w-full flex items-center justify-between">
           <div

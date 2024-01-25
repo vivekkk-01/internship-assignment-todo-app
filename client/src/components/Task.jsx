@@ -115,7 +115,7 @@ const Task = ({
           onClose: deleteTaskClose,
           onError: onDeleteTaskError,
           onSuccess: onDeleteTaskSuccess,
-          statusForBoards,
+          statusForBoards: null,
         })
       );
     }
@@ -134,6 +134,7 @@ const Task = ({
           taskEndDate={formattedDateString(new Date(endDate))}
           isEditTask={true}
           onClose={onTaskClose}
+          board={board}
         />
       )}
 

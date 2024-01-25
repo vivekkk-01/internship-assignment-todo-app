@@ -30,8 +30,10 @@ const taskSlice = createSlice({
       state.addTaskLoading = false;
       state.allTasks.push(payload);
       state.tasks.push(payload);
-      state.boards[statusForBoards].push(payload);
-      state.allBoards[statusForBoards].push(payload);
+      if (statusForBoards) {
+        state.boards[statusForBoards].push(payload);
+        state.allBoards[statusForBoards].push(payload);
+      }
       state.addTaskError = null;
     },
     setAddTaskError: (state, { payload }) => {
