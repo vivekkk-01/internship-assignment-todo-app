@@ -1,6 +1,8 @@
 import Cookies from "js-cookie";
 import {
   resetAddTask,
+  resetDeleteTask,
+  resetEditTask,
   setAddTask,
   setAddTaskError,
   setAddTaskLoading,
@@ -120,6 +122,10 @@ export const setEditTaskAction =
     }
   };
 
+export const resetEditTaskAction = () => (dispatch) => {
+  dispatch(resetEditTask());
+};
+
 export const deleteTaskAction =
   ({ taskId, onSuccess, onError, onClose, statusForBoards }) =>
   async (dispatch) => {
@@ -148,6 +154,10 @@ export const deleteTaskAction =
       onError();
     }
   };
+
+export const resetDeleteTaskAction = () => (dispatch) => {
+  dispatch(resetDeleteTask());
+};
 
 export const filterTaskAction =
   ({ filter, sort }) =>

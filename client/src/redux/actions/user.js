@@ -1,5 +1,6 @@
 import axios from "axios";
 import {
+  resetDeleteAccount,
   setDeleteAccount,
   setDeleteAccountError,
   setDeleteAccountLoading,
@@ -42,7 +43,7 @@ export const updateProfileAction =
   };
 
 export const deleteAccountAction =
-  ({ onSuccess, onClose, onError }) =>
+  ({ onSuccess, onClose, onError, navigate }) =>
   async (dispatch) => {
     dispatch(setDeleteAccountLoading());
     const { id, token } = JSON.parse(Cookies.get("todo-user"));
@@ -51,7 +52,7 @@ export const deleteAccountAction =
         `${import.meta.env.VITE_APP_API_ENDPOINT}/user/delete-user/${id}`,
         {
           headers: {
-            Authorization: `Bearer ${token}`,
+            Authorization: `Bearer ${token}a`,
           },
         }
       );
@@ -59,6 +60,7 @@ export const deleteAccountAction =
       setTimeout(() => {
         dispatch(setDeleteAccount());
         onClose();
+        navigate("/login");
       }, 2000);
     } catch (error) {
       const err =
@@ -67,5 +69,12 @@ export const deleteAccountAction =
           : "Something went wrong, please try again!";
       dispatch(setDeleteAccountError(err));
       onError();
+      setTimeout(() => {
+        onClose();
+      }, 2000);
     }
   };
+
+export const resetDeleteAccountAction = () => (dispatch) => {
+  dispatch(resetDeleteAccount());
+};

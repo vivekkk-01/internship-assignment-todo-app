@@ -49,6 +49,10 @@ const userSlice = createSlice({
       state.deleteAccountError = payload;
       state.deleteAccountLoading = false;
     },
+    resetDeleteAccount: (state) => {
+      state.deleteAccountError = null;
+      state.deleteAccountLoading = false;
+    },
   },
 });
 
@@ -60,6 +64,7 @@ export const {
   setDeleteAccount,
   setDeleteAccountError,
   setDeleteAccountLoading,
+  resetDeleteAccount,
 } = userSlice.actions;
 
 export default userSlice.reducer;

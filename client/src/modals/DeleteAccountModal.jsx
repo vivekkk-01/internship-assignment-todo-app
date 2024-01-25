@@ -1,16 +1,20 @@
-import React from "react";
+import React, { useEffect } from "react";
 import ModalOverlay from "./Modal";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import { deleteAccountAction } from "../redux/actions/user";
+import {
+  deleteAccountAction,
+  resetDeleteAccountAction,
+} from "../redux/actions/user";
 
 const toastOptions = {
   position: "bottom-right",
-  autoClose: 5000,
+  autoClose: 3000,
   pauseOnHover: true,
   draggable: true,
   theme: "dark",
+  closeOnClick: true,
 };
 
 const DeleteAccountModal = ({ onClose }) => {
@@ -21,7 +25,6 @@ const DeleteAccountModal = ({ onClose }) => {
   const navigate = useNavigate();
 
   const onDeleteSuccess = () => {
-    navigate("/login");
     toast.success("You successfully Deleted your Account!", toastOptions);
   };
 
@@ -32,12 +35,17 @@ const DeleteAccountModal = ({ onClose }) => {
     );
   };
 
+  useEffect(() => {
+    dispatch(resetDeleteAccountAction());
+  }, []);
+
   const deleteAccountHandler = () => {
     dispatch(
       deleteAccountAction({
         onSuccess: onDeleteSuccess,
         onError: onDeleteError,
         onClose,
+        navigate,
       })
     );
   };

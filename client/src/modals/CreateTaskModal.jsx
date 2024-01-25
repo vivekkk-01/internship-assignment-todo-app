@@ -5,12 +5,12 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   addTaskAction,
   resetAddTaskAction,
+  resetEditTaskAction,
   setEditTaskAction,
 } from "../redux/actions/task";
 import { toast } from "react-toastify";
 import { useEffect } from "react";
 import { ImCancelCircle } from "react-icons/im";
-import { resetEditTask } from "../redux/slices/task";
 import categories from "../utils/categories";
 
 const toastOptions = {
@@ -54,7 +54,7 @@ const CreateTaskModal = ({
   const fileRef = useRef();
   useEffect(() => {
     dispatch(resetAddTaskAction());
-    dispatch(resetEditTask());
+    dispatch(resetEditTaskAction());
   }, []);
 
   const onSuccess = () => {

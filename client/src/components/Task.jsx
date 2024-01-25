@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import classes from "./task.module.css";
 import { IoEllipsisVertical } from "react-icons/io5";
 import { FaRegCalendarAlt } from "react-icons/fa";
@@ -7,7 +7,7 @@ import useClickOutside from "../hooks/useClickOutside";
 import CreateTaskModal from "../modals/CreateTaskModal";
 import DeleteTaskModal from "../modals/DeleteTaskModal";
 import { useDispatch, useSelector } from "react-redux";
-import { deleteTaskAction } from "../redux/actions/task";
+import { deleteTaskAction, resetDeleteTaskAction } from "../redux/actions/task";
 import { toast } from "react-toastify";
 
 const formatDateRange = (startDate, endDate) => {
@@ -120,6 +120,10 @@ const Task = ({
       );
     }
   };
+
+  useEffect(() => {
+    dispatch(resetDeleteTaskAction());
+  }, []);
 
   return (
     <>

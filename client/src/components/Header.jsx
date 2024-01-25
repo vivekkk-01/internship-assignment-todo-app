@@ -142,6 +142,11 @@ const Header = ({ user }) => {
                 </p>
               </div>
             )}
+            {!isDeleteAccount && !addTask && (
+              <div>
+                <ToastContainer />
+              </div>
+            )}
           </div>
           <div className="flex flex-col items-center justify-center gap-2">
             <h1 className="text-3xl font-semibold">My Task</h1>
@@ -182,7 +187,6 @@ const Header = ({ user }) => {
           </NavLink>
         </div>
       </div>
-      <ToastContainer />
     </>
   );
 };
