@@ -1,12 +1,19 @@
-import React, { useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { redirect, useLocation, useNavigate } from "react-router-dom";
 import { getGoogleUrl } from "../utils/getGoogleUrl";
+import Cookies from "js-cookie";
 
 const ResetPassword = () => {
   const [isNavigating, setIsNavigating] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
   const from = location.state?.from?.pathname || "/";
+
+  useEffect(() => {
+    if (!location?.state) {
+      return navigate("/login");
+    }
+  }, [location?.state]);
 
   const handleGoogleOAuth = () => {
     if (isNavigating) return;
@@ -54,3 +61,11 @@ const ResetPassword = () => {
 };
 
 export default ResetPassword;
+
+export const loader = () => {
+  const user = Cookies.get("todo-user");
+  if (user) {
+    return redirect("/");
+  }
+  return null;
+};

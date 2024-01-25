@@ -3,6 +3,8 @@ import classes from "./askForEmail.module.css";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { redirect } from "react-router-dom";
+import Cookies from "js-cookie";
 
 const toastOptions = {
   position: "bottom-right",
@@ -96,3 +98,11 @@ const AskForEmail = () => {
 };
 
 export default AskForEmail;
+
+export const loader = () => {
+  const user = Cookies.get("todo-user");
+  if (user) {
+    return redirect("/");
+  }
+  return null;
+};

@@ -1,8 +1,9 @@
 import React, { useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { redirect, useNavigate, useParams } from "react-router-dom";
 import classes from "./resetPasswordFromEmail.module.css";
 import { ToastContainer, toast } from "react-toastify";
 import axios from "axios";
+import Cookies from "js-cookie";
 
 const toastOptions = {
   position: "bottom-right",
@@ -101,3 +102,11 @@ const ResetPasswordFromEmail = () => {
 };
 
 export default ResetPasswordFromEmail;
+
+export const loader = () => {
+  const user = Cookies.get("todo-user");
+  if (user) {
+    return redirect("/");
+  }
+  return null;
+};
