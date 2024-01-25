@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import {
   Outlet,
+  redirect,
   useLocation,
   useNavigate,
   useSearchParams,
@@ -53,3 +54,11 @@ const Home = () => {
 };
 
 export default Home;
+
+export const loader = () => {
+  const user = Cookies.get("todo-user");
+  if (!user) {
+    return redirect("/login");
+  }
+  return null;
+};

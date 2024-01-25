@@ -10,6 +10,8 @@ import { BiSort } from "react-icons/bi";
 import useClickOutside from "../hooks/useClickOutside";
 import categories from "../utils/categories";
 import classes from "./allTasks.module.css";
+import Cookies from "js-cookie";
+import { redirect } from "react-router-dom";
 
 const AllTasks = () => {
   const [addTask, setAddTask] = useState(false);
@@ -210,3 +212,11 @@ const AllTasks = () => {
 };
 
 export default AllTasks;
+
+export const loader = () => {
+  const user = Cookies.get("todo-user");
+  if (!user) {
+    return redirect("/login");
+  }
+  return null;
+};

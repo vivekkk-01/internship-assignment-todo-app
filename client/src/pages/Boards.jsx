@@ -5,6 +5,8 @@ import { ClipLoader } from "react-spinners";
 import Board from "../components/Board";
 import { IoIosAdd } from "react-icons/io";
 import CreateTaskModal from "../modals/CreateTaskModal";
+import Cookies from "js-cookie";
+import { redirect } from "react-router-dom";
 
 const Boards = () => {
   const [addTask, setAddTask] = useState(false);
@@ -68,3 +70,11 @@ const Boards = () => {
 };
 
 export default Boards;
+
+export const loader = () => {
+  const user = Cookies.get("todo-user");
+  if (!user) {
+    return redirect("/login");
+  }
+  return null;
+};
