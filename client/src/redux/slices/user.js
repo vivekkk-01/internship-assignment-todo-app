@@ -23,6 +23,12 @@ const userSlice = createSlice({
       state.updateProfileLoading = false;
       state.updateProfileError = null;
       state.userInfo.picture = payload;
+      Cookies.remove("todo-user");
+      Cookies.set("todo-user", JSON.stringify(state.userInfo), {
+        secure: true,
+        sameSite: "strict",
+        expires: 30,
+      });
     },
     setUpdateProfileError: (state, { payload }) => {
       state.updateProfileLoading = false;
