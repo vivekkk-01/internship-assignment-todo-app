@@ -50,7 +50,7 @@ const Header = ({ user }) => {
         "You successfully changed your Profile Picture!",
         toastOptions
       );
-    }, 1000);
+    }, 300);
     setTimeout(() => {
       setIsProfileChangedSuccess(false);
     }, 5000);
