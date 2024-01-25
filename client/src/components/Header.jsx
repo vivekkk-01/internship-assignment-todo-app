@@ -44,11 +44,13 @@ const Header = ({ user }) => {
       toastOptions
     );
 
-  const onProfileChangeError = () =>
+  const onProfileChangeError = () => {
     toast.error(
       updateProfileError || "Something went wrong, please try again!",
       toastOptions
     );
+    setProfilePicture("");
+  };
 
   const changeImageHandler = (event) => {
     setProfilePicture(event.target.files[0]);
