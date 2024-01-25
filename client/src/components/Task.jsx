@@ -229,9 +229,9 @@ const Task = ({
           </p>
         </div>
         <div className="flex items-center gap-3">
-          <FaRegCalendarAlt className="text-gray-500 font-semibold text-lg desktop:text-sm tab:text-xs" />
+          <FaRegCalendarAlt className="text-gray-500 font-semibold text-lg desktop:text-sm tab:text-xs mobile:text-lg" />
           <p
-            className={`${classes.datePara} text-gray-500 font-semibold text-sm desktop:text-xs`}
+            className={`${classes.datePara} text-gray-500 font-semibold text-sm desktop:text-xs mobile:text-xl`}
           >
             {formatDateRange(new Date(startDate), new Date(endDate))}
           </p>

@@ -7,9 +7,7 @@ import { ToastContainer } from "react-toastify";
 const Modal = ({ children }) => {
   return (
     <>
-      <div className={classes.modal}>
-        <div>{children}</div>
-      </div>
+      <div className={classes.modal}>{children}</div>
       <ToastContainer style={{ zIndex: "1000" }} />
     </>
   );

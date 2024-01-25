@@ -8,7 +8,7 @@ const Board = ({ status, tasks }) => {
       className={`${classes.board} rounded-3xl flex flex-col items-center gap-4 relative`}
     >
       <div className="flex items-center justify-between w-full">
-        <p className="text-gray-600 font-semibold text-xl tab:text-sm">
+        <p className="text-gray-600 font-semibold text-xl tab:text-sm mobile:text-lg">
           {status}
         </p>
         <div

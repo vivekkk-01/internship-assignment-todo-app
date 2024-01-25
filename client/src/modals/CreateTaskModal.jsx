@@ -168,7 +168,7 @@ const CreateTaskModal = ({
   return (
     <ModalOverlay onClose={onClose}>
       <h1
-        className={`font-bold text-3xl ${
+        className={`font-bold text-3xl mobile:text-2xl ${
           addTaskLoading || updateTaskLoading ? "opacity-60" : ""
         }`}
       >
@@ -176,7 +176,7 @@ const CreateTaskModal = ({
       </h1>
       <form
         onSubmit={handleSubmit}
-        className={`tab:h-full tab:overflow-y-scroll flex flex-col gap-2 justify-center items-center my-2 ${
+        className={`tab:h-full tab:overflow-y-scroll overflow-x-hidden flex flex-col gap-2 justify-center items-center my-2 ${
           addTaskLoading || updateTaskLoading ? "opacity-60" : ""
         }`}
       >
@@ -250,7 +250,7 @@ const CreateTaskModal = ({
               id="description"
               cols="30"
               rows="05"
-              className="resize-none outline-none bg-gray-300 py-3 p-4 placeholder:text-gray-600 text-lg placeholder:font-bold rounded-lg"
+              className="resize-none mobile:h-32 mobile:w-64 outline-none bg-gray-300 py-3 p-4 placeholder:text-gray-600 text-lg placeholder:font-bold rounded-lg"
               placeholder="Description of task..."
               value={description}
               onChange={(event) => {
@@ -295,7 +295,7 @@ const CreateTaskModal = ({
                   if (addTaskLoading || updateTaskLoading) return;
                   addPhotoHandler();
                 }}
-                className={`rounded-lg w-72 h-40 border-dotted border-2 border-black  flex items-center justify-center ${
+                className={`rounded-lg w-72 h-40 mobile:w-64 mobile:h-32 border-dotted border-2 border-black  flex items-center justify-center ${
                   addTaskLoading || updateTaskLoading
                     ? "default"
                     : "cursor-pointer"

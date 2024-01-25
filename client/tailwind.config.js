@@ -6,6 +6,7 @@ export default {
     screens: {
       desktop: { max: "1200px" },
       tab: { max: "800px" },
+      mobile: { max: "475px" },
     },
   },
   plugins: [],

@@ -58,7 +58,7 @@ const Boards = () => {
         (boards?.onGoing?.length > 0 ||
           boards?.inComplete?.length > 0 ||
           boards?.completed?.length > 0) && (
-          <div className="h-full w-screen overflow-y-scroll grid grid-cols-3 items-start bg-red-100 p-2 tab:grid-cols-2">
+          <div className="h-full w-screen overflow-y-scroll grid grid-cols-3 items-start bg-red-100 p-2 tab:grid-cols-2 mobile:flex mobile:flex-col mobile:gap-4">
             <Board status={"In Complete"} tasks={boards.inComplete} />
             <Board status={"On Going"} tasks={boards.onGoing} />
             <Board status={"Completed"} tasks={boards.completed} />

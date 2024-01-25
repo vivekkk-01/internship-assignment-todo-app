@@ -112,7 +112,7 @@ const Header = ({ user }) => {
                   : user?.picture
               }
               alt=""
-              className={`h-10 w-10 object-cover rounded-full ${
+              className={`h-10 w-10 mobile:h-8 mobile:w-8 object-cover rounded-full ${
                 updateProfileLoading
                   ? "cursor-default opacity-60"
                   : "cursor-pointer"
@@ -159,7 +159,7 @@ const Header = ({ user }) => {
             )}
           </div>
           <div className="flex flex-col items-center justify-center gap-2">
-            <h1 className="text-3xl font-semibold">My Task</h1>
+            <h1 className="text-3xl font-semibold mobile:text-xl">MyTodos</h1>
             <p className="text-1xl text-gray-500 font-semibold tab:hidden">
               You can organize, track, and complete your assignments
               efficiently.
@@ -167,7 +167,7 @@ const Header = ({ user }) => {
           </div>
           <button
             onClick={() => setAddTask(true)}
-            className="outline-none text-1xl font-semibold flex items-center justify-center gap-1 text-red-600 py-2 px-4 border-2 border-red-600 rounded-3xl"
+            className="outline-none text-xl mobile:text-xs font-semibold flex items-center justify-center gap-1 text-red-600 py-2 px-4 mobile:py-1 mobile:px-2 border-2 border-red-600 rounded-3xl"
           >
             <IoIosAdd size={20} />
             Add Task
