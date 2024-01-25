@@ -13,6 +13,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { updateProfileAction } from "../redux/actions/user";
 import { ToastContainer, toast } from "react-toastify";
 import Cookies from "js-cookie";
+import DeleteAccountModal from "../modals/DeleteAccountModal";
 
 const toastOptions = {
   position: "bottom-right",
@@ -26,6 +27,7 @@ const Header = ({ user }) => {
   const [isProfileClicked, setIsProfileClicked] = useState(false);
   const [addTask, setAddTask] = useState(false);
   const [profilePicture, setProfilePicture] = useState("");
+  const [isDeleteAccount, setIsDeleteAccount] = useState(false);
   const profileRef = useRef();
   const fileRef = useRef();
   const location = useLocation();
@@ -81,6 +83,9 @@ const Header = ({ user }) => {
           onClose={() => setAddTask(false)}
         />
       )}
+      {isDeleteAccount && (
+        <DeleteAccountModal onClose={() => setIsDeleteAccount(false)} />
+      )}
       <div className="flex flex-col gap-8">
         <div className="w-full flex items-center justify-between">
           <div
@@ -126,7 +131,13 @@ const Header = ({ user }) => {
                 >
                   <CiLogout /> Logout
                 </p>
-                <p className="flex items-center gap-2 w-full hover:bg-gray-600 hover:text-gray-100 hover:rounded-lg cursor-pointer p-1 px-2">
+                <p
+                  onClick={() => {
+                    setIsDeleteAccount(true);
+                    setIsProfileClicked(false);
+                  }}
+                  className="flex items-center gap-2 w-full hover:bg-gray-600 hover:text-gray-100 hover:rounded-lg cursor-pointer p-1 px-2"
+                >
                   <MdDelete /> Delete Account
                 </p>
               </div>

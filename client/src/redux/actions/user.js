@@ -45,10 +45,10 @@ export const deleteAccountAction =
   ({ onSuccess, onClose, onError }) =>
   async (dispatch) => {
     dispatch(setDeleteAccountLoading());
-    const { id, token } = Cookies.get("todo-user");
+    const { id, token } = JSON.parse(Cookies.get("todo-user"));
     try {
       await axios.delete(
-        `${import.meta.env.VITE_APP_API_ENDPOINT}/user/delete-account/${id}`,
+        `${import.meta.env.VITE_APP_API_ENDPOINT}/user/delete-user/${id}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,

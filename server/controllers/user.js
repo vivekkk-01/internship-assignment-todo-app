@@ -186,23 +186,22 @@ exports.deleteUser = async (req, res) => {
   try {
     const { userId } = req.params;
 
-    if (userId.toString !== req.user.id.toString) {
+    if (userId.toString() !== req.user.id.toString()) {
       return res
         .status(401)
         .json("You are not authorized to delete this account!");
     }
 
     const user = await User.findById(userId);
-
     if (!user) {
       return res
         .status(400)
         .json("Something went wrong, please try again later!");
     }
-
-    await Task.deleteMany({ user: mongoose.Types.ObjectId(userId) });
-    await User.deleteOne({ _id: mongoose.Types.ObjectId(userId) });
-
+    
+    await Task.deleteMany({ user: new mongoose.Types.ObjectId(userId) });
+    await User.deleteOne({ _id: new mongoose.Types.ObjectId(userId) });
+    
     return res.json("You successfully deleted your account!");
   } catch (error) {
     res
