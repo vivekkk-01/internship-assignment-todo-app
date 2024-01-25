@@ -52,7 +52,7 @@ export const deleteAccountAction =
         `${import.meta.env.VITE_APP_API_ENDPOINT}/user/delete-user/${id}`,
         {
           headers: {
-            Authorization: `Bearer ${token}a`,
+            Authorization: `Bearer ${token}`,
           },
         }
       );

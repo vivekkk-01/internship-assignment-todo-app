@@ -36,18 +36,25 @@ const Header = ({ user }) => {
   const { updateProfileLoading, updateProfileError } = useSelector(
     (state) => state.user
   );
-  const { editTaskLoading } = useSelector((state) => state.task);
+  const [isProfileChangeSuccess, setIsProfileChangedSuccess] = useState(false);
   useClickOutside(profileRef, () => setIsProfileClicked(false));
 
   const changeProfileHandler = () => {
     fileRef.current.click();
   };
 
-  const onProfileChangeSuccess = () =>
-    toast.success(
-      "You successfully changed your Profile Picture!",
-      toastOptions
-    );
+  const onProfileChangeSuccess = () => {
+    setIsProfileChangedSuccess(true);
+    setTimeout(() => {
+      toast.success(
+        "You successfully changed your Profile Picture!",
+        toastOptions
+      );
+    }, 1000);
+    setTimeout(() => {
+      setIsProfileChangedSuccess(false);
+    }, 5000);
+  };
 
   const onProfileChangeError = () => {
     toast.error(
@@ -143,7 +150,9 @@ const Header = ({ user }) => {
                 </p>
               </div>
             )}
-            {!isDeleteAccount && !addTask && editTaskLoading && (
+            {(updateProfileLoading ||
+              updateProfileError ||
+              isProfileChangeSuccess) && (
               <div>
                 <ToastContainer />
               </div>
