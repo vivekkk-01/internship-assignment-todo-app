@@ -174,7 +174,9 @@ exports.deleteTask = async (req, res) => {
       return res.status(401).json("You can't delete this task. Try again!");
 
     const user = await User.findById(req.user.id);
-    user.tasks.filter((task) => task.toString() !== taskId.toString());
+    user.tasks = user.tasks.filter(
+      (task) => task.toString() !== taskId.toString()
+    );
     await user.save();
     await Task.deleteOne({ _id: taskId });
 
