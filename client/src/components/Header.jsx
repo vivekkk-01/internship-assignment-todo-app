@@ -87,7 +87,7 @@ const Header = ({ user }) => {
     <>
       {addTask && (
         <CreateTaskModal
-          board={location.pathname === "boards"}
+          board={location.pathname === "/boards"}
           onClose={() => setAddTask(false)}
         />
       )}
