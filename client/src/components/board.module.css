@@ -2,5 +2,10 @@
   width: 80%;
   background-color: var(--main-color);
   padding: 2rem;
-  /* min-height: 15rem; */
+}
+
+@media screen and (max-width: 1200px) {
+  .board {
+    padding: 1rem;
+  }
 }

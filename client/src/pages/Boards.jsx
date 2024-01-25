@@ -58,12 +58,10 @@ const Boards = () => {
         (boards?.onGoing?.length > 0 ||
           boards?.inComplete?.length > 0 ||
           boards?.completed?.length > 0) && (
-          <div className="w-full h-full bg-red-100 py-4 px-6 overflow-x-hidden overflow-y-hidden">
-            <div className="h-full w-screen overflow-y-scroll grid grid-cols-3 gap-3">
-              <Board status={"In Complete"} tasks={boards.inComplete} />
-              <Board status={"On Going"} tasks={boards.onGoing} />
-              <Board status={"Completed"} tasks={boards.completed} />
-            </div>
+          <div className="h-full w-screen overflow-y-scroll grid grid-cols-3 items-start bg-red-100 p-2">
+            <Board status={"In Complete"} tasks={boards.inComplete} />
+            <Board status={"On Going"} tasks={boards.onGoing} />
+            <Board status={"Completed"} tasks={boards.completed} />
           </div>
         )
       )}

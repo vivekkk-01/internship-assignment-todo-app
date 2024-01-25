@@ -184,7 +184,7 @@ const AllTasks = () => {
               )}
             </div>
           </div>
-          <div className="h-full w-full overflow-y-scroll grid grid-cols-4 gap-4">
+          <div className="h-full w-full overflow-y-scroll grid grid-cols-4 gap-4 desktop:grid-cols-3">
             {tasks.map((task) => {
               return (
                 <div

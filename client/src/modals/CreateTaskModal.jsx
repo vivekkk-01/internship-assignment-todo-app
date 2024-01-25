@@ -224,7 +224,11 @@ const CreateTaskModal = ({
               <option>Category</option>
               {categories.map((category) => {
                 return (
-                  <option key={category} value={category}>
+                  <option
+                    className="desktop:p-0 desktop:text-xs"
+                    key={category}
+                    value={category}
+                  >
                     {category}
                   </option>
                 );

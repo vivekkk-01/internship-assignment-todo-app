@@ -166,12 +166,14 @@ const Task = ({
                 : "bg-green-600"
             }`}
           ></div>
-          <span className="text-gray-600 font-semibold">{status}</span>
+          <span className="text-gray-600 font-semibold desktop:text-sm">
+            {status}
+          </span>
         </div>
       )}
-      <div className="w-full h-full bg-white shadow-lg rounded-2xl py-4 px-6 flex flex-col gap-4">
+      <div className="w-full h-full bg-white shadow-lg rounded-2xl py-4 px-6 desktop:p-2 flex flex-col gap-4">
         <div className="w-full flex items-center justify-between">
-          <span className="py-1 px-2 bg-red-100 text-red-600 rounded-md font-semibold">
+          <span className="py-1 px-2 bg-red-100 text-red-600 rounded-md font-semibold desktop:text-sm">
             {category}
           </span>
           <div
@@ -180,7 +182,7 @@ const Task = ({
           >
             <IoEllipsisVertical
               onClick={() => setIsVertClicked((prev) => !prev)}
-              className="rotate-90 text-gray-600 text-xl cursor-pointer hover:text-black"
+              className="rotate-90 text-gray-600 text-xl cursor-pointer hover:text-black desktop:text-md"
             />
             {isVertClicked && (
               <div
@@ -212,15 +214,17 @@ const Task = ({
           </div>
         </div>
         <div className="flex flex-col gap-2">
-          <h3 className="text-2xl font-semibold">{title}</h3>
+          <h3 className="text-2xl font-semibold desktop:text-lg">{title}</h3>
           {image && (
             <img className="object-cover w-full rounded-xl" src={image} />
           )}
-          <p className="text-gray-500 font-semibold">{description}</p>
+          <p className="text-gray-500 font-semibold desktop:text-sm">
+            {description}
+          </p>
         </div>
         <div className="flex items-center gap-3">
-          <FaRegCalendarAlt className="text-gray-500 font-semibold text-lg" />
-          <p className="text-gray-500 font-semibold text-sm">
+          <FaRegCalendarAlt className="text-gray-500 font-semibold text-lg desktop:text-sm" />
+          <p className="text-gray-500 font-semibold text-sm desktop:text-xs">
             {formatDateRange(new Date(startDate), new Date(endDate))}
           </p>
         </div>

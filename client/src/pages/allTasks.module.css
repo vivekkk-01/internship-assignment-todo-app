@@ -1,5 +1,11 @@
 .task {
   background-color: var(--main-color);
   width: 100%;
-  padding: 2rem 2rem;
+  padding: 2rem;
+}
+
+@media screen and (max-width: 1200px) {
+  .task {
+    padding: 1.5rem;
+  }
 }

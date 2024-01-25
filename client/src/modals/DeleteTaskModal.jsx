@@ -23,8 +23,10 @@ const DeleteTaskModal = ({ onCancel, onDelete }) => {
           deleteTaskLoading ? "opacity-60" : ""
         }`}
       >
-        <h1 className="text-2xl text-red-700 font-bold">Deleting A Task!</h1>
-        <p className="text-lg font-semibold">
+        <h1 className="text-2xl text-red-700 font-bold desktop:text-xl">
+          Deleting A Task!
+        </h1>
+        <p className="text-lg font-semibold desktop:text-sm">
           This action can't be undone. Are you sure you want to delete this
           task?
         </p>
@@ -34,7 +36,7 @@ const DeleteTaskModal = ({ onCancel, onDelete }) => {
             style={{ backgroundColor: "var(--main-color)" }}
             className={`${
               deleteTaskLoading ? "cursor-default" : "cursor-pointer"
-            } bg-red-200 text-gray-700 py-2 px-4 rounded-md font-semibold outline-none`}
+            } bg-red-200 text-gray-700 py-2 px-4 rounded-md font-semibold outline-none desktop:p-2 desktop:text-sm`}
           >
             Cancel
           </button>
@@ -42,7 +44,7 @@ const DeleteTaskModal = ({ onCancel, onDelete }) => {
             onClick={deleteTaskHandler}
             className={`${
               deleteTaskLoading ? "cursor-default" : "cursor-pointer"
-            } bg-red-700 text-white py-2 px-4 rounded-md font-semibold outline-none`}
+            } bg-red-700 text-white py-2 px-4 rounded-md font-semibold outline-none desktop:p-2 desktop:text-sm`}
           >
             Delete
           </button>
