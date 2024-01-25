@@ -129,7 +129,7 @@ exports.resetPasswordFromEmail = async (req, res) => {
     const hashedToken = crypto.createHash("sha256").update(token).digest("hex");
     const user = await User.findOne({ passwordResetToken: hashedToken });
     if (!user) {
-      return res.status(401).json("Enter a correct token");
+      return res.status(401).json("Something went wrong, please try later!");
     }
     if (!user.passwordResetTokenExpire > new Date()) {
       return res.status(401).json("Token is expired, try again later.");
