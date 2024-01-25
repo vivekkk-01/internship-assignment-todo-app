@@ -19,7 +19,6 @@ const Home = () => {
   const { userInfo } = useSelector((state) => state.user);
   const location = useLocation();
   const navigate = useNavigate();
-
   useEffect(() => {
     if (searchParams.get("token")) {
       (async () => {
@@ -55,9 +54,11 @@ const Home = () => {
 
 export default Home;
 
-export const loader = () => {
+export const loader = ({ request }) => {
+  const url = new URL(request.url);
+  const searchTerm = url.searchParams.get("token");
   const user = Cookies.get("todo-user");
-  if (!user) {
+  if (!user && !searchTerm) {
     return redirect("/login");
   }
   return null;

@@ -33,7 +33,7 @@ exports.googleOauthHandler = async (req, res) => {
       });
 
     const token = jwt.sign(
-      { id: isUser._id, name, email, picture },
+      { id: isUser._id, name, email, picture: isUser.picture },
       process.env.JWT_SECRET
     );
     return res.redirect(`http://localhost:5173/?token=${token}`);
