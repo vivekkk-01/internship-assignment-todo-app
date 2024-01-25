@@ -6,12 +6,13 @@ import { CgProfile } from "react-icons/cg";
 import { FiLayout } from "react-icons/fi";
 import { TbLayoutBoardSplit } from "react-icons/tb";
 import useClickOutside from "../hooks/useClickOutside";
-import { NavLink, useLocation } from "react-router-dom";
+import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import classes from "./header.module.css";
 import CreateTaskModal from "../modals/CreateTaskModal";
 import { useDispatch, useSelector } from "react-redux";
 import { updateProfileAction } from "../redux/actions/user";
 import { ToastContainer, toast } from "react-toastify";
+import Cookies from "js-cookie";
 
 const toastOptions = {
   position: "bottom-right",
@@ -29,6 +30,7 @@ const Header = ({ user }) => {
   const fileRef = useRef();
   const location = useLocation();
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const { updateProfileLoading, updateProfileError } = useSelector(
     (state) => state.user
   );
@@ -64,6 +66,11 @@ const Header = ({ user }) => {
       })
     );
     setIsProfileClicked(false);
+  };
+
+  const logoutHandler = () => {
+    Cookies.remove("todo-user");
+    return navigate("/login");
   };
 
   return (
@@ -113,7 +120,10 @@ const Header = ({ user }) => {
                 >
                   <CgProfile /> Change Profile
                 </p>
-                <p className="flex items-center gap-2 w-full hover:bg-gray-600 hover:text-gray-100 hover:rounded-lg cursor-pointer p-1 px-2">
+                <p
+                  onClick={logoutHandler}
+                  className="flex items-center gap-2 w-full hover:bg-gray-600 hover:text-gray-100 hover:rounded-lg cursor-pointer p-1 px-2"
+                >
                   <CiLogout /> Logout
                 </p>
                 <p className="flex items-center gap-2 w-full hover:bg-gray-600 hover:text-gray-100 hover:rounded-lg cursor-pointer p-1 px-2">
