@@ -7,6 +7,8 @@ const initialState = {
     : null,
   updateProfileLoading: false,
   updateProfileError: null,
+  deleteAccountLoading: false,
+  deleteAccountError: null,
 };
 
 const userSlice = createSlice({
@@ -34,6 +36,19 @@ const userSlice = createSlice({
       state.updateProfileLoading = false;
       state.updateProfileError = payload;
     },
+    setDeleteAccountLoading: (state) => {
+      state.deleteAccountError = null;
+      state.deleteAccountLoading = true;
+    },
+    setDeleteAccount: (state) => {
+      state.deleteAccountError = null;
+      state.deleteAccountLoading = false;
+      Cookies.remove("todo-user");
+    },
+    setDeleteAccountError: (state, { payload }) => {
+      state.deleteAccountError = payload;
+      state.deleteAccountLoading = false;
+    },
   },
 });
 
@@ -42,6 +57,9 @@ export const {
   updateProfile,
   setUpdateProfileError,
   setUpdateProfileLoading,
+  setDeleteAccount,
+  setDeleteAccountError,
+  setDeleteAccountLoading,
 } = userSlice.actions;
 
 export default userSlice.reducer;
