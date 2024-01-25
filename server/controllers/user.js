@@ -60,8 +60,7 @@ exports.login = async (req, res) => {
     const isUser = await User.findOne({ email });
     if (!isUser)
       return res.status(401).json("Invalid email or password. Try again!");
-
-    if (isUser.provider === "Google" && isUser?.password?.length <= 0) {
+    if (isUser.provider === "Google" && !isUser.password) {
       return res.json({
         provider: true,
         message: `Looks like ${email} was used to create an account with google. Sign in with google or reset your password.`,
