@@ -4,7 +4,7 @@ import Home from "./pages/Home";
 import ResetPassword from "./pages/ResetPassword";
 import AskForEmail from "./pages/AskForEmail";
 import ResetPasswordFromEmail from "./pages/ResetPasswordFromEmail";
-import Register from "./pages/Register";
+import Register, { loader as registerLoader } from "./pages/Register";
 import AllTasks from "./pages/AllTasks";
 import Boards from "./pages/Boards";
 
@@ -18,7 +18,7 @@ const router = createBrowserRouter([
     ],
   },
   { path: "/login", element: <Login /> },
-  { path: "/register", element: <Register /> },
+  { path: "/register", element: <Register />, loader: registerLoader },
   { path: "/reset-password", element: <ResetPassword /> },
   { path: "/ask-for-email", element: <AskForEmail /> },
   {

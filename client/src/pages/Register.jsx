@@ -1,9 +1,12 @@
 import React, { useEffect, useState } from "react";
 import classes from "./register.module.css";
 import { getGoogleUrl } from "../utils/getGoogleUrl";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Link, redirect, useLocation, useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import axios from "axios";
+import Cookies from "js-cookie";
+import { setUserInfoAction } from "../redux/actions/user";
+import { useDispatch } from "react-redux";
 
 const toastOptions = {
   position: "bottom-right",
@@ -24,6 +27,7 @@ const Register = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const from = location.state?.from?.pathname || "/";
+  const dispatch = useDispatch();
 
   const handleGoogleOAuth = () => {
     if (isNavigating) return;
@@ -78,6 +82,12 @@ const Register = () => {
       );
 
       if (data.id) {
+        dispatch(setUserInfoAction(data));
+        Cookies.set("todo-user", JSON.stringify(data), {
+          secure: true,
+          sameSite: "strict",
+          expires: 30,
+        });
         setIsNavigating(true);
         toast.success("You created your account successfully!", toastOptions);
         setTimeout(() => {
@@ -195,3 +205,12 @@ const Register = () => {
 };
 
 export default Register;
+
+export const loader = () => {
+  const user = Cookies.get("todo-user");
+  console.log("user", user);
+  if (user) {
+    return redirect("/");
+  }
+  return null;
+};
