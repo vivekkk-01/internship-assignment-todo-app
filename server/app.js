@@ -7,9 +7,10 @@ const PORT = process.env.PORT || 8000;
 
 app.use(
   cors({
-    origin: ["http://localhost:5173", "https://my-todos-g0de.onrender.com"],
+    origin: [process.env.FRONTEND_LINK],
   })
 );
+
 app.use(express.json());
 
 const authRoutes = require("./routes/auth");
