@@ -208,7 +208,6 @@ export default Register;
 
 export const loader = () => {
   const user = Cookies.get("todo-user");
-  console.log("user", user);
   if (user) {
     return redirect("/");
   }

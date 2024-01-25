@@ -1,9 +1,12 @@
 import React, { useEffect, useState } from "react";
 import classes from "./login.module.css";
 import { getGoogleUrl } from "../utils/getGoogleUrl";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Link, redirect, useLocation, useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import axios from "axios";
+import Cookies from "js-cookie";
+import { setUserInfoAction } from "../redux/actions/user";
+import { useDispatch } from "react-redux";
 
 const toastOptions = {
   position: "bottom-right",
@@ -22,6 +25,7 @@ const Login = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const from = location.state?.from?.pathname || "/";
+  const dispatch = useDispatch();
 
   const handleGoogleOAuth = () => {
     if (isNavigating) return;
@@ -69,6 +73,12 @@ const Login = () => {
       }
 
       if (data.id) {
+        dispatch(setUserInfoAction(data));
+        Cookies.set("todo-user", JSON.stringify(data), {
+          secure: true,
+          sameSite: "strict",
+          expires: 30,
+        });
         return navigate("/");
       }
       setIsNavigating(false);
@@ -145,7 +155,9 @@ const Login = () => {
           </Link>
           <p className="text-gray-600 font-semibold">
             Don't have an account?{" "}
-            <Link to="/register" className="text-blue-600 font-bold">Sign up</Link>
+            <Link to="/register" className="text-blue-600 font-bold">
+              Sign up
+            </Link>
           </p>
           <p className="text-gray-600 font-bold text-2xl">Or</p>
           <div
@@ -165,3 +177,11 @@ const Login = () => {
 };
 
 export default Login;
+
+export const loader = () => {
+  const user = Cookies.get("todo-user");
+  if (user) {
+    return redirect("/");
+  }
+  return null;
+};

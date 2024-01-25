@@ -1,5 +1,5 @@
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
-import Login from "./pages/Login";
+import Login, { loader as loginLoader } from "./pages/Login";
 import Home from "./pages/Home";
 import ResetPassword from "./pages/ResetPassword";
 import AskForEmail from "./pages/AskForEmail";
@@ -17,7 +17,7 @@ const router = createBrowserRouter([
       { path: "/boards", element: <Boards /> },
     ],
   },
-  { path: "/login", element: <Login /> },
+  { path: "/login", element: <Login />, loader: loginLoader },
   { path: "/register", element: <Register />, loader: registerLoader },
   { path: "/reset-password", element: <ResetPassword /> },
   { path: "/ask-for-email", element: <AskForEmail /> },
