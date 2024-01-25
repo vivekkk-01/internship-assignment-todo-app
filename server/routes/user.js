@@ -4,6 +4,7 @@ const {
   resetPasswordFromEmail,
   register,
   updateProfile,
+  deleteUser,
 } = require("../controllers/user");
 const { body } = require("express-validator");
 const verifyToken = require("../middlewares/verifyToken");
@@ -45,5 +46,7 @@ router.patch(
   validateProfileImage,
   updateProfile
 );
+
+router.delete("/delete-user/:userId", verifyToken, deleteUser);
 
 module.exports = router;

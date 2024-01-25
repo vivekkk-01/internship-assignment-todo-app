@@ -1,5 +1,6 @@
 const jwt = require("jsonwebtoken");
 const User = require("../models/User");
+const Task = require("../models/Task");
 const bcrypt = require("bcryptjs");
 const sgMail = require("@sendgrid/mail");
 const crypto = require("crypto");
@@ -7,6 +8,7 @@ const { validationResult } = require("express-validator");
 const cloudinary = require("cloudinary");
 const path = require("path");
 const { unlink } = require("fs");
+const mongoose = require("mongoose");
 
 cloudinary.v2.config({
   cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
@@ -171,6 +173,37 @@ exports.updateProfile = async (req, res) => {
     await user.save();
 
     return res.json(user.picture);
+  } catch (error) {
+    res
+      .status(error.statusCode || error.status_code || 500)
+      .json(
+        error.message || error.msg || "Something went wrong, please try again!"
+      );
+  }
+};
+
+exports.deleteUser = async (req, res) => {
+  try {
+    const { userId } = req.params;
+
+    if (userId.toString !== req.user.id.toString) {
+      return res
+        .status(401)
+        .json("You are not authorized to delete this account!");
+    }
+
+    const user = await User.findById(userId);
+
+    if (!user) {
+      return res
+        .status(400)
+        .json("Something went wrong, please try again later!");
+    }
+
+    await Task.deleteMany({ user: mongoose.Types.ObjectId(userId) });
+    await User.deleteOne({ _id: mongoose.Types.ObjectId(userId) });
+
+    return res.json("You successfully deleted your account!");
   } catch (error) {
     res
       .status(error.statusCode || error.status_code || 500)
