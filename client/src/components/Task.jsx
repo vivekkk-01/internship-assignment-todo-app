@@ -152,7 +152,7 @@ const Task = ({
                 : "bg-green-600"
             }`}
           ></div>
-          <span className="text-gray-600 font-semibold desktop:text-sm">
+          <span className="text-gray-600 font-semibold desktop:text-sm tab:text-xs">
             {status}
           </span>
         </div>
@@ -175,7 +175,7 @@ const Task = ({
           </div>
         )}
         <div className="w-full flex items-center justify-between">
-          <span className="py-1 px-2 bg-red-100 text-red-600 rounded-md font-semibold desktop:text-sm">
+          <span className="py-1 px-2 bg-red-100 text-red-600 rounded-md font-semibold desktop:text-sm tab:text-xs">
             {category}
           </span>
           <div
@@ -184,7 +184,7 @@ const Task = ({
           >
             <IoEllipsisVertical
               onClick={() => setIsVertClicked((prev) => !prev)}
-              className="rotate-90 text-gray-600 text-xl cursor-pointer hover:text-black desktop:text-md"
+              className="rotate-90 text-gray-600 text-xl cursor-pointer hover:text-black desktop:text-md tab:text-xs"
             />
             {isVertClicked && (
               <div
@@ -216,7 +216,11 @@ const Task = ({
           </div>
         </div>
         <div className="flex flex-col gap-2">
-          <h3 className="text-2xl font-semibold desktop:text-lg">{title}</h3>
+          <h3
+            className={`text-2xl font-semibold desktop:text-lg ${classes.title}`}
+          >
+            {title}
+          </h3>
           {image && (
             <img className="object-cover w-full rounded-xl" src={image} />
           )}
@@ -225,8 +229,10 @@ const Task = ({
           </p>
         </div>
         <div className="flex items-center gap-3">
-          <FaRegCalendarAlt className="text-gray-500 font-semibold text-lg desktop:text-sm" />
-          <p className="text-gray-500 font-semibold text-sm desktop:text-xs">
+          <FaRegCalendarAlt className="text-gray-500 font-semibold text-lg desktop:text-sm tab:text-xs" />
+          <p
+            className={`${classes.datePara} text-gray-500 font-semibold text-sm desktop:text-xs`}
+          >
             {formatDateRange(new Date(startDate), new Date(endDate))}
           </p>
         </div>

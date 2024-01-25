@@ -5,6 +5,7 @@ export default {
     extend: {},
     screens: {
       desktop: { max: "1200px" },
+      tab: { max: "800px" },
     },
   },
   plugins: [],

@@ -176,11 +176,11 @@ const CreateTaskModal = ({
       </h1>
       <form
         onSubmit={handleSubmit}
-        className={`flex flex-col gap-2 justify-center items-center my-2 ${
+        className={`tab:h-full tab:overflow-y-scroll flex flex-col gap-2 justify-center items-center my-2 ${
           addTaskLoading || updateTaskLoading ? "opacity-60" : ""
         }`}
       >
-        <div className="flex items-center justify-evenly w-full">
+        <div className="flex items-center justify-evenly w-full tab:block">
           <div className="flex flex-col items-start gap-1">
             {titleError && (
               <p className="text-1xl font-semibold text-red-700 self-center">
@@ -236,7 +236,7 @@ const CreateTaskModal = ({
             </select>
           </div>
         </div>
-        <div className="flex items-start justify-between w-full">
+        <div className="flex items-start justify-between w-full tab:block">
           <div className="flex flex-col items-start gap-1">
             {descriptionError && (
               <p className="text-1xl font-semibold text-red-700 self-center">

@@ -3,3 +3,13 @@
   width: 0.5rem;
   border-radius: 100%;
 }
+
+@media screen and (max-width: 800px) {
+  .datePara {
+    font-size: 0.5rem !important;
+  }
+  .title {
+    font-size: 1rem;
+    line-height: 1rem;
+  }
+}

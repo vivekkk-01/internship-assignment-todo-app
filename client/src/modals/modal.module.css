@@ -31,3 +31,12 @@
     transform: translateY(0);
   }
 }
+
+@media screen and (max-width: 800px) {
+  .modal {
+    top: 10vh;
+    width: 25rem;
+    left: calc(50% - 12.5rem);
+    overflow-y: scroll;
+  }
+}

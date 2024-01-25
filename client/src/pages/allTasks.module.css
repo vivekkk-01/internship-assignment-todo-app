@@ -9,3 +9,9 @@
     padding: 1.5rem;
   }
 }
+
+@media screen and (max-width: 800px) {
+  .task {
+    padding: 0.7rem;
+  }
+}

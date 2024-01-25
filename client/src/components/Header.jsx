@@ -160,7 +160,7 @@ const Header = ({ user }) => {
           </div>
           <div className="flex flex-col items-center justify-center gap-2">
             <h1 className="text-3xl font-semibold">My Task</h1>
-            <p className="text-1xl text-gray-500 font-semibold">
+            <p className="text-1xl text-gray-500 font-semibold tab:hidden">
               You can organize, track, and complete your assignments
               efficiently.
             </p>

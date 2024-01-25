@@ -8,9 +8,11 @@ const Board = ({ status, tasks }) => {
       className={`${classes.board} rounded-3xl flex flex-col items-center gap-4 relative`}
     >
       <div className="flex items-center justify-between w-full">
-        <p className="text-gray-600 font-semibold text-xl">{status}</p>
+        <p className="text-gray-600 font-semibold text-xl tab:text-sm">
+          {status}
+        </p>
         <div
-          className={`w-8 h-8 rounded-full ${
+          className={`w-8 h-8 rounded-full tab:w-5 tab:h-5 tab:text-xs ${
             status === "In Complete"
               ? "bg-blue-700"
               : status === "On Going"
