@@ -7,7 +7,7 @@ const PORT = process.env.PORT || 8000;
 
 app.use(
   cors({
-    origin: process.env.FRONTEND_LINK,
+    origin: "https://my-todos-g0de.onrender.com",
   })
 );
 app.options("*", cors());
