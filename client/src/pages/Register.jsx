@@ -194,7 +194,7 @@ const Register = () => {
               !isNavigating ? "cursor-pointer" : ""
             } w-full shadow-lg py-4 flex items-center justify-center gap-3`}
           >
-            <img className="w-8 h-8" src={"src/assets/google.png"} alt="" />
+            <img className="w-8 h-8" src={"/google.png"} alt="" />
             <p className="text-gray-500 font-semibold">Continue with Google</p>
           </div>
         </div>
