@@ -198,10 +198,10 @@ exports.deleteUser = async (req, res) => {
         .status(400)
         .json("Something went wrong, please try again later!");
     }
-    
+
     await Task.deleteMany({ user: new mongoose.Types.ObjectId(userId) });
     await User.deleteOne({ _id: new mongoose.Types.ObjectId(userId) });
-    
+
     return res.json("You successfully deleted your account!");
   } catch (error) {
     res

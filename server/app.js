@@ -5,7 +5,11 @@ const app = express();
 const cors = require("cors");
 const PORT = process.env.PORT || 8000;
 
-app.use(cors());
+app.use(
+  cors({
+    origin: ["http://localhost:5173", "https://my-todos-g0de.onrender.com"],
+  })
+);
 app.use(express.json());
 
 const authRoutes = require("./routes/auth");
