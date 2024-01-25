@@ -21,7 +21,7 @@ const Overlay = ({ onClose }) => {
 };
 
 const ModalOverlay = ({ children, onClose }) => {
-  const { addTaskLoading, updateTaskLoading } = useSelector(
+  const { addTaskLoading, updateTaskLoading, editTaskLoading } = useSelector(
     (state) => state.task
   );
   const { deleteAccountLoading } = useSelector((state) => state.user);
@@ -35,7 +35,10 @@ const ModalOverlay = ({ children, onClose }) => {
       {ReactDOM.createPortal(
         <Overlay
           onClose={
-            addTaskLoading || updateTaskLoading || deleteAccountLoading
+            addTaskLoading ||
+            updateTaskLoading ||
+            deleteAccountLoading ||
+            editTaskLoading
               ? null
               : onClose
           }

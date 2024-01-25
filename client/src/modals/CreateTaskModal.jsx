@@ -19,6 +19,7 @@ const toastOptions = {
   pauseOnHover: true,
   draggable: true,
   theme: "dark",
+  closeOnClick: true,
 };
 
 const CreateTaskModal = ({
