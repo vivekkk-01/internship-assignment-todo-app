@@ -6,18 +6,17 @@ import { ToastContainer } from "react-toastify";
 
 const Modal = ({ children }) => {
   return (
-    <div className={classes.modal}>
-      <div>{children}</div>
-    </div>
+    <>
+      <div className={classes.modal}>
+        <div>{children}</div>
+      </div>
+      <ToastContainer style={{ zIndex: "1000" }} />
+    </>
   );
 };
 
 const Overlay = ({ onClose }) => {
-  return (
-    <div className={classes.backdrop} onClick={onClose}>
-      <ToastContainer />
-    </div>
-  );
+  return <div className={classes.backdrop} onClick={onClose}></div>;
 };
 
 const ModalOverlay = ({ children, onClose }) => {

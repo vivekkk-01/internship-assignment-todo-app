@@ -141,20 +141,6 @@ const Task = ({
           board={board}
         />
       )}
-
-      {isDeleteTask && (
-        <div
-          className="w-full h-full absolute top-0 left-0 z-50 rounded-3xl flex items-center justify-center"
-          style={{ backgroundColor: "rgba(0,0,0,.1)" }}
-        >
-          <div
-            ref={deleteModalRef}
-            className="w-full flex items-center justify-center"
-          >
-            <DeleteTaskModal onCancel={deleteTaskClose} onDelete={deleteTask} />
-          </div>
-        </div>
-      )}
       {!board && (
         <div className="flex items-center justify-start gap-3">
           <div
@@ -171,7 +157,23 @@ const Task = ({
           </span>
         </div>
       )}
-      <div className="w-full h-full bg-white shadow-lg rounded-2xl py-4 px-6 desktop:p-2 flex flex-col gap-4">
+      <div className="relative w-full h-full bg-white shadow-lg rounded-2xl py-4 px-6 desktop:p-2 flex flex-col gap-4">
+        {isDeleteTask && (
+          <div
+            className="w-full h-full absolute top-0 left-0 z-50 rounded-3xl flex items-center justify-center"
+            style={{ backgroundColor: "rgba(0,0,0,.1)" }}
+          >
+            <div
+              ref={deleteModalRef}
+              className="w-full flex items-center justify-center"
+            >
+              <DeleteTaskModal
+                onCancel={deleteTaskClose}
+                onDelete={deleteTask}
+              />
+            </div>
+          </div>
+        )}
         <div className="w-full flex items-center justify-between">
           <span className="py-1 px-2 bg-red-100 text-red-600 rounded-md font-semibold desktop:text-sm">
             {category}

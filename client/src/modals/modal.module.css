@@ -5,11 +5,11 @@
   top: 0;
   left: 0;
   background-color: rgba(0, 0, 0, 0.7);
-  z-index: 9999;
+  z-index: 9;
 }
 
 .modal {
-  z-index: 10000;
+  z-index: 10;
   position: fixed;
   top: 20vh;
   width: 40rem;
