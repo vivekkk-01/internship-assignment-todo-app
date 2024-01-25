@@ -36,6 +36,7 @@ const Header = ({ user }) => {
   const { updateProfileLoading, updateProfileError } = useSelector(
     (state) => state.user
   );
+  const { editTaskLoading } = useSelector((state) => state.task);
   useClickOutside(profileRef, () => setIsProfileClicked(false));
 
   const changeProfileHandler = () => {
@@ -142,7 +143,7 @@ const Header = ({ user }) => {
                 </p>
               </div>
             )}
-            {!isDeleteAccount && !addTask && (
+            {!isDeleteAccount && !addTask && editTaskLoading && (
               <div>
                 <ToastContainer />
               </div>
