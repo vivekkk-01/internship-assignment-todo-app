@@ -174,11 +174,7 @@ exports.updateProfile = async (req, res) => {
 
     return res.json(user.picture);
   } catch (error) {
-    res
-      .status(error.statusCode || error.status_code || 500)
-      .json(
-        error.message || error.msg || "Something went wrong, please try again!"
-      );
+    res.status(500).json("Something went wrong, please try again!");
   }
 };
 
