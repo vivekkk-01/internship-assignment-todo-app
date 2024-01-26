@@ -1,7 +1,5 @@
-const path = require("path");
 const cloudinary = require("cloudinary");
 const Task = require("../models/Task");
-const { unlink } = require("fs");
 const User = require("../models/User");
 const streamifier = require("streamifier");
 cloudinary.v2.config({

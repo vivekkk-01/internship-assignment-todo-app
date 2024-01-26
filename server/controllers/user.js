@@ -6,8 +6,6 @@ const sgMail = require("@sendgrid/mail");
 const crypto = require("crypto");
 const { validationResult } = require("express-validator");
 const cloudinary = require("cloudinary");
-const path = require("path");
-const { unlink } = require("fs");
 const mongoose = require("mongoose");
 const streamifier = require("streamifier");
 
