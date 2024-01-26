@@ -151,13 +151,13 @@ exports.resetPasswordFromEmail = async (req, res) => {
 };
 
 exports.updateProfile = async (req, res) => {
-  console.log("got the request...");
   try {
     if (!req.file) {
       return res.status(400).json("Please provide an image!");
     }
 
     const filePath = path.join(`uploads/images/profile/${req.file.filename}`);
+    console.log("got the request...", filePath);
 
     const { secure_url } = await cloudinary.v2.uploader.upload(filePath);
 
