@@ -134,20 +134,8 @@ exports.editTask = async (req, res) => {
     task.taskCategory = category;
     task.startDate = startDate;
     task.endDate = endDate;
-
-    if (req.file) {
-      const filePath = path.join(`uploads/images/task/${req.file.filename}`);
-      const { secure_url, public_id } = await cloudinary.v2.uploader.upload(
-        filePath
-      );
-      unlink(filePath, (err) => {
-        if (err) {
-          throw err;
-        }
-      });
-      task.taskImage = { secure_url, public_id };
-    }
     await task.save();
+
     const status =
       new Date() < new Date(startDate)
         ? "In Complete"
@@ -156,13 +144,46 @@ exports.editTask = async (req, res) => {
         : new Date() < new Date(endDate)
         ? "Completed"
         : "Completed";
+
+    if (req.file) {
+      const bufferStream = streamifier.createReadStream(req.file.buffer);
+      const uploadStream = cloudinary.v2.uploader.upload_stream(
+        bufferStream,
+        async (error, { secure_url, public_id }) => {
+          if (error) {
+            return res
+              .status(500)
+              .json("Something went wrong, please try again!");
+          }
+          task.taskImage = { secure_url, public_id };
+          await task.save();
+          res.json({
+            id: task._id,
+            title,
+            category,
+            description,
+            status,
+            image: secure_url,
+            startDate,
+            endDate,
+            createdAt: task.createdAt,
+            updatedAt: task.updatedAt,
+          });
+        }
+      );
+      uploadStream.write(req.file.buffer);
+      uploadStream.end();
+      return;
+    }
+    
+    await task.save();
+
     res.json({
       id: task._id,
       title,
       category,
       description,
       status,
-      image: task.taskImage.secure_url,
       startDate,
       endDate,
       createdAt: task.createdAt,
