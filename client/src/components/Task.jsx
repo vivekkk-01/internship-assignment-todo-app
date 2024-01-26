@@ -157,7 +157,11 @@ const Task = ({
           </span>
         </div>
       )}
-      <div className="relative w-full h-full bg-white shadow-lg rounded-2xl py-4 px-6 desktop:p-2 flex flex-col gap-4">
+      <div
+        className={`relative w-full h-full bg-white shadow-lg rounded-2xl py-4 px-6 desktop:p-2 flex flex-col gap-4 ${
+          board && "mobile:h-96"
+        }`}
+      >
         {isDeleteTask && (
           <div
             className="w-full h-full absolute top-0 left-0 z-50 rounded-3xl flex items-center justify-center"
