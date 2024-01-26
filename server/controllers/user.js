@@ -158,7 +158,6 @@ exports.updateProfile = async (req, res) => {
     uploadStream.write(req.file.buffer);
     uploadStream.end();
   } catch (error) {
-    console.log("Error:", error);
     return res.status(500).json("Something went wrong, please try again!");
   }
 };

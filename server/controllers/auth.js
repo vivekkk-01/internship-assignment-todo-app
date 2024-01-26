@@ -6,8 +6,6 @@ exports.googleOauthHandler = async (req, res) => {
   try {
     const code = req.query.code;
 
-    console.log("Token", code);
-
     if (!code) {
       return res.status(401).json("Authorization code not provided");
     }
@@ -15,7 +13,6 @@ exports.googleOauthHandler = async (req, res) => {
     const { id_token, access_token: accessToken } = await getGoogleOauthToken({
       code,
     });
-
 
     const { name, verified_email, email, picture } = await getGoogleUser({
       id_token,
@@ -42,13 +39,11 @@ exports.googleOauthHandler = async (req, res) => {
 
     return res.redirect(`${process.env.FRONTEND_REDIRECT_LINK}${token}`);
   } catch (err) {
-    console.log("Error", err);
     return res.redirect(process.env.FRONTEND_REDIRECT_ERROR_LINK);
   }
 };
 
 exports.getUser = async (req, res) => {
-  console.log("accepted...");
   try {
     let token = req.headers.authorization;
     if (!token) return res.status(401).json("Authentication Failed!");
