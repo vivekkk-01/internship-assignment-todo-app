@@ -112,11 +112,7 @@ exports.getAllTasks = async (req, res) => {
     });
     return res.json([...allTasks]);
   } catch (error) {
-    return res
-      .status(error.statusCode || error.status_code || 500)
-      .json(
-        error.message || error.msg || "Something went wrong, please try again!"
-      );
+    return res.status(500).json("Something went wrong, please try again!");
   }
 };
 
@@ -175,7 +171,7 @@ exports.editTask = async (req, res) => {
       uploadStream.end();
       return;
     }
-    
+
     await task.save();
 
     res.json({
@@ -190,11 +186,7 @@ exports.editTask = async (req, res) => {
       updatedAt: task.updatedAt,
     });
   } catch (error) {
-    return res
-      .status(error.statusCode || error.status_code || 500)
-      .json(
-        error.message || error.msg || "Something went wrong, please try again!"
-      );
+    return res.status(500).json("Something went wrong, please try again!");
   }
 };
 
@@ -217,11 +209,7 @@ exports.deleteTask = async (req, res) => {
 
     return res.json("You successfully deleted the Task!");
   } catch (error) {
-    return res
-      .status(error.statusCode || error.status_code || 500)
-      .json(
-        error.message || error.msg || "Something went wrong, please try again!"
-      );
+    return res.status(500).json("Something went wrong, please try again!");
   }
 };
 
@@ -274,10 +262,6 @@ exports.getBoards = async (req, res) => {
 
     return res.json({ ...boards });
   } catch (error) {
-    return res
-      .status(error.statusCode || error.status_code || 500)
-      .json(
-        error.message || error.msg || "Something went wrong, please try again!"
-      );
+    return res.status(500).json("Something went wrong, please try again!");
   }
 };
