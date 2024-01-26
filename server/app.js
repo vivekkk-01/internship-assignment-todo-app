@@ -21,14 +21,6 @@ app.use((req, res, next) => {
   next();
 });
 
-app.use(
-  cors({
-    origin:
-      "https://internship-assignment-todo-jvtfb0n3a-viveks-projects-281df315.vercel.app",
-    credentials: true,
-  })
-);
-
 app.use(express.json());
 
 const authRoutes = require("./routes/auth");
