@@ -319,7 +319,7 @@ const CreateTaskModal = ({
             )}
           </div>
         </div>
-        <div className="flex items-center justify-evenly w-full">
+        <div className="flex items-center justify-evenly w-full mobile:flex-col mobile:gap-2">
           <div className="flex flex-col items-start self-start">
             {startDateError && (
               <p className="text-1xl font-semibold text-red-700 self-center">
