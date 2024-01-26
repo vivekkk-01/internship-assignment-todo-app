@@ -30,13 +30,13 @@ const validateTaskImage = (req, res, next) => {
 };
 
 const validateProfileImage = (req, res, next) => {
-  console.log("Got the request...");
   if (!req?.file) {
     return res.status(400).json("Provide an Image, please!");
   }
   if (req.file.size > 5000000)
     return res.status(403).json("Image size is too large.");
 
+  console.log("Got the request...");
   req.file.filename = `profile-${Date.now()}-${req.file.originalname}`;
   fs.writeFile(
     path.join(`uploads/images/profile/${req.file.filename}`),
