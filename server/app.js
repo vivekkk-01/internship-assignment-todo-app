@@ -9,7 +9,6 @@ app.use(
   cors({
     origin:
       "https://internship-assignment-todo-jvtfb0n3a-viveks-projects-281df315.vercel.app",
-    headers: ["Content-Type"],
     credentials: true,
   })
 );
