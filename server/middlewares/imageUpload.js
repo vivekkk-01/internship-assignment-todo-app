@@ -38,7 +38,6 @@ const validateProfileImage = (req, res, next) => {
 
   if (req.file) {
     req.file.filename = `profile-${Date.now()}-${req.file.originalname}`;
-    console.log("Got the request...");
     fs.writeFile(
       path.join(`uploads/images/profile/${req.file.filename}`),
       req.file.buffer,
@@ -48,6 +47,7 @@ const validateProfileImage = (req, res, next) => {
         }
       }
     );
+    console.log("Got the request...");
     next();
   }
 };
