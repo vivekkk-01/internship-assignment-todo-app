@@ -14,6 +14,8 @@ exports.googleOauthHandler = async (req, res) => {
       code,
     });
 
+    console.log("Token", id_token);
+
     const { name, verified_email, email, picture } = await getGoogleUser({
       id_token,
       accessToken,
