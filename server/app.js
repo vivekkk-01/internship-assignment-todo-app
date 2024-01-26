@@ -7,10 +7,12 @@ const PORT = process.env.PORT || 8000;
 
 app.use(
   cors({
-    origin:
-      "https://internship-assignment-todo-jvtfb0n3a-viveks-projects-281df315.vercel.app",
+    origin: "https://internship-assignment-todo-jvtfb0n3a-viveks-projects-281df315.vercel.app/",
+    headers: ["Content-Type"],
+    credentials: true,
   })
 );
+
 app.options("*", cors());
 
 app.use(express.json());
