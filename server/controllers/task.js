@@ -3,6 +3,7 @@ const cloudinary = require("cloudinary");
 const Task = require("../models/Task");
 const { unlink } = require("fs");
 const User = require("../models/User");
+const streamifier = require("streamifier");
 cloudinary.v2.config({
   cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
   api_key: process.env.CLOUDINARY_API_KEY,
@@ -23,19 +24,6 @@ exports.addTask = async (req, res) => {
       user: req.user.id,
     });
 
-    if (req.file) {
-      const filePath = path.join(`uploads/images/task/${req.file.filename}`);
-      const { secure_url, public_id } = await cloudinary.v2.uploader.upload(
-        filePath
-      );
-      unlink(filePath, (err) => {
-        if (err) {
-          throw err;
-        }
-      });
-      task.taskImage = { secure_url, public_id };
-    }
-    await task.save();
     const user = await User.findById(req.user.id);
     user.tasks.push(task._id);
     await user.save();
@@ -47,24 +35,50 @@ exports.addTask = async (req, res) => {
         : new Date() < new Date(endDate)
         ? "Completed"
         : "Completed";
+
+    if (req.file) {
+      const bufferStream = streamifier.createReadStream(req.file.buffer);
+      const uploadStream = cloudinary.v2.uploader.upload_stream(
+        bufferStream,
+        async (error, { secure_url, public_id }) => {
+          if (error) {
+            return res
+              .status(500)
+              .json("Something went wrong, please try again!");
+          }
+          task.taskImage = { secure_url, public_id };
+          await task.save();
+          res.json({
+            id: task._id,
+            title,
+            category,
+            description,
+            status,
+            image: secure_url,
+            startDate,
+            endDate,
+            createdAt: task.createdAt,
+            updatedAt: task.updatedAt,
+          });
+        }
+      );
+      uploadStream.write(req.file.buffer);
+      uploadStream.end();
+      return;
+    }
     res.json({
       id: task._id,
       title,
       category,
       description,
       status,
-      image: task.taskImage.secure_url,
       startDate,
       endDate,
       createdAt: task.createdAt,
       updatedAt: task.updatedAt,
     });
   } catch (error) {
-    return res
-      .status(error.statusCode || error.status_code || 500)
-      .json(
-        error.message || error.msg || "Something went wrong, please try again!"
-      );
+    return res.status(500).json("Something went wrong, please try again!");
   }
 };
 

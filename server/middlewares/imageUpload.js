@@ -16,16 +16,6 @@ const validateTaskImage = (req, res, next) => {
   if (req?.file && req.file.size > 5000000)
     return res.status(403).json("Image size is too large.");
 
-  req.file.filename = `task-${Date.now()}-${req.file.originalname}`;
-  fs.writeFile(
-    path.join(`uploads/images/task/${req.file.filename}`),
-    req.file.buffer,
-    (err) => {
-      if (err) {
-        return next(err);
-      }
-    }
-  );
   next();
 };
 
@@ -36,9 +26,7 @@ const validateProfileImage = (req, res, next) => {
   if (req.file.size > 5000000)
     return res.status(403).json("Image size is too large.");
 
-  if (req.file) {
-    next();
-  }
+  next();
 };
 
 module.exports = {
