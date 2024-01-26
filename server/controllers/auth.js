@@ -41,8 +41,8 @@ exports.googleOauthHandler = async (req, res) => {
   } catch (err) {
     return res
       .redirect(process.env.FRONTEND_REDIRECT_ERROR_LINK)
-      .status(err.status_code || 400)
-      .json(err.message || "Failed to authorize Google User!");
+      .status(400)
+      .json("Failed to authorize Google User!");
   }
 };
 
@@ -58,8 +58,6 @@ exports.getUser = async (req, res) => {
       return res.json({ ...tokenData, token });
     });
   } catch (error) {
-    return res
-      .status(error.code || 500)
-      .json(error.message || "Something went wrong, please try again!");
+    return res.status(500).json("Something went wrong, please try again!");
   }
 };
