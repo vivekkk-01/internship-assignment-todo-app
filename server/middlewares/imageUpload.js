@@ -30,6 +30,7 @@ const validateTaskImage = (req, res, next) => {
 };
 
 const validateProfileImage = (req, res, next) => {
+  console.log("Got the request...");
   if (!req?.file) {
     return res.status(400).json("Provide an Image, please!");
   }
