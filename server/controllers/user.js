@@ -157,9 +157,9 @@ exports.updateProfile = async (req, res) => {
     }
 
     const filePath = path.join(`uploads/images/profile/${req.file.filename}`);
-    console.log("got the request...", filePath);
 
     const { secure_url } = await cloudinary.v2.uploader.upload(filePath);
+    console.log("got the request...", secure_url);
 
     unlink(filePath, (err) => {
       if (err) {
