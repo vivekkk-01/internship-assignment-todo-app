@@ -1,5 +1,7 @@
+const path = require("path");
 const cloudinary = require("cloudinary");
 const Task = require("../models/Task");
+const { unlink } = require("fs");
 const User = require("../models/User");
 const streamifier = require("streamifier");
 cloudinary.v2.config({
@@ -38,13 +40,20 @@ exports.addTask = async (req, res) => {
       const bufferStream = streamifier.createReadStream(req.file.buffer);
       const uploadStream = cloudinary.v2.uploader.upload_stream(
         bufferStream,
-        async (error, { secure_url, public_id }) => {
+        async (error, result) => {
           if (error) {
             return res
               .status(500)
               .json("Something went wrong, please try again!");
           }
-          task.taskImage = { secure_url, public_id };
+          if (!result?.secure_url)
+            return res
+              .status(500)
+              .json("Something went wrong, please try again!");
+          task.taskImage = {
+            secure_url: result.secure_url,
+            public_id: result.public_id,
+          };
           await task.save();
           res.json({
             id: task._id,
@@ -143,13 +152,20 @@ exports.editTask = async (req, res) => {
       const bufferStream = streamifier.createReadStream(req.file.buffer);
       const uploadStream = cloudinary.v2.uploader.upload_stream(
         bufferStream,
-        async (error, { secure_url, public_id }) => {
+        async (error, result) => {
           if (error) {
             return res
               .status(500)
               .json("Something went wrong, please try again!");
           }
-          task.taskImage = { secure_url, public_id };
+          if (!result?.secure_url)
+            return res
+              .status(500)
+              .json("Something went wrong, please try again!");
+          task.taskImage = {
+            secure_url: result.secure_url,
+            public_id: result.public_id,
+          };
           await task.save();
           res.json({
             id: task._id,

@@ -143,12 +143,16 @@ exports.updateProfile = async (req, res) => {
     const bufferStream = streamifier.createReadStream(req.file.buffer);
     const uploadStream = cloudinary.v2.uploader.upload_stream(
       bufferStream,
-      async (error, { secure_url }) => {
+      async (error, result) => {
         if (error) {
           return res
             .status(500)
             .json("Something went wrong, please try again!");
         }
+        if (!result.secure_url)
+          return res
+            .status(500)
+            .json("Something went wrong, please try again!");
         user.picture = secure_url;
         await user.save();
 
