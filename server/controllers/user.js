@@ -47,11 +47,7 @@ exports.register = async (req, res) => {
       token,
     });
   } catch (error) {
-    return res
-      .status(error.statusCode || error.status_code || 500)
-      .json(
-        error.message || error.msg || "Something went wrong, please try again!"
-      );
+    return res.status(500).json("Something went wrong, please try again!");
   }
 };
 
@@ -81,11 +77,7 @@ exports.login = async (req, res) => {
       token,
     });
   } catch (error) {
-    return res
-      .status(error.statusCode || error.status_code || 500)
-      .json(
-        error.message || error.msg || "Something went wrong, please try again!"
-      );
+    return res.status(500).json("Something went wrong, please try again!");
   }
 };
 
@@ -117,11 +109,7 @@ exports.resetPassword = async (req, res) => {
     await sgMail.send(msg);
     return res.json("Check your mail box!");
   } catch (error) {
-    res
-      .status(error.statusCode || error.status_code || 500)
-      .json(
-        error.message || error.msg || "Something went wrong, please try again!"
-      );
+    res.status(500).json("Something went wrong, please try again!");
   }
 };
 
@@ -143,11 +131,7 @@ exports.resetPasswordFromEmail = async (req, res) => {
     await user.save();
     return res.json("Password changed successfully!");
   } catch (error) {
-    res
-      .status(error.statusCode || error.status_code || 500)
-      .json(
-        error.message || error.msg || "Something went wrong, please try again!"
-      );
+    res.status(500).json("Something went wrong, please try again!");
   }
 };
 
@@ -203,10 +187,6 @@ exports.deleteUser = async (req, res) => {
 
     return res.json("You successfully deleted your account!");
   } catch (error) {
-    res
-      .status(error.statusCode || error.status_code || 500)
-      .json(
-        error.message || error.msg || "Something went wrong, please try again!"
-      );
+    res.status(500).json("Something went wrong, please try again!");
   }
 };
