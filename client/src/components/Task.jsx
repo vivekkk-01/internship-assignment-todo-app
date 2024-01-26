@@ -226,7 +226,12 @@ const Task = ({
             {title}
           </h3>
           {image && (
-            <img className="object-cover w-full rounded-xl" src={image} />
+            <img
+              className={`object-cover w-full rounded-xl ${
+                board && "mobile:h-4/5"
+              }`}
+              src={image}
+            />
           )}
           <p className="text-gray-500 font-semibold desktop:text-sm">
             {description}
