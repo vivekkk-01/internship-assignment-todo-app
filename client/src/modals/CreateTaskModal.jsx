@@ -68,7 +68,7 @@ const CreateTaskModal = ({
 
   const onEditError = () => {
     toast.error(
-      updateTaskError || "Something went wrong,, please try again!",
+      updateTaskError || "Something went wrong, please try again!",
       toastOptions
     );
   };

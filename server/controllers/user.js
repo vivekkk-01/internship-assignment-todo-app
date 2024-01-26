@@ -153,10 +153,10 @@ exports.updateProfile = async (req, res) => {
           return res
             .status(500)
             .json("Something went wrong, please try again!");
-        user.picture = secure_url;
+        user.picture = result.secure_url;
         await user.save();
 
-        return res.json(secure_url);
+        return res.json(result.secure_url);
       }
     );
     uploadStream.write(req.file.buffer);
