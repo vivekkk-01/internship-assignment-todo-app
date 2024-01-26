@@ -157,11 +157,7 @@ const Task = ({
           </span>
         </div>
       )}
-      <div
-        className={`relative w-full h-full bg-white shadow-lg rounded-2xl py-4 px-6 desktop:p-2 flex flex-col gap-4 ${
-          board && "mobile:h-96"
-        }`}
-      >
+      <div className="relative w-full bg-white shadow-lg rounded-2xl py-4 px-6 desktop:p-2 flex flex-col gap-4">
         {isDeleteTask && (
           <div
             className="w-full h-full absolute top-0 left-0 z-50 rounded-3xl flex items-center justify-center"
@@ -226,12 +222,7 @@ const Task = ({
             {title}
           </h3>
           {image && (
-            <img
-              className={`object-cover w-full rounded-xl ${
-                board && "mobile:h-4/5"
-              }`}
-              src={image}
-            />
+            <img className="object-cover w-full rounded-xl" src={image} />
           )}
           <p className="text-gray-500 font-semibold desktop:text-sm">
             {description}

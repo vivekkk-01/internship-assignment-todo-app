@@ -94,7 +94,7 @@ const AllTasks = () => {
     );
   }
 
-  if (tasks.length <= 0) {
+  if (tasks.length <= 0 && !allTasksLoading && !allTasksError) {
     return (
       <>
         {addTask && <CreateTaskModal onClose={() => setAddTask(false)} />}
