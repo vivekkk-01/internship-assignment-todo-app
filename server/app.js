@@ -1,13 +1,14 @@
 const express = require("express");
 const mongoose = require("mongoose");
-require("dotenv").config();
+require("dotenv-safe").config();
 const app = express();
 const cors = require("cors");
 const PORT = process.env.PORT || 8000;
 
 app.use(
   cors({
-    origin: "https://internship-assignment-todo-jvtfb0n3a-viveks-projects-281df315.vercel.app/",
+    origin:
+      "https://internship-assignment-todo-jvtfb0n3a-viveks-projects-281df315.vercel.app",
     headers: ["Content-Type"],
     credentials: true,
   })
