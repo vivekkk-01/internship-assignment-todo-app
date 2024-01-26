@@ -10,3 +10,9 @@
     padding: 1rem;
   }
 }
+
+@media screen and (max-width: 475px) {
+  .board {
+    overflow-y: scroll;
+  }
+}
