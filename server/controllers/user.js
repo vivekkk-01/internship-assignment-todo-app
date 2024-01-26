@@ -9,6 +9,7 @@ const cloudinary = require("cloudinary");
 const path = require("path");
 const { unlink } = require("fs");
 const mongoose = require("mongoose");
+const streamifier = require("streamifier");
 
 cloudinary.v2.config({
   cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
@@ -156,25 +157,27 @@ exports.updateProfile = async (req, res) => {
       return res.status(400).json("Please provide an image!");
     }
 
-    const filePath = path.join(`uploads/images/profile/${req.file.filename}`);
-
-    const { secure_url } = await cloudinary.v2.uploader.upload(filePath);
-    console.log("got the request...", secure_url);
-
-    unlink(filePath, (err) => {
-      if (err) {
-        throw err;
-      }
-    });
-
     const user = await User.findById(req.user.id);
+    const bufferStream = streamifier.createReadStream(req.file.buffer);
+    const uploadStream = cloudinary.v2.uploader.upload_stream(
+      bufferStream,
+      async (error, { secure_url }) => {
+        if (error) {
+          return res
+            .status(500)
+            .json("Something went wrong, please try again!");
+        }
+        user.picture = secure_url;
+        await user.save();
 
-    user.picture = secure_url;
-    await user.save();
-
-    return res.json(user.picture);
+        return res.json(secure_url);
+      }
+    );
+    uploadStream.write(req.file.buffer);
+    uploadStream.end();
   } catch (error) {
-    res.status(500).json("Something went wrong, please try again!");
+    console.log("Error:", error);
+    return res.status(500).json("Something went wrong, please try again!");
   }
 };
 
