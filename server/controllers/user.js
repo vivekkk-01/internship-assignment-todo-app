@@ -151,6 +151,7 @@ exports.resetPasswordFromEmail = async (req, res) => {
 };
 
 exports.updateProfile = async (req, res) => {
+  console.log("got the request...");
   try {
     if (!req.file) {
       return res.status(400).json("Please provide an image!");

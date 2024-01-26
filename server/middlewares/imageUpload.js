@@ -47,7 +47,6 @@ const validateProfileImage = (req, res, next) => {
         }
       }
     );
-    console.log("Got the request...");
     next();
   }
 };
