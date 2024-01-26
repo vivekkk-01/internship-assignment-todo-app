@@ -5,14 +5,6 @@ const app = express();
 const cors = require("cors");
 const PORT = process.env.PORT || 8000;
 
-app.use(
-  cors({
-    origin:
-      "https://internship-assignment-todo-jvtfb0n3a-viveks-projects-281df315.vercel.app",
-    credentials: true,
-  })
-);
-
 app.use((req, res, next) => {
   res.header(
     "Access-Control-Allow-Origin",
@@ -28,6 +20,14 @@ app.use((req, res, next) => {
   }
   next();
 });
+
+app.use(
+  cors({
+    origin:
+      "https://internship-assignment-todo-jvtfb0n3a-viveks-projects-281df315.vercel.app",
+    credentials: true,
+  })
+);
 
 app.use(express.json());
 
