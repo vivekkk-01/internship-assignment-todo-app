@@ -36,18 +36,20 @@ const validateProfileImage = (req, res, next) => {
   if (req.file.size > 5000000)
     return res.status(403).json("Image size is too large.");
 
-  console.log("Got the request...");
-  req.file.filename = `profile-${Date.now()}-${req.file.originalname}`;
-  fs.writeFile(
-    path.join(`uploads/images/profile/${req.file.filename}`),
-    req.file.buffer,
-    (err) => {
-      if (err) {
-        return next(err);
+  if (req.file) {
+    req.file.filename = `profile-${Date.now()}-${req.file.originalname}`;
+    console.log("Got the request...");
+    fs.writeFile(
+      path.join(`uploads/images/profile/${req.file.filename}`),
+      req.file.buffer,
+      (err) => {
+        if (err) {
+          return next(err);
+        }
       }
-    }
-  );
-  next();
+    );
+    next();
+  }
 };
 
 module.exports = {
