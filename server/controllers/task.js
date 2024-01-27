@@ -168,6 +168,7 @@ exports.editTask = async (req, res) => {
             public_id: result.public_id,
           };
           await task.save();
+          console.log("ID", id, task);
           res.json({
             id: task._id,
             title,
