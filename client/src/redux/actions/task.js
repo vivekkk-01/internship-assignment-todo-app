@@ -43,7 +43,7 @@ export const addTaskAction =
           : data.status === "In Complete"
           ? "inComplete"
           : "completed"
-        : null;
+        : "completed";
       onSuccess();
       setTimeout(() => {
         onClose();
@@ -106,7 +106,7 @@ export const setEditTaskAction =
           : data.status === "In Complete"
           ? "inComplete"
           : "completed"
-        : null;
+        : "completed";
       onSuccess();
       setTimeout(() => {
         onClose();
