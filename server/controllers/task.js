@@ -137,6 +137,7 @@ exports.editTask = async (req, res) => {
     task.taskCategory = category;
     task.startDate = startDate;
     task.endDate = endDate;
+    if (!req.file) task.taskImage = { public_id: "", secure_url: "" };
     await task.save();
 
     const status =

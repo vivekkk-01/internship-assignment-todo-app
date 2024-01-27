@@ -266,7 +266,7 @@ const CreateTaskModal = ({
             <input
               ref={fileRef}
               type="file"
-              accept=".jpg, .jpeg, .png"
+              accept="image/jpg, image/jpeg, image/png"
               hidden
               onChange={(event) => {
                 setImage(event.target.files[0]);
