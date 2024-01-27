@@ -129,7 +129,24 @@ const CreateTaskModal = ({
       values.append("startDate", startDate);
       values.append("endDate", endDate);
       if (!isEditTask) {
-        dispatch(addTaskAction({ values, onClose, onSuccess, onError, board }));
+        dispatch(
+          addTaskAction({
+            values,
+            onClose,
+            onSuccess,
+            onError,
+            board,
+            taskData: {
+              id: Date.now(),
+              image: URL.createObjectURL(image),
+              title,
+              category,
+              description,
+              startDate,
+              endDate,
+            },
+          })
+        );
       } else {
         dispatch(
           setEditTaskAction({
@@ -139,13 +156,38 @@ const CreateTaskModal = ({
             onSuccess: onEditSuccess,
             onError: onEditError,
             board,
+            taskData: {
+              id: taskId,
+              image: URL.createObjectURL(image),
+              title,
+              category,
+              description,
+              startDate,
+              endDate,
+            },
           })
         );
       }
     } else {
       const values = { title, description, category, startDate, endDate };
       if (!isEditTask) {
-        dispatch(addTaskAction({ values, onClose, onSuccess, onError, board }));
+        dispatch(
+          addTaskAction({
+            values,
+            onClose,
+            onSuccess,
+            onError,
+            board,
+            taskData: {
+              id: Date.now(),
+              title,
+              category,
+              description,
+              startDate,
+              endDate,
+            },
+          })
+        );
       } else {
         dispatch(
           setEditTaskAction({
@@ -155,6 +197,14 @@ const CreateTaskModal = ({
             onSuccess: onEditSuccess,
             onError: onEditError,
             board,
+            taskData: {
+              id: taskId,
+              title,
+              description,
+              category,
+              startDate,
+              endDate,
+            },
           })
         );
       }

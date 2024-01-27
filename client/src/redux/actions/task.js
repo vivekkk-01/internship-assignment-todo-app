@@ -23,7 +23,7 @@ import {
 import axios from "axios";
 
 export const addTaskAction =
-  ({ values, onClose, onSuccess, onError, board }) =>
+  ({ values, onClose, onSuccess, onError, board, taskData }) =>
   async (dispatch) => {
     dispatch(setAddTaskLoading());
     const { token } = JSON.parse(Cookies.get("todo-user"));
@@ -47,7 +47,7 @@ export const addTaskAction =
       onSuccess();
       setTimeout(() => {
         onClose();
-        dispatch(setAddTask({ ...data, statusForBoards }));
+        dispatch(setAddTask({ ...taskData, statusForBoards }));
       }, 2000);
     } catch (error) {
       const err =
@@ -86,7 +86,7 @@ export const getAllTasksAction = () => async (dispatch) => {
 };
 
 export const setEditTaskAction =
-  ({ taskId, values, onClose, onSuccess, onError, board }) =>
+  ({ taskData, taskId, values, onClose, onSuccess, onError, board }) =>
   async (dispatch) => {
     dispatch(setEditTaskLoading());
     const { token } = JSON.parse(Cookies.get("todo-user"));
@@ -107,11 +107,10 @@ export const setEditTaskAction =
           ? "inComplete"
           : "completed"
         : null;
-      console.log("Data", data);
       onSuccess();
       setTimeout(() => {
         onClose();
-        dispatch(setEditTask({ ...data, statusForBoards }));
+        dispatch(setEditTask({ ...taskData, statusForBoards }));
       }, 2000);
     } catch (error) {
       const err =
