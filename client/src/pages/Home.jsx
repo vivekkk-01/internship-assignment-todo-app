@@ -12,6 +12,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { setUserInfoAction } from "../redux/actions/user";
 import Header from "../components/Header";
 import AllTasks from "./AllTasks";
+import { setAllTasks } from "../redux/slices/task";
 
 const Home = () => {
   const [searchParams] = useSearchParams();
@@ -30,8 +31,9 @@ const Home = () => {
             },
           }
         );
-        dispatch(setUserInfoAction(data));
-        Cookies.set("todo-user", JSON.stringify(data), {
+        dispatch(setUserInfoAction(data.userInfo));
+        dispatch(setAllTasks(data.tasks));
+        Cookies.set("todo-user", JSON.stringify(data.userInfo), {
           secure: true,
           sameSite: "strict",
           expires: 30,

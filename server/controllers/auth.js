@@ -1,6 +1,7 @@
 const User = require("../models/User");
 const { getGoogleOauthToken, getGoogleUser } = require("../service");
 const jwt = require("jsonwebtoken");
+const Task = require("../models/Task");
 
 exports.googleOauthHandler = async (req, res) => {
   try {
@@ -51,7 +52,8 @@ exports.getUser = async (req, res) => {
     if (!token) return res.status(401).json("Authentication Failed!");
     jwt.verify(token, process.env.JWT_SECRET, async (err, tokenData) => {
       if (err) return res.status(401).json("Authentication Failed!");
-      return res.json({ ...tokenData, token });
+      const tasks = await Task.find({ user: tokenData.id });
+      return res.json({ userInfo: { ...tokenData, token }, tasks });
     });
   } catch (error) {
     return res.status(500).json("Something went wrong, please try again!");
