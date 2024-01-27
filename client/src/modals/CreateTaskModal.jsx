@@ -144,6 +144,15 @@ const CreateTaskModal = ({
               description,
               startDate,
               endDate,
+              status:
+                new Date() < new Date(startDate)
+                  ? "In Complete"
+                  : new Date() >= new Date(startDate) &&
+                    new Date() <= new Date(endDate)
+                  ? "On Going"
+                  : new Date() < new Date(endDate)
+                  ? "Completed"
+                  : "Completed",
             },
           })
         );
@@ -164,6 +173,15 @@ const CreateTaskModal = ({
               description,
               startDate,
               endDate,
+              status:
+                new Date() < new Date(startDate)
+                  ? "In Complete"
+                  : new Date() >= new Date(startDate) &&
+                    new Date() <= new Date(endDate)
+                  ? "On Going"
+                  : new Date() < new Date(endDate)
+                  ? "Completed"
+                  : "Completed",
             },
           })
         );
@@ -185,6 +203,15 @@ const CreateTaskModal = ({
               description,
               startDate,
               endDate,
+              status:
+                new Date() < new Date(startDate)
+                  ? "In Complete"
+                  : new Date() >= new Date(startDate) &&
+                    new Date() <= new Date(endDate)
+                  ? "On Going"
+                  : new Date() < new Date(endDate)
+                  ? "Completed"
+                  : "Completed",
             },
           })
         );
@@ -204,6 +231,15 @@ const CreateTaskModal = ({
               category,
               startDate,
               endDate,
+              status:
+                new Date() < new Date(startDate)
+                  ? "In Complete"
+                  : new Date() >= new Date(startDate) &&
+                    new Date() <= new Date(endDate)
+                  ? "On Going"
+                  : new Date() < new Date(endDate)
+                  ? "Completed"
+                  : "Completed",
             },
           })
         );
