@@ -11,10 +11,11 @@ import useClickOutside from "../hooks/useClickOutside";
 import categories from "../utils/categories";
 import classes from "./allTasks.module.css";
 import Cookies from "js-cookie";
-import { redirect } from "react-router-dom";
+import { redirect, useSearchParams } from "react-router-dom";
 
 const AllTasks = () => {
   const [addTask, setAddTask] = useState(false);
+  const [searchParams] = useSearchParams();
   const dispatch = useDispatch();
   const { allTasksLoading, tasks, allTasksError } = useSelector(
     (state) => state.task
@@ -31,8 +32,10 @@ const AllTasks = () => {
   useClickOutside(sortRef, () => setIsSort(false));
 
   useEffect(() => {
-    dispatch(getAllTasksAction());
-  }, []);
+    if (!searchParams.get("token")) {
+      dispatch(getAllTasksAction());
+    }
+  }, [searchParams.get("token")]);
 
   const handleFilter = (category) => {
     if (category == selectedFilter) {
