@@ -96,7 +96,7 @@ exports.resetPassword = async (req, res) => {
     }
     const token = await user.createPasswordResetToken();
     await user.save();
-    const resetUrl = `If you requested to reset your password, reset it now within 10 minutes, otherwise the token will expire. <a href="http://localhost:5173/reset-password-from-email/${token}">Reset Password</a>`;
+    const resetUrl = `If you requested to reset your password, reset it now within 10 minutes, otherwise the token will expire. <a href=${process.env.FRONTEND_RESET_PASSWORD_LINK}/${token}>Reset Password</a>`;
     const msg = {
       from: process.env.EMAIL_ID,
       to: user.email,
