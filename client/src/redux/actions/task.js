@@ -107,6 +107,7 @@ export const setEditTaskAction =
           ? "inComplete"
           : "completed"
         : null;
+      console.log("Data", data);
       onSuccess();
       setTimeout(() => {
         onClose();
