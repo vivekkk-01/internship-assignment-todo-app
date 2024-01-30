@@ -40,6 +40,10 @@ const Register = () => {
 
   useEffect(() => {
     setIsNavigating(false);
+
+    return () => {
+      setIsNavigating(false)
+    }
   }, []);
 
   const handleSubmit = async (event) => {
