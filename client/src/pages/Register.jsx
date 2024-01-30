@@ -67,7 +67,7 @@ const Register = () => {
     }
     if (!isPasswordValid) {
       setIsNavigating(false);
-      setPasswordError("Enter Password!");
+      setPasswordError("Password should contain 8 or more characters!!");
       return;
     }
 

@@ -56,7 +56,7 @@ const Login = () => {
       return;
     }
     if (!isPasswordValid) {
-      setPasswordError("Enter Password!");
+      setPasswordError("Password should contain 8 or more characters!");
       return;
     }
 
